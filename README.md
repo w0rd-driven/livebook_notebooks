@@ -17,6 +17,7 @@ I'm always on the lookout for elixir job posts so when I stumbled on SpiderMan a
 ### Elixir Jobs
 
 [ElixirJobs](spiderman--elixir_jobs.livemd)
+
 [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fw0rd-driven%2Flivebook_notebooks%2Fblob%2Fmain%2Fspiderman--elixir_jobs.livemd)
 
 I wanted to take the example a few steps further:
@@ -30,8 +31,9 @@ I wanted to take the example a few steps further:
 
 ### ElixirRadar Job Board
 
-[ElixirRadar Job Board](spiderman--elixir_radar_job.livemd
-[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fw0rd-driven%2Flivebook_notebooks%2Fblob%2Fmain%2Fspiderman--elixir_radar_jobs.livemd))
+[ElixirRadar Job Board](spiderman--elixir_radar_job.livemd)
+
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fw0rd-driven%2Flivebook_notebooks%2Fblob%2Fmain%2Fspiderman--elixir_radar_jobs.livemd)
 
 This largely builds on the elixir jobs base to crawl [https://elixir-radar.com/jobs] to create a CSV of jobs with some notable exceptions:
 
