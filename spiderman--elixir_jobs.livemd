@@ -1,0 +1,228 @@
+# ElixirJobs
+
+## Dependencies
+
+```elixir
+Mix.install([
+  {:spider_man, "~> 0.3"},
+  {:floki, "~> 0.31"},
+  {:nimble_csv, "~> 1.1"},
+  {:timex, "~> 3.0"}
+])
+```
+
+## Configure Settings
+
+Build settings for spider
+
+```elixir
+base_url = "https://elixirjobs.net/"
+
+requester_options = [
+  base_url: base_url,
+  middlewares: [
+    {SpiderMan.Middleware.UserAgent,
+     [
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36"
+     ]},
+    {Tesla.Middleware.Headers,
+     [
+       {"referer", base_url},
+       {"accept",
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"},
+       {"accept-encoding", "gzip, deflate"},
+       {"accept-language", "zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7"}
+     ]},
+    Tesla.Middleware.DecompressResponse
+  ]
+]
+
+settings = [
+  log2file: false,
+  downloader_options: [requester: {SpiderMan.Requester.Finch, requester_options}],
+  spider_options: [pipelines: []],
+  item_processor_options: [
+    storage: [
+      {SpiderMan.Storage.ETS, "./data/jobs.ets"},
+      {SpiderMan.Storage.CSV,
+       file: "./data/jobs.csv",
+       headers: [
+         :date,
+         :title,
+         :company,
+         :location,
+         :workplace,
+         :type,
+         :link,
+         :page_number
+       ]}
+    ]
+  ]
+]
+```
+
+## Configure Parsing
+
+Prepare callbacks for spider
+
+```elixir
+import SpiderMan
+import SpiderMan.Utils
+require Logger
+
+spider = SpiderList.ElixirJobs
+
+init = fn state ->
+  build_request(base_url)
+  |> set_flag(:first_page)
+  |> then(&SpiderMan.insert_request(spider, &1))
+
+  state
+end
+
+handle_list_page = fn body, n ->
+  Logger.info("processing page #{n}")
+  {:ok, document} = Floki.parse_document(body)
+
+  jobs =
+    Floki.find(document, ".offers-index")
+    |> hd()
+    |> Floki.children(include_text: false)
+    |> Enum.filter(&match?({"a", _, _}, &1))
+
+  items =
+    Enum.map(jobs, fn job ->
+      title = Floki.find(job, ".title strong") |> Floki.text() |> String.trim()
+      sub_title = Floki.find(job, ".title small") |> Floki.text() |> String.trim()
+      link = Floki.attribute(job, "a", "href") |> hd()
+
+      [company, location | _] = sub_title |> String.split(" - ")
+
+      [_, date, _, workplace, _, type] =
+        Floki.find(job, ".control .tag")
+        |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
+
+      full_date =
+        case Timex.parse(date, "{D} {Mshort}") do
+          {:ok, date} ->
+            {:ok, full_date} = Date.new(2021 + date.year, date.month, date.day)
+            full_date |> Date.to_string()
+
+          {:error, "Expected end of input at line 1, column 6"} ->
+            {:ok, date} = Timex.parse(date, "{D} {Mshort} {YYYY}")
+            date |> Date.to_string()
+
+          {:error, "Expected end of input at line 1, column 5"} ->
+            {:ok, date} = Timex.parse(date, "{D} {Mshort} {YYYY}")
+            date |> Date.to_string()
+
+          {:error, "Expected `day of month` at line 1, column 1."} ->
+            Logger.info("date: #{date}")
+            Date.utc_today() |> Date.to_string()
+        end
+
+      build_item(
+        link,
+        %{
+          date: full_date,
+          title: title,
+          company: company,
+          location: location,
+          workplace: workplace,
+          type: type,
+          link: base_url <> String.slice(link, 1..-1),
+          page_number: n
+        }
+      )
+    end)
+
+  %{items: items}
+end
+
+handle_response = fn
+  %{env: env, flag: :first_page}, _context ->
+    # total_page =
+    #   Regex.run(~r/Showing page 1 of (\d+)/, env.body, capture: :all_but_first)
+    #   |> hd()
+    #   |> String.to_integer()
+    total_page = 25
+
+    Logger.info("total: #{total_page}")
+
+    requests =
+      Enum.map(2..total_page, fn n ->
+        build_request("/?page=#{n}")
+        |> set_flag({:list_page, n})
+      end)
+
+    handle_list_page.(env.body, 1)
+    |> Map.put(:requests, requests)
+
+  %{env: env, flag: {:list_page, n}}, _context ->
+    handle_list_page.(env.body, n)
+end
+
+callbacks = [init: init, handle_response: handle_response]
+{:ok, settings} = SpiderMan.CommonSpider.check_callbacks_and_merge_settings(callbacks, settings)
+```
+
+## Executing
+
+Run the spider
+
+```elixir
+# Delete previous dumps
+File.rm_rf("./data/jobs.csv")
+File.rm_rf("./data/jobs.ets")
+SpiderMan.run_until_zero(spider, settings, 5_000)
+```
+
+## Sorting the Results
+
+Sort the csv by date descending
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+"./data/jobs.csv"
+|> File.read!()
+​|> CSV.parse_string(skip_headers: false)
+#|> Enum.sort_by(&(&1.date), {:desc, Date})
+```
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+headers = [
+  :date,
+  :title,
+  :company,
+  :location,
+  :workplace,
+  :type,
+  :link,
+  :page_number
+]
+
+header_row = CSV.dump_to_iodata([headers])
+
+sorted_path = "./data/jobs-sorted.csv"
+File.rm_rf(sorted_path)
+io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
+
+csv =
+  "./data/jobs.csv"
+  |> File.read!()
+  |> CSV.parse_string()
+  |> Enum.sort_by(& &1, :desc)
+  |> CSV.dump_to_iodata()
+
+:ok = IO.write(io_device, header_row)
+:ok = IO.write(io_device, csv)
+:ok = File.close(io_device)
+```
