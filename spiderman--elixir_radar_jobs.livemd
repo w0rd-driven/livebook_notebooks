@@ -148,7 +148,7 @@ handle_response = fn
     #   Regex.run(~r/Showing page 1 of (\d+)/, env.body, capture: :all_but_first)
     #   |> hd()
     #   |> String.to_integer()
-    total_page = 5
+    total_page = 6
 
     Logger.info("total: #{total_page}")
 
