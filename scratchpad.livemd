@@ -1,0 +1,78 @@
+# Scratchpad
+
+## Timex date parsing
+
+```elixir
+Mix.install([
+  {:timex, "~> 3.0"}
+])
+```
+
+```elixir
+{:ok, date} = Timex.parse("10 Aug", "{0D} {Mshort}")
+{:ok, full_date} = Date.new(2021 + date.year, date.month, date.day)
+full_date |> Date.to_string()
+```
+
+```elixir
+{:ok, date} = Timex.parse("10 Aug", "{0D} {Mshort} {YYYY}")
+```
+
+```elixir
+{:ok, date} = Timex.parse("10 Aug 2019", "{0D} {Mshort}")
+```
+
+```elixir
+{:ok, date} = Timex.parse("10 Aug 2019", "{0D} {Mshort} {YYYY}")
+date |> Date.to_string()
+```
+
+```elixir
+date = "10 Aug 2019"
+# date = "10 Aug"
+full_date =
+  case Timex.parse(date, "{0D} {Mshort}") do
+    {:ok, date} ->
+      {:ok, full_date} = Date.new(2021 + date.year, date.month, date.day)
+      full_date |> Date.to_string()
+
+    {:error, "Expected end of input at line 1, column 6"} ->
+      {:ok, date} = Timex.parse(date, "{0D} {Mshort} {YYYY}")
+      date |> Date.to_string()
+  end
+
+full_date
+```
+
+```elixir
+require Logger
+
+# sub_title = "BrainCheck - Austin, TX"
+sub_title = "Peek - US - Remote"
+[company, location | others] = sub_title |> String.split(" - ")
+Logger.info("company: #{company}")
+Logger.info("location: #{location}")
+```
+
+## Company parsing
+
+```elixir
+company_parts = "Peek"
+# company_parts = "(Remote) Peek"
+# [company_name | rest] = company_parts |> String.split("(Remote) ")
+# IO.inspect(company_name)
+# IO.inspect(rest)
+
+# [type, company] = Regex.run(~r/(\(Remote\)) (\w+)/, company_parts, capture: :all_but_first)
+# IO.inspect(type)
+# IO.inspect(company)
+
+[workplace, company] =
+  case Regex.run(~r/(\(Remote\)) (.*)/, company_parts, capture: :all_but_first) do
+    [workplace, company] -> [workplace, company]
+    nil -> ["Onsite", company]
+  end
+
+# [parts] = Regex.run(~r/(\w+)/, company_parts, capture: :all_but_first)
+# IO.inspect(parts)
+```
