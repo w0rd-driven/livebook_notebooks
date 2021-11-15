@@ -2,7 +2,7 @@
 
 Collection of Livebook notebooks.
 
-Livebook is also a great way to get your feet wet with Elixir concepts as something slightly above iex, like a powerful language scratch pad.
+Livebook is also a great way to get your feet wet with Elixir concepts, like a powerful language scratch pad.
 
 ## Table of Contents
 
