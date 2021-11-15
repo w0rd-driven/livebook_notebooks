@@ -40,3 +40,16 @@ This largely builds on the elixir jobs base to crawl [https://elixir-radar.com/j
 1. I hardcoded the page numbers as I'm not sure of the pagination style. `1-6` seems to follow a pattern so far but we can address this later.
 2. There's no date so we sort by page number descending.
 3. There's a somewhat larger `description` field that we could've pushed to the end.
+
+### Elixir Companies
+
+[Elixir Companies](spiderman--elixir_companies.livemd)
+
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fw0rd-driven%2Flivebook_notebooks%2Fblob%2Fmain%2Fspiderman--elixir_companies.livemd)
+
+This builds on the elixir radar jobs base to crawl [https://elixir-companies.com/en/companies] to create a CSV of companies.
+
+1. Due to the way the DOM is structured, fields aren't in independent elements. There's text with `<br>` tags that translate to `\n` when parsing.
+2. This involved pulling the last 1 or 2 elements from the end of the list as the first element was always one bit of information with the remaining portions covering one or more fields.
+3. The site feels so different to parse that it almost felt like starting from scratch.
+4. While Elixir Companies utilizes infinite scroll techniques in the browser to fetch page requests, it follows what I presume is a standard `page=number` query string format that is identical between the 3 sites. To me, these notebooks showcase how quickly I got up and running with `spider_man` over other web crawling techniques. I'm a huge fan now.

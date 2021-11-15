@@ -1,4 +1,4 @@
-# ElixirRadar Jobs
+# Elixir Companies
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Mix.install([
 Build settings for spider
 
 ```elixir
-base_url = "https://elixir-radar.com/jobs"
+base_url = "https://elixir-companies.com/en/companies"
 
 requester_options = [
   base_url: base_url,
@@ -47,16 +47,18 @@ settings = [
   spider_options: [pipelines: []],
   item_processor_options: [
     storage: [
-      {SpiderMan.Storage.ETS, "./data/radar_jobs.ets"},
+      {SpiderMan.Storage.ETS, "./data/companies.ets"},
       {SpiderMan.Storage.CSV,
-       file: "./data/radar_jobs.csv",
+       file: "./data/companies.csv",
        headers: [
-         :title,
-         :company,
+         :name,
+         :industry,
          :location,
-         :workplace,
-         :description,
+         :website_url,
+         :github_url,
+         :blog_url,
          :link,
+         :description,
          :page_number
        ]}
     ]
@@ -87,52 +89,74 @@ handle_list_page = fn body, n ->
   Logger.info("processing page #{n}")
   {:ok, document} = Floki.parse_document(body)
 
-  jobs =
-    Floki.find(document, ".job-board ul")
+  companies =
+    Floki.find(document, "#company-index")
     |> hd()
     |> Floki.children(include_text: false)
-    |> Enum.filter(&match?({"li", _, _}, &1))
+    |> Enum.filter(&match?({"div", _, _}, &1))
 
   items =
-    Enum.map(jobs, fn job ->
-      title = Floki.find(job, ".job-post-link") |> Floki.text() |> String.trim()
-      link = Floki.attribute(job, ".job-post-link", "href") |> hd()
+    Enum.map(companies, fn company ->
+      link = Floki.attribute(company, ".company .title a", "href") |> hd()
+      name = Floki.find(company, ".company .title a") |> Floki.text() |> String.trim()
 
-      full_location =
-        Floki.find(job, ".job-board-job-location")
+      info =
+        Floki.find(company, ".company .company-info p")
         |> Floki.text()
         |> String.trim()
-        |> String.replace(~r/\s+/, " ")
-        |> String.replace(~r/\t/, " ")
+        |> String.split("\n")
+
+      # Trim the last 2 items from the list
+      first_parts = info |> Enum.reverse() |> tl() |> Enum.reverse()
+      parts = first_parts |> Enum.reverse() |> tl() |> Enum.reverse()
+
+      industry = parts |> List.first() |> String.trim()
+      location = parts |> List.last() |> String.trim()
+
+      urls = Floki.attribute(company, ".company .company-info p a", "href")
+      # Trim the last item from the list
+      links = urls |> Enum.reverse() |> tl() |> Enum.reverse()
+
+      website_url = links |> List.first()
+      # Process github or blog url from the remaining list items
+      remaining_links = links |> tl()
+
+      github_url =
+        remaining_links |> Enum.filter(&String.match?(&1, ~r/github.com/)) |> List.first()
+
+      blog_url =
+        remaining_links
+        |> Enum.filter(&(String.match?(&1, ~r/github.com/) == false))
+        |> List.first()
 
       description =
-        Floki.find(job, ".job-board-job-description")
+        Floki.find(company, ".company .company-description p")
         |> Floki.text()
         |> String.trim()
         |> String.replace(~r/\s+/, " ")
         |> String.replace(~r/\t/, " ")
 
-      [company_parts, location | _] = full_location |> String.split(" - ", trim: true)
-
-      [workplace, company] =
-        case Regex.run(~r/(\(Remote\)) (.*)/, company_parts, capture: :all_but_first) do
-          [_, company] ->
-            ["Remote", company]
-
-          nil ->
-            company = Regex.run(~r/(.*)/, company_parts, capture: :all_but_first)
-            ["Onsite", company]
-        end
+      # Logger.info("name: #{name}")
+      # Logger.info("industry: #{industry}")
+      # Logger.info("location: #{location}")
+      # Logger.info("website_url: #{website_url}")
+      # Logger.info("github_url: #{github_url}")
+      # Logger.info("blog_url: #{blog_url}")
+      # Logger.info("link: #{base_url <> String.slice(link, 1..-1)}")
+      # Logger.info("description: #{description}")
+      # Logger.info("page_number: #{to_string(n)}")
 
       build_item(
         link,
         %{
-          title: title,
-          company: company,
+          name: name,
+          industry: industry,
           location: location,
-          workplace: workplace,
+          website_url: website_url,
+          github_url: github_url,
+          blog_url: blog_url,
+          link: base_url <> String.slice(link, 1..-1),
           description: description,
-          link: link,
           page_number: n
         }
       )
@@ -147,7 +171,8 @@ handle_response = fn
     #   Regex.run(~r/Showing page 1 of (\d+)/, env.body, capture: :all_but_first)
     #   |> hd()
     #   |> String.to_integer()
-    total_page = 6
+    total_page = 40
+    # total_page = 2
 
     Logger.info("total: #{total_page}")
 
@@ -174,8 +199,8 @@ Run the spider
 
 ```elixir
 # Delete previous dumps
-File.rm_rf("./data/radar_jobs.csv")
-File.rm_rf("./data/radar_jobs.ets")
+File.rm_rf("./data/companies.csv")
+File.rm_rf("./data/companies.ets")
 SpiderMan.run_until_zero(spider, settings, 5_000)
 ```
 
@@ -187,26 +212,29 @@ Sort the csv by page number ascending
 alias NimbleCSV.RFC4180, as: CSV
 
 headers = [
-  :title,
-  :company,
+  :name,
+  :industry,
   :location,
-  :workplace,
-  :description,
+  :website_url,
+  :github_url,
+  :blog_url,
   :link,
+  :description,
   :page_number
 ]
 
-sorted_path = "./data/radar_jobs-sorted.csv"
+sorted_path = "./data/companies-sorted.csv"
 File.rm_rf(sorted_path)
 io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
 
 header = CSV.dump_to_iodata([headers])
 
 csv =
-  "./data/radar_jobs.csv"
+  "./data/companies.csv"
   |> File.read!()
   |> CSV.parse_string()
-  |> Enum.sort_by(&List.last(&1), :asc)
+  # |> Enum.sort_by(&(List.first(&1)), :asc)
+  |> Enum.sort_by(&(List.last(&1) |> String.to_integer()), :asc)
   |> CSV.dump_to_iodata()
 
 :ok = IO.write(io_device, header)
