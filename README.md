@@ -2,13 +2,15 @@
 
 Collection of Livebook notebooks.
 
-Livebook is also a great way to get your feet wet with Elixir concepts, like a powerful language scratch pad.
+Livebook is also a great way to get your feet wet with Elixir concepts, like a powerful language scratchpad.
 
 ## Table of Contents
 
-1. Crawl job opportunities boards using [spider_man](https://hexdocs.pm/spider_man/elixirjobs.html#content)
-   1. [ElixirJobs](#elixir-jobs)
-   2. [ElixirRadar Job Board](#elixirradar-job-board)
+* [Table of Contents](#table-of-contents)
+* [SpiderMan](#spiderman)
+  * [Elixir Jobs](#elixir-jobs)
+  * [ElixirRadar Job Board](#elixirradar-job-board)
+  * [Elixir Companies](#elixir-companies)
 
 ## SpiderMan
 

@@ -189,15 +189,6 @@ Sort the csv by date descending
 ```elixir
 alias NimbleCSV.RFC4180, as: CSV
 
-"./data/jobs.csv"
-|> File.read!()
-​|> CSV.parse_string(skip_headers: false)
-#|> Enum.sort_by(&(&1.date), {:desc, Date})
-```
-
-```elixir
-alias NimbleCSV.RFC4180, as: CSV
-
 headers = [
   :date,
   :title,

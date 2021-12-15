@@ -73,7 +73,7 @@ import SpiderMan
 import SpiderMan.Utils
 require Logger
 
-spider = SpiderList.ElixirJobs
+spider = SpiderList.ElixirRadar
 
 init = fn state ->
   build_request(base_url)

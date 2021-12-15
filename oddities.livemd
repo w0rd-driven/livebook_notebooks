@@ -1,0 +1,44 @@
+<!-- livebook:{"persist_outputs":true} -->
+
+# Oddities
+
+## Summary
+
+This notebook is primarily a place to consolidate awkward behavior
+I'm not used to with the various LiveBook notebooks I've used.
+
+## Zero-width Space
+
+The [zero-width space](https://en.wikipedia.org/wiki/Zero-width_space#Encoding)
+typically shows up when copying and pasting from websites as I've done below.
+Being a zero-width space, you cannot see what line the problem occurs in.
+
+You will likely an error message like
+`** (SyntaxError) nofile:5:1: unexpected token: "​" (column 1, code point U+200B)`.
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+"./data/jobs.csv"
+|> File.read!()
+​|> CSV.parse_string(skip_headers: false)
+#|> Enum.sort_by(&(&1.date), {:desc, Date})
+```
+
+`nofile` is typical because LiveBook isn't compiling an Elixir file from disk.  
+`5` is the line.  
+`1` is the first character.
+
+If we set our cursor before the `|>` we can hit backspace and watch it remove the zero-width space.
+
+The section below now reports an error we're aware of, that "./data/jobs.csv" does not (currently) exist.
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+"./data/jobs.csv"
+|> File.read!()
+|> CSV.parse_string(skip_headers: false)
+
+# |> Enum.sort_by(&(&1.date), {:desc, Date})
+```
