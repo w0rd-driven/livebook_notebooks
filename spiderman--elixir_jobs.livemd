@@ -110,7 +110,8 @@ handle_list_page = fn body, n ->
       full_date =
         case Timex.parse(date, "{D} {Mshort}") do
           {:ok, date} ->
-            {:ok, full_date} = Date.new(2021 + date.year, date.month, date.day)
+            year = Timex.today().year
+            {:ok, full_date} = Date.new(year, date.month, date.day)
             full_date |> Date.to_string()
 
           {:error, "Expected end of input at line 1, column 6"} ->
