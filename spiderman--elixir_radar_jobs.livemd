@@ -1,7 +1,5 @@
 # ElixirRadar Jobs
 
-## Dependencies
-
 ```elixir
 Mix.install([
   {:spider_man, "~> 0.3"},
