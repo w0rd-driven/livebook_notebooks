@@ -1,0 +1,39 @@
+# Job Description to Markdown
+
+```elixir
+Mix.install([
+  {:kino, "~> 0.6.1"}
+  {:kino_lab, "~> 0.1.0-dev", github: "jonatanklosko/kino_lab"},
+  # {:kino_vega_lite, "~> 0.1.1"},
+  # {:kino_db, "~> 0.1.1"},
+  {:req, github: "wojtekmach/req"},
+  {:req_easyhtml, github: "wojtekmach/req_easyhtml"},
+])
+```
+
+## Summary
+
+Using the excellent `req` library, we want to get the HTML of the job post url and convert that to markdown.
+
+General specifications
+
+1. If `<temporary html file does not exist>:`
+   1. Use `req` to download the full HTML page into `data/#{host}/#{hash}.html`.
+2. If `<temporary html file exists>:`
+   1. Ask to overwrite?
+   2. Skip to next step (3).
+3. Detect ATS system, one of `[breezyhr, greenhouse, lever, unknown]`
+4. Parse HTML into Markdown
+   1. Pandoc
+   2. Manually
+   3. EasyHTML?
+5. Add `[ ]` to every list item
+   1. We do this specifically to help with a manual checklist.
+   2. I would not apply to a position that had very few checked off.
+   3. This list conversion has been almost 100% universal, to the point that this process should "be a thing."
+
+## Code
+
+```elixir
+
+```
