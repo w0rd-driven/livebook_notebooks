@@ -87,6 +87,27 @@ description =
 
 {:ok, markdown} = Pandex.html_to_commonmark(description)
 
+title =
+  Floki.find(document, "title")
+  |> hd()
+  |> Floki.raw_html()
+
+# Since this is a single tag we can just convert it to Markdown directly
+markdown_title = title |> String.replace("<title>", "") |> String.replace("</title>", "")
+
+# List items with [ ] get \ prefixed so let's strip them
+# Let's also replace the longer list - with less spaces
+markdown_content =
+  markdown |> String.replace("\\[ \\]", "[ ]") |> String.replace("-   [ ]", "* [ ]")
+
+content = "# #{markdown_title}\n\n" <> markdown_content
+
 Persistence.get_path(url_value, "md")
-|> Persistence.save(markdown)
+|> Persistence.save(content)
+
+markdown_title
+```
+
+```elixir
+Kino.Markdown.new(content)
 ```
