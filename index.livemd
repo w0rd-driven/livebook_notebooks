@@ -1,0 +1,32 @@
+# Livebook Notebooks
+
+## Summary
+
+This is a series of personal Livebook Notebooks to cover a few areas of need. They are also immensely helpful in learning more complex Elixir concepts. Livebook is far more user friendly than `iex` though that becomes far more useful when you do something like `export ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"`.
+
+This is my list of Elixir shell variables in case you're curious. I happen to be using the fish shell so this is located in `~/.config/fish/config.fish`:
+
+```shell
+# Set Elixir variables
+set -g -x KERL_BUILD_DOCS yes
+set -g -x KERL_DOC_TARGETS "man html pdf chunks"
+set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
+```
+
+## Notebooks
+
+### Job Board Crawling by SpiderMan
+
+1. [ElixirRadar Jobs](spiderman--elixir_radar_jobs.livemd)
+2. [Elixir Jobs](spiderman--elixir_jobs.livemd)
+3. [Elixir Companies](spiderman--elixir_companies.livemd)
+
+### Job Search
+
+1. [Job Description to Markdown](req--job_description.livemd)
+2. [Job Application Fields to Markdown](req--job_fields.livemd)
+
+### Miscellaneous
+
+1. [Scratchpad](scratchpad.livemd)
+2. [Oddities and Awkward Things](oddities.livemd)

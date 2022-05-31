@@ -13,7 +13,7 @@ Mix.install([
 
 ## Summary
 
-Using the excellent `req` library, we want to get the HTML of the job post url and convert that to markdown.
+Using the excellent `req` library, we want to get the HTML of the job post url and convert the contents to markdown.
 
 General specifications
 
