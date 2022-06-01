@@ -17,18 +17,18 @@ Mix.install([
 
 Using the excellent `req` library, we want to get the HTML of the job post url and convert the contents to markdown.
 
-General specifications
+## Specifications
 
-1. Detect ATS system, one of `[breezyhr, greenhouse, lever, unknown]`
-2. If `<temporary html file does not exist>:`
+1. If `<temporary html file does not exist>:`
    1. Use `req` to download the full HTML page into `data/#{host}/#{hash}.html`.
-3. If `<temporary html file exists>:`
+2. If `<temporary html file exists>:`
    1. Ask to overwrite?
    2. Skip to next step (3).
+3. Detect ATS system, one of `[breezyhr, greenhouse, lever, unknown]`
 4. Parse HTML into Markdown
-   1. Pandoc
-   2. Manually
-   3. EasyHTML?
+   1. [x] Pandoc
+   2. [ ] Manually
+   3. [ ] EasyHTML - Was unaware this was just a wrapper around Floki
 5. Add `[ ]` to every list item
    1. We do this specifically to help with a manual checklist.
    2. I would not apply to a position that had very few checked off.
@@ -44,20 +44,35 @@ url = Kino.Input.url("URL")
 
 ```elixir
 defmodule Persistence do
+  @base_directory Path.join([".", "data", "jobs"])
+
   def get_path(url, extension \\ "html") do
     parts = URI.parse(url)
     hash = :crypto.hash(:sha, url) |> Base.encode16(case: :lower)
     {parts.host, "#{hash}.#{extension}"}
   end
 
+  def exists?(path) do
+    {directory, filename} = path
+    file_path = Path.join([@base_directory, directory, filename])
+    File.exists?(file_path)
+  end
+
   def save(path, contents, _overwrite \\ true) do
     {directory, filename} = path
-    directory_path = Path.join([".", "data", "jobs", directory])
+    directory_path = Path.join([@base_directory, directory])
     file_path = Path.join(directory_path, filename)
     File.mkdir_p!(directory_path)
     io_device = File.open!(file_path, [:write, :binary, :utf8])
     :ok = IO.write(io_device, contents)
     :ok = File.close(io_device)
+    contents
+  end
+
+  def read(path) do
+    {directory, filename} = path
+    file_path = Path.join([@base_directory, directory, filename])
+    File.read!(file_path)
   end
 end
 
@@ -66,12 +81,22 @@ url_value = Kino.Input.read(url)
 ```
 
 ```elixir
-req_html = Req.new(http_errors: :raise)
+exists =
+  Persistence.get_path(url_value)
+  |> Persistence.exists?()
 
-html = Req.get!(req_html, url: url_value).body
+html =
+  if not exists do
+    req_html = Req.new(http_errors: :raise)
 
-Persistence.get_path(url_value)
-|> Persistence.save(html)
+    html = Req.get!(req_html, url: url_value).body
+
+    Persistence.get_path(url_value)
+    |> Persistence.save(html)
+  else
+    Persistence.get_path(url_value)
+    |> Persistence.read()
+  end
 
 {:ok, document} = Floki.parse_document(html)
 
@@ -107,6 +132,8 @@ Persistence.get_path(url_value, "md")
 
 markdown_title
 ```
+
+## View Results
 
 ```elixir
 Kino.Markdown.new(content)
