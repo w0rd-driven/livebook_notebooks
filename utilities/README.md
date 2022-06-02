@@ -1,21 +1,14 @@
 # Utilities
 
-**TODO: Add description**
+Utilities for use with the included Livebook notebooks.
+
+It's easier to break these out into their own mix project to add things like test cases. Livebook isn't a terrible place for modules but refactoring can be a little more of a chore.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `utilities` to your list of dependencies in `mix.exs`:
-
 ```elixir
-def deps do
-  [
-    {:utilities, "~> 0.1.0"}
-  ]
-end
+Mix.install([
+  # ... Other dependencies
+  {:utilities, path: "utilities"}
+])
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/utilities>.
-

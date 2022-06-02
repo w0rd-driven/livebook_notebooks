@@ -4,32 +4,33 @@
 Mix.install([
   {:kino, github: "livebook-dev/kino", override: true},
   {:kino_lab, "~> 0.1.0-dev", github: "jonatanklosko/kino_lab"},
-  # {:kino_vega_lite, "~> 0.1.1"},
-  # {:kino_db, "~> 0.1.1"},
   {:req, github: "wojtekmach/req"},
-  {:req_easyhtml, github: "wojtekmach/req_easyhtml"},
+  # {:req_easyhtml, github: "wojtekmach/req_easyhtml"},
   {:floki, "~> 0.32"},
-  {:pandex, "~> 0.2.0"}
+  {:pandex, "~> 0.2.0"},
+  {:utilities, path: "utilities"}
 ])
 ```
 
 ## Summary
 
-Using the excellent `req` library, we want to get the HTML of the job post url and convert the contents to markdown.
+Using the excellent `req` library, we want to get the HTML of the job post url and convert the contents to markdown. The conversion to markdown is handled via `pandex` and the pandoc application.
+
+**NOTE: We require pandoc to be installed to convert from HTML to Markdown**
 
 ## Specifications
 
-1. If `<temporary html file does not exist>:`
+1. [x] If `<temporary html file does not exist>:`
    1. Use `req` to download the full HTML page into `data/#{host}/#{hash}.html`.
-2. If `<temporary html file exists>:`
+2. [x] If `<temporary html file exists>:`
    1. Ask to overwrite?
    2. Skip to next step (3).
 3. Detect ATS system, one of `[breezyhr, greenhouse, lever, unknown]`
-4. Parse HTML into Markdown
+4. [x] Parse HTML into Markdown
    1. [x] Pandoc
    2. [ ] Manually
    3. [ ] EasyHTML - Was unaware this was just a wrapper around Floki
-5. Add `[ ]` to every list item
+5. [x] Add `[ ]` to every list item
    1. We do this specifically to help with a manual checklist.
    2. I would not apply to a position that had very few checked off.
    3. This list conversion has been almost 100% universal, to the point that this process should "be a thing."
@@ -43,47 +44,14 @@ url = Kino.Input.url("URL")
 ```
 
 ```elixir
-defmodule Persistence do
-  @base_directory Path.join([".", "data", "jobs"])
-
-  def get_path(url, extension \\ "html") do
-    parts = URI.parse(url)
-    hash = :crypto.hash(:sha, url) |> Base.encode16(case: :lower)
-    {parts.host, "#{hash}.#{extension}"}
-  end
-
-  def exists?(path) do
-    {directory, filename} = path
-    file_path = Path.join([@base_directory, directory, filename])
-    File.exists?(file_path)
-  end
-
-  def save(path, contents, _overwrite \\ true) do
-    {directory, filename} = path
-    directory_path = Path.join([@base_directory, directory])
-    file_path = Path.join(directory_path, filename)
-    File.mkdir_p!(directory_path)
-    io_device = File.open!(file_path, [:write, :binary, :utf8])
-    :ok = IO.write(io_device, contents)
-    :ok = File.close(io_device)
-    contents
-  end
-
-  def read(path) do
-    {directory, filename} = path
-    file_path = Path.join([@base_directory, directory, filename])
-    File.read!(file_path)
-  end
-end
-
 url_value = Kino.Input.read(url)
-{directory, filename} = Persistence.get_path(url_value)
+{directory, filename} = Utilities.Persistence.get_path(url_value)
 ```
 
 ```elixir
 exists =
-  Persistence.get_path(url_value)
-  |> Persistence.exists?()
+  Utilities.Persistence.get_path(url_value)
+  |> Utilities.Persistence.exists?()
 
 html =
   if not exists do
@@ -91,11 +59,11 @@ html =
 
     html = Req.get!(req_html, url: url_value).body
 
-    Persistence.get_path(url_value)
-    |> Persistence.save(html)
+    Utilities.Persistence.get_path(url_value)
+    |> Utilities.Persistence.save(html)
   else
-    Persistence.get_path(url_value)
-    |> Persistence.read()
+    Utilities.Persistence.get_path(url_value)
+    |> Utilities.Persistence.read()
   end
 
 {:ok, document} = Floki.parse_document(html)
@@ -127,8 +95,8 @@ markdown_content =
 
 content = "# #{markdown_title}\n\n" <> markdown_content
 
-Persistence.get_path(url_value, "md")
-|> Persistence.save(content)
+Utilities.Persistence.get_path(url_value, "md")
+|> Utilities.Persistence.save(content)
 
 markdown_title
 ```
