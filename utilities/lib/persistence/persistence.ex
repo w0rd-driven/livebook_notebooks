@@ -7,14 +7,8 @@ defmodule Utilities.Persistence do
     {parts.host, "#{hash}.#{extension}"}
   end
 
-  def exists?(path) do
-    {directory, filename} = path
-    file_path = Path.join([@base_directory, directory, filename])
-    File.exists?(file_path)
-  end
-
-  def save(path, contents, _overwrite \\ true) do
-    {directory, filename} = path
+  def save(url, contents, extension \\ "html") do
+    {directory, filename} = get_path(url, extension)
     directory_path = Path.join([@base_directory, directory])
     file_path = Path.join(directory_path, filename)
     File.mkdir_p!(directory_path)
@@ -24,9 +18,21 @@ defmodule Utilities.Persistence do
     contents
   end
 
-  def read(path) do
-    {directory, filename} = path
+  defp get_from_url(url, extension) do
+    request = Req.new(http_errors: :raise)
+
+    contents = Req.get!(request, url: url).body
+    save(url, contents, extension)
+  end
+
+  def read(url, extension \\ "html") do
+    {directory, filename} = get_path(url, extension)
     file_path = Path.join([@base_directory, directory, filename])
-    File.read!(file_path)
+
+    if File.exists?(file_path) do
+      File.read!(file_path)
+    else
+      get_from_url(url, extension)
+    end
   end
 end

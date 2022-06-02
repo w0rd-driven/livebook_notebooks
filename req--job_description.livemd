@@ -4,8 +4,6 @@
 Mix.install([
   {:kino, github: "livebook-dev/kino", override: true},
   {:kino_lab, "~> 0.1.0-dev", github: "jonatanklosko/kino_lab"},
-  {:req, github: "wojtekmach/req"},
-  # {:req_easyhtml, github: "wojtekmach/req_easyhtml"},
   {:floki, "~> 0.32"},
   {:pandex, "~> 0.2.0"},
   {:utilities, path: "utilities"}
@@ -49,22 +47,7 @@ url_value = Kino.Input.read(url)
 ```
 
 ```elixir
-exists =
-  Utilities.Persistence.get_path(url_value)
-  |> Utilities.Persistence.exists?()
-
-html =
-  if not exists do
-    req_html = Req.new(http_errors: :raise)
-
-    html = Req.get!(req_html, url: url_value).body
-
-    Utilities.Persistence.get_path(url_value)
-    |> Utilities.Persistence.save(html)
-  else
-    Utilities.Persistence.get_path(url_value)
-    |> Utilities.Persistence.read()
-  end
+html = Utilities.Persistence.read(url_value)
 
 {:ok, document} = Floki.parse_document(html)
 
@@ -95,8 +78,7 @@ markdown_content =
 
 content = "# #{markdown_title}\n\n" <> markdown_content
 
-Utilities.Persistence.get_path(url_value, "md")
-|> Utilities.Persistence.save(content)
+Utilities.Persistence.save(url_value, content, "md")
 
 markdown_title
 ```
