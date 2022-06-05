@@ -1,12 +1,36 @@
 defmodule Utilities.Persistence do
+  @moduledoc """
+  Documentation for `Utilities.Persistence`.
+  """
+
   @base_directory Path.join([".", "data", "jobs"])
 
+  @doc """
+  Get the relative directory and file name.
+
+  ## Examples
+
+      iex> url = "https://dockyard.breezy.hr/p/96e88139f744-elixir-engineer"
+      iex> Utilities.Persistence.get_path(url)
+      {"dockyard.breezy.hr", "bb1ed676b37e1bdf21af4ae430f086c85ff434a7.html"}
+
+  """
   def get_path(url, extension \\ "html") do
     parts = URI.parse(url)
     hash = :crypto.hash(:sha, url) |> Base.encode16(case: :lower)
     {parts.host, "#{hash}.#{extension}"}
   end
 
+  @doc """
+  Save the contents to the path returned from `get_path(url, extension)`.
+
+  ## Examples
+
+      iex> url = "https://dockyard.breezy.hr/p/96e88139f744-elixir-engineer"
+      iex> Utilities.Persistence.save(url, contents)
+      "..."
+
+  """
   def save(url, contents, extension \\ "html") do
     {directory, filename} = get_path(url, extension)
     directory_path = Path.join([@base_directory, directory])
@@ -25,6 +49,16 @@ defmodule Utilities.Persistence do
     save(url, contents, extension)
   end
 
+  @doc """
+  Read the `['html', 'md']` contents from disk or by `get_from_url(url, extension)`.
+
+  ## Examples
+
+      iex> url = "https://dockyard.breezy.hr/p/96e88139f744-elixir-engineer"
+      iex> Utilities.Persistence.read(url)
+      "..."
+
+  """
   def read(url, extension \\ "html") do
     {directory, filename} = get_path(url, extension)
     file_path = Path.join([@base_directory, directory, filename])
