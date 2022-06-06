@@ -24,3 +24,6 @@ utilities-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Data directory in the off chance we run persistence tests from here
+/data/
