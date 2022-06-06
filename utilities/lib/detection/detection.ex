@@ -8,29 +8,6 @@ defmodule Utilities.Detection do
     document
   end
 
-  def find_breezy(html) do
-    html
-    |> parse_document
-    |> Floki.find(".breezy-portal .description")
-  end
-
-  defp find_lever(html) do
-    html
-    |> parse_document
-    |> Floki.find(".content-wrapper posting-page")
-  end
-
-  defp find_greenhouse(html) do
-    html
-    |> parse_document
-    |> Floki.find("#main.accessible #app_body")
-  end
-
-  defp find_unknown(html) do
-    html
-    |> parse_document
-  end
-
   @doc """
   Find the job description
 
@@ -42,11 +19,20 @@ defmodule Utilities.Detection do
 
   """
   def find_description(html) do
+    document = html |> parse_document()
+
     cond do
-      !Enum.empty?(find_breezy(html)) -> {:breezy_hr, find_breezy(html)}
-      !Enum.empty?(find_lever(html)) -> {:lever_co, find_lever(html)}
-      !Enum.empty?(find_greenhouse(html)) -> {:lever_co, find_greenhouse(html)}
-      true -> {:unknown, find_unknown(html)}
+      !Enum.empty?(Utilities.Detection.BreezyHR.find_description(document)) ->
+        {:breezy_hr, document}
+
+      !Enum.empty?(Utilities.Detection.LeverCo.find_description(document)) ->
+        {:lever_co, document}
+
+      !Enum.empty?(Utilities.Detection.GreenhouseIo.find_description(document)) ->
+        {:greenhouse_io, document}
+
+      true ->
+        {:unknown, document}
     end
   end
 end
