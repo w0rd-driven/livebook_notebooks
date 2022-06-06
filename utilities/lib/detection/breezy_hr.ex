@@ -19,13 +19,12 @@ defmodule Utilities.Detection.BreezyHR do
       end)
       |> Floki.raw_html()
 
-    {:ok, markdown} = Pandex.html_to_commonmark(description)
+    {:ok, markdown} = Pandex.html_to_markdown_strict(description)
 
     markdown_title = transform_title(document)
 
     # Cleanup escaped brackets [ ]
-    content =
-      markdown |> String.replace("\\[ \\]", "[ ]") |> String.replace("-   [ ]", "* [ ]")
+    content = markdown |> String.replace("\\[ \\]", "[ ]") |> String.replace("-   [ ]", "* [ ]")
 
     # Inject our title as the first line
     markdown_content = "# #{markdown_title}\n\n" <> content
