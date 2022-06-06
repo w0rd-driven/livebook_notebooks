@@ -56,7 +56,26 @@ html = Utilities.Persistence.read(url_value)
     :breezy_hr -> Utilities.Detection.BreezyHR.transform_description(description)
     :lever_co -> Utilities.Detection.LeverCo.transform_description(description)
     :greenhouse_io -> Utilities.Detection.GreenhouseIo.transform_description(description)
+    # :greenhouse_io -> [title: "", content: description]
+    :unknown -> [title: "", content: description]
   end
+
+# transformed = description
+#   |> Floki.find("#main.accessible #app_body")
+#   |> hd()
+#   |> Floki.children(include_text: false)
+#   |> Floki.traverse_and_update(fn
+#     {"li", attrs, [text]} ->
+#       cond do
+#         is_binary(text) -> {"li", attrs, ["[ ] " <> text]}
+#         is_tuple(text) -> 
+#           Floki.traverse_and_update(text, fn 
+#             {_, _attrs, [text]} -> {"li", [], ["[ ] " <> text]}
+#           end)
+#         true -> {"li", attrs, [text]}
+#       end
+#     tag -> tag
+#   end)
 
 {_, title_markdown} = title
 {_, content_markdown} = content
