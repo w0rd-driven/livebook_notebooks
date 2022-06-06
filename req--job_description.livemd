@@ -49,42 +49,25 @@ url_value = Kino.Input.read(url)
 ```elixir
 html = Utilities.Persistence.read(url_value)
 
-{:ok, document} = Floki.parse_document(html)
+{type, description} = Utilities.Detection.find_description(html)
 
-description =
-  Floki.find(document, ".breezy-portal .description")
-  |> hd()
-  |> Floki.children(include_text: false)
-  |> Floki.traverse_and_update(fn
-    {"li", attrs, [text]} -> {"li", attrs, ["[ ] " <> text]}
-    tag -> tag
-  end)
-  |> Floki.raw_html()
+[title, content] =
+  case type do
+    :breezy_hr -> Utilities.Detection.BreezyHR.transform_description(description)
+    :lever_co -> Utilities.Detection.LeverCo.transform_description(description)
+    :greenhouse_io -> Utilities.Detection.GreenhouseIo.transform_description(description)
+  end
 
-{:ok, markdown} = Pandex.html_to_commonmark(description)
+{_, title_markdown} = title
+{_, content_markdown} = content
 
-title =
-  Floki.find(document, "title")
-  |> hd()
-  |> Floki.raw_html()
+Utilities.Persistence.save(url_value, content_markdown, "md")
 
-# Since this is a single tag we can just convert it to Markdown directly
-markdown_title = title |> String.replace("<title>", "") |> String.replace("</title>", "")
-
-# List items with [ ] get \ prefixed so let's strip them
-# Let's also replace the longer list - with less spaces
-markdown_content =
-  markdown |> String.replace("\\[ \\]", "[ ]") |> String.replace("-   [ ]", "* [ ]")
-
-content = "# #{markdown_title}\n\n" <> markdown_content
-
-Utilities.Persistence.save(url_value, content, "md")
-
-markdown_title
+title_markdown
 ```
 
 ## View Results
 
 ```elixir
-Kino.Markdown.new(content)
+Kino.Markdown.new(content_markdown)
 ```

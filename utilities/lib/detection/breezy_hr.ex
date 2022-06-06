@@ -24,13 +24,13 @@ defmodule Utilities.Detection.BreezyHR do
     markdown_title = transform_title(document)
 
     # Cleanup escaped brackets [ ]
-    markdown_content =
+    content =
       markdown |> String.replace("\\[ \\]", "[ ]") |> String.replace("-   [ ]", "* [ ]")
 
     # Inject our title as the first line
-    content = "# #{markdown_title}\n\n" <> markdown_content
+    markdown_content = "# #{markdown_title}\n\n" <> content
 
-    [title: markdown_title, content: content]
+    [title: markdown_title, content: markdown_content]
   end
 
   def transform_title(document) do
