@@ -3,6 +3,17 @@ defmodule Utilities.Detection.LeverCo do
   Documentation for `Utilities.Detection.LeverCo`.
   """
 
+  @doc """
+  Get the title element and transform it into markdown
+
+  ## Examples
+
+      iex> html = '<!DOCTYPE html><html lang="en"><head><title>Elixir Engineer at DockYard</title></head><body><div class="content-wrapper posting-page"><p></p></div></body></html>'
+      iex> {:ok, document} = Floki.parse_document(html)
+      iex> Utilities.Detection.LeverCo.find_description(document)
+      [{"div", [{"class", "content-wrapper posting-page"}], [{"p", [], []}]}]
+
+  """
   def find_description(document) do
     document
     |> Floki.find(".content-wrapper.posting-page")
@@ -32,6 +43,17 @@ defmodule Utilities.Detection.LeverCo do
     [title: markdown_title, content: markdown_content]
   end
 
+  @doc """
+  Get the title element and transform it into markdown
+
+  ## Examples
+
+      iex> html = '<!DOCTYPE html><html lang="en"><head><title>Elixir Engineer at DockYard</title></head><body><div class="content-wrapper posting-page"><p></p></div></body></html>'
+      iex> {:ok, document} = Floki.parse_document(html)
+      iex> Utilities.Detection.LeverCo.transform_title(document)
+      "Elixir Engineer at DockYard"
+
+  """
   def transform_title(document) do
     title =
       Floki.find(document, "title")

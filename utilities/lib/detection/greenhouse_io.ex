@@ -3,9 +3,20 @@ defmodule Utilities.Detection.GreenhouseIo do
   Documentation for `Utilities.Detection.GreenhouseIo`.
   """
 
+  @doc """
+  Get the title element and transform it into markdown
+
+  ## Examples
+
+      iex> html = '<!DOCTYPE html><html lang="en"><head><title>Sr. Backend Architect</title></head><body><div id="wrapper><div id="main" class="accessible"><div id="app_body"></div></div></div></body></html>'
+      iex> {:ok, document} = Floki.parse_document(html)
+      iex> Utilities.Detection.GreenhouseIo.find_description(document)
+      [{"div", [{"id", "app_body"}], []}]
+
+  """
   def find_description(document) do
     document
-    |> Floki.find("#main.accessible #app_body")
+    |> Floki.find("#app_body")
   end
 
   def transform_description(document) do
@@ -46,6 +57,17 @@ defmodule Utilities.Detection.GreenhouseIo do
     [title: markdown_title, content: markdown_content]
   end
 
+  @doc """
+  Get the title element and transform it into markdown
+
+  ## Examples
+
+      iex> html = '<!DOCTYPE html><html ng-app="PortalApp" prefix="og: http://ogp.me/ns#" lang="en" xml:lang="en"><head><title>Elixir Engineer at DockYard</title></head><body></body></html>'
+      iex> {:ok, document} = Floki.parse_document(html)
+      iex> Utilities.Detection.GreenhouseIo.transform_title(document)
+      "Elixir Engineer at DockYard"
+
+  """
   def transform_title(document) do
     title =
       Floki.find(document, "title")

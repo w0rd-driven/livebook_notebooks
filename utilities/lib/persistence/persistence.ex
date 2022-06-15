@@ -27,8 +27,9 @@ defmodule Utilities.Persistence do
   ## Examples
 
       iex> url = "https://dockyard.breezy.hr/p/96e88139f744-elixir-engineer"
+      iex> contents = "<html></html>"
       iex> Utilities.Persistence.save(url, contents)
-      "..."
+      "<html></html>"
 
   """
   def save(url, contents, extension \\ "html") do
@@ -56,7 +57,7 @@ defmodule Utilities.Persistence do
 
       iex> url = "https://dockyard.breezy.hr/p/96e88139f744-elixir-engineer"
       iex> Utilities.Persistence.read(url)
-      "..."
+      "<html></html>"
 
   """
   def read(url, extension \\ "html") do

@@ -13,9 +13,9 @@ defmodule Utilities.Detection do
 
   ## Examples
 
-      iex> html = "<html></html>"
-      iex> Utilities.Persistence.find_description(html)
-      {:unknown, []}
+      iex> html = '<!DOCTYPE html><html lang="en" xml:lang="en"><head><title></title></head><body></body></html>'
+      iex> Utilities.Detection.find_description(html)
+      {:unknown, [{"html", [{"lang", "en"}, {"xml:lang", "en"}], [{"head", [], [{"title", [], [""]}]}, {"body", [], []}]}]}
 
   """
   def find_description(html) do

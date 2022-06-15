@@ -61,7 +61,7 @@ html = Utilities.Persistence.read(url_value)
   end
 
 # transformed = description
-#   |> Floki.find("#main.accessible #app_body")
+#   |> Floki.find("#app_body")
 #   |> hd()
 #   |> Floki.children(include_text: false)
 #   |> Floki.traverse_and_update(fn
