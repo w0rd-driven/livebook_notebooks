@@ -1,0 +1,229 @@
+# Elixir Forum Jobs
+
+```elixir
+Mix.install([
+  {:spider_man, "~> 0.3"},
+  {:floki, "~> 0.31"},
+  {:nimble_csv, "~> 1.1"},
+  {:timex, "~> 3.0"}
+])
+```
+
+## Configure Settings
+
+Build settings for spider
+
+```elixir
+base_url = "https://elixirforum.com/c/work/elixir-jobs/16"
+
+requester_options = [
+  base_url: base_url,
+  middlewares: [
+    {SpiderMan.Middleware.UserAgent,
+     [
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36"
+     ]},
+    {Tesla.Middleware.Headers,
+     [
+       {"referer", base_url},
+       {"accept",
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"},
+       {"accept-encoding", "gzip, deflate"},
+       {"accept-language", "zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7"}
+     ]},
+    Tesla.Middleware.DecompressResponse
+  ]
+]
+
+settings = [
+  log2file: false,
+  downloader_options: [requester: {SpiderMan.Requester.Finch, requester_options}],
+  spider_options: [pipelines: []],
+  item_processor_options: [
+    storage: [
+      {SpiderMan.Storage.ETS, "./data/forum.ets"},
+      {SpiderMan.Storage.CSV,
+       file: "./data/forum.csv",
+       headers: [
+         :date,
+         :title,
+         :company,
+         :location,
+         :workplace,
+         :source_url,
+         :source_description,
+         :page_number
+       ]}
+    ]
+  ]
+]
+```
+
+## Configure Parsing
+
+Prepare callbacks for spider
+
+```elixir
+import SpiderMan
+import SpiderMan.Utils
+require Logger
+
+spider = SpiderList.ElixirForum
+
+init = fn state ->
+  build_request(base_url)
+  |> set_flag(:first_page)
+  |> then(&SpiderMan.insert_request(spider, &1))
+
+  state
+end
+
+handle_list_page = fn body, n ->
+  Logger.info("processing page #{n}")
+  {:ok, document} = Floki.parse_document(body)
+
+  Logger.info("body: #{body}")
+
+  jobs =
+    Floki.find(document, "tbody")
+    |> hd()
+    |> Floki.children(include_text: true)
+    |> Enum.filter(&match?({"tr", _, _}, &1))
+
+  items =
+    Enum.map(jobs, fn job ->
+      link = Floki.attribute(job, ".link-top-line a", "href")
+
+      date_value =
+        Floki.find(job, "td:last-child")
+        |> Floki.text()
+        |> String.trim()
+
+      info =
+        Floki.find(job, ".link-top-line a")
+        |> Floki.text()
+        |> String.trim()
+
+      tags =
+        Floki.find(job, ".discourse-tags > a")
+        |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
+        |> Enum.join(", ")
+
+      date =
+        case Timex.parse(date_value, "{Mfull} {D}, {YYYY}") do
+          {:ok, date} -> date |> Date.to_string()
+        end
+
+      # title = ""
+      title = info
+      company = ""
+      location = ""
+      workplace = ""
+      source_description = ""
+
+      Logger.info("info: #{info}")
+      Logger.info("date: #{date}")
+      Logger.info("title: #{title}")
+      Logger.info("company: #{company}")
+      Logger.info("location: #{location}")
+      Logger.info("workplace: #{workplace}")
+      Logger.info("tags: #{tags}")
+      Logger.info("source_url: #{link}")
+      Logger.info("source_description: #{source_description}")
+      Logger.info("page_number: #{to_string(n)}")
+
+      build_item(
+        link,
+        %{
+          date: date,
+          title: title,
+          company: company,
+          location: location,
+          workplace: workplace,
+          source_url: link,
+          source_description: source_description,
+          page_number: n
+        }
+      )
+    end)
+
+  %{items: items}
+end
+
+handle_response = fn
+  %{env: env, flag: :first_page}, _context ->
+    # There aren't a lot of posts so to go back 6 months we don't need to process
+    #   a ton of pages.
+    total_page = 3
+
+    Logger.info("total: #{total_page}")
+
+    requests =
+      Enum.map(2..total_page, fn n ->
+        build_request("/?page=#{n}")
+        |> set_flag({:list_page, n})
+      end)
+
+    handle_list_page.(env.body, 1)
+    |> Map.put(:requests, requests)
+
+  %{env: env, flag: {:list_page, n}}, _context ->
+    handle_list_page.(env.body, n)
+end
+
+callbacks = [init: init, handle_response: handle_response]
+{:ok, settings} = SpiderMan.CommonSpider.check_callbacks_and_merge_settings(callbacks, settings)
+```
+
+## Executing
+
+Run the spider
+
+```elixir
+# Delete previous dumps
+File.rm_rf("./data/forum.csv")
+File.rm_rf("./data/forum.ets")
+SpiderMan.run_until_zero(spider, settings, 5_000)
+```
+
+## Sorting the Results
+
+Sort the csv by page number ascending
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+headers = [
+  :date,
+  :title,
+  :company,
+  :location,
+  :workplace,
+  :source_url,
+  :source_description,
+  :page_number
+]
+
+sorted_path = "./data/forum-sorted.csv"
+File.rm_rf(sorted_path)
+io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
+
+header = CSV.dump_to_iodata([headers])
+
+csv =
+  "./data/forum.csv"
+  |> File.read!()
+  |> CSV.parse_string()
+  # Sort by date desc
+  |> Enum.sort_by(& &1, :desc)
+  |> CSV.dump_to_iodata()
+
+:ok = IO.write(io_device, header)
+:ok = IO.write(io_device, csv)
+:ok = File.close(io_device)
+```

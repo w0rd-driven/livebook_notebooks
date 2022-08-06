@@ -19,7 +19,8 @@ set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_b
 
 1. [ElixirRadar Jobs](spiderman--elixir_radar_jobs.livemd)
 2. [Elixir Jobs](spiderman--elixir_jobs.livemd)
-3. [Elixir Companies](spiderman--elixir_companies.livemd)
+3. [Elixir Forum Jobs](spiderman--elixir_forum_jobs.livemd)
+4. [Elixir Companies](spiderman--elixir_companies.livemd)
 
 ### Job Search
 
