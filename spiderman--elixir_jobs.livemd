@@ -56,7 +56,8 @@ settings = [
          :location,
          :workplace,
          :type,
-         :link,
+         :source_url,
+         :source_description,
          :page_number
        ]}
     ]
@@ -97,7 +98,7 @@ handle_list_page = fn body, n ->
     Enum.map(jobs, fn job ->
       title = Floki.find(job, ".title strong") |> Floki.text() |> String.trim()
       sub_title = Floki.find(job, ".title small") |> Floki.text() |> String.trim()
-      link = Floki.attribute(job, "a", "href") |> hd()
+      source_url = Floki.attribute(job, "a", "href") |> hd()
 
       [company, location | _] = sub_title |> String.split(" - ")
 
@@ -125,8 +126,10 @@ handle_list_page = fn body, n ->
             Date.utc_today() |> Date.to_string()
         end
 
+      source_description = ""
+
       build_item(
-        link,
+        source_url,
         %{
           date: full_date,
           title: title,
@@ -134,7 +137,8 @@ handle_list_page = fn body, n ->
           location: location,
           workplace: workplace,
           type: type,
-          link: base_url <> String.slice(link, 1..-1),
+          source_url: base_url <> String.slice(source_url, 1..-1),
+          source_description: source_description,
           page_number: n
         }
       )
@@ -195,7 +199,8 @@ headers = [
   :location,
   :workplace,
   :type,
-  :link,
+  :source_url,
+  :source_description,
   :page_number
 ]
 

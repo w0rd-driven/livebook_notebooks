@@ -53,8 +53,8 @@ settings = [
          :company,
          :location,
          :workplace,
-         :description,
-         :link,
+         :source_url,
+         :source_description,
          :page_number
        ]}
     ]
@@ -94,7 +94,7 @@ handle_list_page = fn body, n ->
   items =
     Enum.map(jobs, fn job ->
       title = Floki.find(job, ".job-post-link") |> Floki.text() |> String.trim()
-      link = Floki.attribute(job, ".job-post-link", "href") |> hd()
+      source_url = Floki.attribute(job, ".job-post-link", "href") |> hd()
 
       full_location =
         Floki.find(job, ".job-board-job-location")
@@ -123,14 +123,14 @@ handle_list_page = fn body, n ->
         end
 
       build_item(
-        link,
+        source_url,
         %{
           title: title,
           company: company,
           location: location,
           workplace: workplace,
-          description: description,
-          link: link,
+          source_url: source_url,
+          source_description: description,
           page_number: n
         }
       )
@@ -189,8 +189,8 @@ headers = [
   :company,
   :location,
   :workplace,
-  :description,
-  :link,
+  :source_url,
+  :source_description,
   :page_number
 ]
 
