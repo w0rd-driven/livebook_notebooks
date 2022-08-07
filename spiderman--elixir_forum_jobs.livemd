@@ -51,10 +51,12 @@ settings = [
        file: "./data/forum.csv",
        headers: [
          :date,
+         :heading,
          :title,
          :company,
          :location,
          :workplace,
+         :tags,
          :source_url,
          :source_description,
          :page_number
@@ -97,14 +99,14 @@ handle_list_page = fn body, n ->
 
   items =
     Enum.map(jobs, fn job ->
-      link = Floki.attribute(job, ".link-top-line a", "href")
+      source_url = Floki.attribute(job, ".link-top-line a", "href")
 
       date_value =
         Floki.find(job, "td:last-child")
         |> Floki.text()
         |> String.trim()
 
-      info =
+      heading =
         Floki.find(job, ".link-top-line a")
         |> Floki.text()
         |> String.trim()
@@ -112,40 +114,41 @@ handle_list_page = fn body, n ->
       tags =
         Floki.find(job, ".discourse-tags > a")
         |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
-        |> Enum.join(", ")
+        |> Enum.join(" | ")
 
       date =
         case Timex.parse(date_value, "{Mfull} {D}, {YYYY}") do
           {:ok, date} -> date |> Date.to_string()
         end
 
-      # title = ""
-      title = info
+      title = ""
       company = ""
       location = ""
       workplace = ""
       source_description = ""
 
-      Logger.info("info: #{info}")
+      Logger.info("heading: #{heading}")
       Logger.info("date: #{date}")
       Logger.info("title: #{title}")
       Logger.info("company: #{company}")
       Logger.info("location: #{location}")
       Logger.info("workplace: #{workplace}")
       Logger.info("tags: #{tags}")
-      Logger.info("source_url: #{link}")
+      Logger.info("source_url: #{source_url}")
       Logger.info("source_description: #{source_description}")
       Logger.info("page_number: #{to_string(n)}")
 
       build_item(
-        link,
+        source_url,
         %{
           date: date,
+          heading: heading,
           title: title,
           company: company,
           location: location,
           workplace: workplace,
-          source_url: link,
+          tags: tags,
+          source_url: source_url,
           source_description: source_description,
           page_number: n
         }
@@ -200,10 +203,12 @@ alias NimbleCSV.RFC4180, as: CSV
 
 headers = [
   :date,
+  :heading,
   :title,
   :company,
   :location,
   :workplace,
+  :tags,
   :source_url,
   :source_description,
   :page_number
