@@ -55,8 +55,8 @@ settings = [
          :website_url,
          :github_url,
          :blog_url,
-         :link,
-         :description,
+         :source_url,
+         :source_description,
          :page_number
        ]}
     ]
@@ -95,7 +95,7 @@ handle_list_page = fn body, n ->
 
   items =
     Enum.map(companies, fn company ->
-      link = Floki.attribute(company, ".company .title a", "href") |> hd()
+      source_url = Floki.attribute(company, ".company .title a", "href") |> hd()
       name = Floki.find(company, ".company .title a") |> Floki.text() |> String.trim()
 
       info =
@@ -127,7 +127,7 @@ handle_list_page = fn body, n ->
         |> Enum.filter(&(String.match?(&1, ~r/github.com/) == false))
         |> List.first()
 
-      description =
+      source_description =
         Floki.find(company, ".company .company-description p")
         |> Floki.text()
         |> String.trim()
@@ -140,12 +140,12 @@ handle_list_page = fn body, n ->
       # Logger.info("website_url: #{website_url}")
       # Logger.info("github_url: #{github_url}")
       # Logger.info("blog_url: #{blog_url}")
-      # Logger.info("link: #{base_url <> String.slice(link, 1..-1)}")
-      # Logger.info("description: #{description}")
+      # Logger.info("source_url: #{base_url <> String.slice(source_url, 1..-1)}")
+      # Logger.info("source_description: #{source_description}")
       # Logger.info("page_number: #{to_string(n)}")
 
       build_item(
-        link,
+        source_url,
         %{
           name: name,
           industry: industry,
@@ -153,8 +153,8 @@ handle_list_page = fn body, n ->
           website_url: website_url,
           github_url: github_url,
           blog_url: blog_url,
-          link: base_url <> String.slice(link, 1..-1),
-          description: description,
+          source_url: base_url <> String.slice(source_url, 1..-1),
+          source_description: source_description,
           page_number: n
         }
       )
@@ -169,7 +169,7 @@ handle_response = fn
     #   Regex.run(~r/Showing page 1 of (\d+)/, env.body, capture: :all_but_first)
     #   |> hd()
     #   |> String.to_integer()
-    total_page = 40
+    total_page = 41
     # total_page = 2
 
     Logger.info("total: #{total_page}")
@@ -216,8 +216,8 @@ headers = [
   :website_url,
   :github_url,
   :blog_url,
-  :link,
-  :description,
+  :source_url,
+  :source_description,
   :page_number
 ]
 
@@ -231,8 +231,8 @@ csv =
   "./data/companies.csv"
   |> File.read!()
   |> CSV.parse_string()
-  # |> Enum.sort_by(&(List.first(&1)), :asc)
-  |> Enum.sort_by(&(List.last(&1) |> String.to_integer()), :asc)
+  |> Enum.sort_by(&List.first(&1), :asc)
+  # |> Enum.sort_by(&(List.last(&1) |> String.to_integer()), :asc)
   |> CSV.dump_to_iodata()
 
 :ok = IO.write(io_device, header)
