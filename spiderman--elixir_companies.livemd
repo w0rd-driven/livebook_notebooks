@@ -95,6 +95,7 @@ handle_list_page = fn body, n ->
 
   items =
     Enum.map(companies, fn company ->
+      # In the form en/companies/{id}
       source_url = Floki.attribute(company, ".company .title a", "href") |> hd()
       name = Floki.find(company, ".company .title a") |> Floki.text() |> String.trim()
 
@@ -140,7 +141,7 @@ handle_list_page = fn body, n ->
       # Logger.info("website_url: #{website_url}")
       # Logger.info("github_url: #{github_url}")
       # Logger.info("blog_url: #{blog_url}")
-      # Logger.info("source_url: #{base_url <> String.slice(source_url, 1..-1)}")
+      # Logger.info("source_url: #{base_url <> String.slice(source_url, 13..-1)}")
       # Logger.info("source_description: #{source_description}")
       # Logger.info("page_number: #{to_string(n)}")
 
@@ -153,7 +154,7 @@ handle_list_page = fn body, n ->
           website_url: website_url,
           github_url: github_url,
           blog_url: blog_url,
-          source_url: base_url <> String.slice(source_url, 1..-1),
+          source_url: base_url <> String.slice(source_url, 13..-1),
           source_description: source_description,
           page_number: n
         }
