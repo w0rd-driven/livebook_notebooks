@@ -15,7 +15,7 @@ Mix.install([
 
 Using the excellent `req` library, we want to get the HTML of the job post application url and convert all form fields to markdown.
 
-General specifications
+## Specifications
 
 1. Detect ATS system, one of `[breezyhr, greenhouse, lever, unknown]`
 2. If `<temporary html file does not exist>:`

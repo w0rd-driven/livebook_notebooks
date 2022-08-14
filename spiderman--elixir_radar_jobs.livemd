@@ -8,6 +8,44 @@ Mix.install([
 ])
 ```
 
+## Summary
+
+Using the excellent `spider_man` library, we want to get the paginated list of job opportunities from `https://elixir-radar.com/jobs`. We also use `floki` to grab the relevant parts from the HTML and `nimble_csv` to sort our CSV results.
+
+*citation needed*
+SpiderMan works by spawning a process for each page and as such, results come in as the processing completes. This means that page 500 could complete before page 2 so we sort the CSV results to keep the newest entries towards the top.
+
+Since `Elixir Radar` doesn't include dates in their entries, we sort by page number.
+
+### Noted Variables and Defaults
+
+1. `base_url = https://elixir-radar.com/jobs`
+   1. Sets the base url for all other relative paths
+2. `total_page = 6`
+   1. We hardcode our page count to 6 to roughly get the last 6 months.
+3. ETS file path = `./data/radar_jobs.ets`
+   1. Erlang term storage file. We don't work with this.
+4. CSV file path = `./data/radar_jobs.csv`
+   1. Original CSV file, records are saved as they are processed.
+5. CSV sorted file path = `./data/radar_jobs-sorted.csv`
+
+## Specifications
+
+1. [x] Analyze page numbers to hardcode grabbing anything later than ~6 months ago.
+   1. This should be 6 pages, it may need to change in the future.
+2. [x] Map job items
+   1. `.job-board ul > li`
+3. [x] Gather fields
+   1. [x] `title`
+   2. [x] `company`
+   3. [x] `location`
+   4. [x] `workplace`
+   5. [x] `source_url`
+   6. [x] `source_description`
+   7. [x] `page_number`
+4. [x] Delete ETS and CSV file before next run
+5. [x] Sort CSV file by `page_number`
+
 ## Configure Settings
 
 Build settings for spider
