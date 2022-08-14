@@ -22,6 +22,10 @@ set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_b
 3. [Elixir Forum Jobs](spiderman--elixir_forum_jobs.livemd)
 4. [Elixir Companies](spiderman--elixir_companies.livemd)
 
+### Job Board Parsing by Req
+
+1. [larajobs The official Laravel job board](req--larajobs.livemd)
+
 ### Job Search
 
 1. [Job Description to Markdown](req--job_description.livemd)

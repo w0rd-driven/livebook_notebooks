@@ -1,0 +1,87 @@
+# larajobs
+
+```elixir
+Mix.install([
+  {:kino, github: "livebook-dev/kino", override: true},
+  {:kino_lab, "~> 0.1.0-dev", github: "jonatanklosko/kino_lab"},
+  # {:kino_vega_lite, "~> 0.1.1"},
+  # {:kino_db, "~> 0.1.1"},
+  {:req, github: "wojtekmach/req"},
+  {:req_easyhtml, github: "wojtekmach/req_easyhtml"},
+  {:floki, "~> 0.32"}
+])
+```
+
+## Summary
+
+Using the excellent `req` library, we want to get the list of jobs from the jobs site.
+The bulk of our notebooks use `spider man` but that is generally better suited to crawling paginated results. A number of sites stuff everything into the immediate response and use javascript to show/hide the results by "page".
+
+## Specifications
+
+1. [ ] Map job items
+   1. [x] New jobs `#app .container`
+   2. [ ] Older jobs `#app .container`
+2. [ ] Gather fields
+   1. [ ] `date`
+   2. [x] `title`
+   3. [x] `company`
+   4. [x] `location`
+   5. [x] `tags`
+   6. [x] `source_url`
+   7. [x] `post_url`
+3. [ ] Store results as CSV
+4. [ ] Sort CSV file by `date`
+
+## Code
+
+```elixir
+base_url = "https://larajobs.com/"
+
+req_html = Req.new(http_errors: :raise)
+
+html = Req.get!(req_html, url: base_url).body
+
+{:ok, document} = Floki.parse_document(html)
+
+jobs =
+  Floki.find(document, "#app .container div")
+  |> hd()
+  |> Floki.children(include_text: false)
+  |> Enum.filter(&match?({"a", _, _}, &1))
+
+items =
+  Enum.map(jobs, fn job ->
+    source_url = Floki.attribute(job, ".job-link", "href") |> hd()
+    post_url = Floki.attribute(job, ".job-link", "data-url") |> hd()
+
+    title = Floki.find(job, ".job-wrap .details .description") |> Floki.text() |> String.trim()
+    company = Floki.find(job, ".job-wrap .details h4") |> Floki.text() |> String.trim()
+    location = Floki.find(job, ".job-wrap .details div.text") |> Floki.text() |> String.trim()
+
+    tags =
+      Floki.find(job, ".job-wrap :not(div.details) .text-sm")
+      |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
+      |> Enum.join(" | ")
+
+    date_1 =
+      Floki.find(job, ".job-link > div:last-child > div:nth-child(1)")
+      |> Floki.text()
+      |> String.trim()
+
+    date_2 =
+      Floki.find(job, ".job-link > div:last-child > div:nth-child(2)")
+      |> Floki.text()
+      |> String.trim()
+
+    IO.inspect(title, label: "title")
+    IO.inspect(company, label: "company")
+    IO.inspect(location, label: "location")
+    IO.inspect(tags, label: "tags")
+    IO.inspect(date_1, label: "date_1")
+    IO.inspect(date_2, label: "date_2")
+    IO.inspect(source_url, label: "source_url")
+    IO.inspect(post_url, label: "post_url")
+    # IO.inspect(job, label: "job")
+  end)
+```
