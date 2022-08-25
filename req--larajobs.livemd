@@ -8,7 +8,8 @@ Mix.install([
   # {:kino_db, "~> 0.1.1"},
   {:req, github: "wojtekmach/req"},
   {:floki, "~> 0.32"},
-  {:nimble_csv, "~> 1.1"}
+  {:nimble_csv, "~> 1.1"},
+  {:timex, "~> 3.0"}
 ])
 ```
 
@@ -32,7 +33,7 @@ The bulk of our notebooks use `spider man` but that is generally better suited t
    7. [x] `post_url`
 3. [x] Store results as CSV
 4. [x] Sort CSV file by `date`
-5. [ ] Convert date from relative textual representation to a rough date.
+5. [x] Convert date from relative textual representation to a rough date.
    1. We can't be too precise unfortunately so we'll just use the first of the month, etc.
 
 ## Code
@@ -44,6 +45,40 @@ The bulk of our notebooks use `spider man` but that is generally better suited t
 ###
 
 ```elixir
+parse_date = fn date ->
+  # xd
+  # xw
+  # xmo
+  day_groups = Regex.run(~r/(\d+?)d/, date, capture: :all_but_first)
+  week_groups = Regex.run(~r/(\d+?)w/, date, capture: :all_but_first)
+  month_groups = Regex.run(~r/(\d+?)mo/, date, capture: :all_but_first)
+
+  days =
+    case day_groups do
+      [number] -> String.to_integer(number)
+      nil -> 0
+    end
+
+  weeks =
+    case week_groups do
+      [number] -> String.to_integer(number)
+      nil -> 0
+    end
+
+  months =
+    case month_groups do
+      [number] -> String.to_integer(number)
+      nil -> 0
+    end
+
+  # IO.inspect(days, label: "days")
+  # IO.inspect(weeks, label: "weeks")
+  # IO.inspect(months, label: "months")
+  Timex.shift(Timex.today(), days: -days)
+  |> Timex.shift(weeks: -weeks)
+  |> Timex.shift(months: -months)
+end
+
 base_url = "https://larajobs.com/"
 
 req_html = Req.new(http_errors: :raise)
@@ -102,6 +137,7 @@ items =
         true -> ""
       end
 
+    full_date = parse_date.(date)
     # IO.inspect(title, label: "title")
     # IO.inspect(company, label: "company")
     # IO.inspect(location, label: "location")
@@ -114,7 +150,7 @@ items =
     # IO.inspect(job, label: "job")
 
     %{
-      date: date,
+      date: full_date,
       title: title,
       company: company,
       location: location,
