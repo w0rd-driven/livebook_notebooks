@@ -47,18 +47,42 @@ url_value = Kino.Input.read(url)
 ```
 
 ```elixir
+transform_title = fn document ->
+  title =
+    Floki.find(document, "title")
+    |> hd()
+    |> Floki.raw_html()
+
+  # Since this is a single tag we can just convert it to Markdown directly
+  title |> String.replace("<title>", "") |> String.replace("</title>", "")
+end
+
+transform_description = fn document ->
+  {:ok, markdown} = Pandex.html_to_markdown_strict(document)
+
+  markdown_title = transform_title.(document)
+
+  # Cleanup escaped brackets [ ]
+  content = markdown |> String.replace("\\[ \\]", "[ ]") |> String.replace("-   [ ]", "* [ ]")
+
+  # Inject our title as the first line
+  markdown_content = "# #{markdown_title}\n\n" <> content
+
+  [title: markdown_title, content: markdown_content]
+end
+
 html = Utilities.Persistence.read(url_value)
 
 {type, description} = Utilities.Detection.find_description(html)
 
-[title, content] =
-  case type do
-    :breezy_hr -> Utilities.Detection.BreezyHR.transform_description(description)
-    :lever_co -> Utilities.Detection.LeverCo.transform_description(description)
-    :greenhouse_io -> Utilities.Detection.GreenhouseIo.transform_description(description)
-    # :greenhouse_io -> [title: "", content: description]
-    :unknown -> [title: "", content: description]
-  end
+# [title, content] =
+#   case type do
+#     # :breezy_hr -> Utilities.Detection.BreezyHR.transform_description(description)
+#     # :lever_co -> Utilities.Detection.LeverCo.transform_description(description)
+#     # :greenhouse_io -> Utilities.Detection.GreenhouseIo.transform_description(description)
+#     :greenhouse_io -> [title: "", content: description]
+#     :unknown -> [title: "", content: description]
+#   end
 
 # transformed = description
 #   |> Floki.find("#app_body")
@@ -76,6 +100,8 @@ html = Utilities.Persistence.read(url_value)
 #       end
 #     tag -> tag
 #   end)
+
+[title, content] = transform_description.(html)
 
 {_, title_markdown} = title
 {_, content_markdown} = content
