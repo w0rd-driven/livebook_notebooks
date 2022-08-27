@@ -150,12 +150,12 @@ items =
     # IO.inspect(job, label: "job")
 
     %{
-      date: full_date,
+      posted_at: full_date,
       title: title,
       company: company,
       location: location,
       tags: tags,
-      source_url: source_url,
+      source_url: base_url <> String.slice(source_url, 1..-1),
       post_url: post_url
     }
   end)
@@ -175,7 +175,7 @@ take = fn item, header_keys ->
 end
 
 header_keys = [
-  :date,
+  :posted_at,
   :title,
   :company,
   :location,

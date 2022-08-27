@@ -50,7 +50,7 @@ settings = [
       {SpiderMan.Storage.CSV,
        file: "./data/forum.csv",
        headers: [
-         :date,
+         :posted_at,
          :heading,
          :title,
          :company,
@@ -141,7 +141,7 @@ handle_list_page = fn body, n ->
       build_item(
         source_url,
         %{
-          date: date,
+          posted_at: date,
           heading: heading,
           title: title,
           company: company,
@@ -202,7 +202,7 @@ Sort the csv by page number ascending
 alias NimbleCSV.RFC4180, as: CSV
 
 headers = [
-  :date,
+  :posted_at,
   :heading,
   :title,
   :company,

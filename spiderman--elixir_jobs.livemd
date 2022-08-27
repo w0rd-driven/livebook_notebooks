@@ -50,7 +50,7 @@ settings = [
       {SpiderMan.Storage.CSV,
        file: "./data/jobs.csv",
        headers: [
-         :date,
+         :posted_at,
          :title,
          :company,
          :location,
@@ -131,7 +131,7 @@ handle_list_page = fn body, n ->
       build_item(
         source_url,
         %{
-          date: full_date,
+          posted_at: full_date,
           title: title,
           company: company,
           location: location,
@@ -193,7 +193,7 @@ Sort the csv by date descending
 alias NimbleCSV.RFC4180, as: CSV
 
 headers = [
-  :date,
+  :posted_at,
   :title,
   :company,
   :location,

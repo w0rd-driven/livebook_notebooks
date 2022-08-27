@@ -40,8 +40,8 @@ Since `Elixir Radar` doesn't include dates in their entries, we sort by page num
    2. [x] `company`
    3. [x] `location`
    4. [x] `workplace`
-   5. [x] `source_url`
-   6. [x] `source_description`
+   5. [x] `source_description`
+   6. [x] `post_url`
    7. [x] `page_number`
 4. [x] Delete ETS and CSV file before next run
 5. [x] Sort CSV file by `page_number`
@@ -91,8 +91,8 @@ settings = [
          :company,
          :location,
          :workplace,
-         :source_url,
          :source_description,
+         :post_url,
          :page_number
        ]}
     ]
@@ -132,7 +132,7 @@ handle_list_page = fn body, n ->
   items =
     Enum.map(jobs, fn job ->
       title = Floki.find(job, ".job-post-link") |> Floki.text() |> String.trim()
-      source_url = Floki.attribute(job, ".job-post-link", "href") |> hd()
+      post_url = Floki.attribute(job, ".job-post-link", "href") |> hd()
 
       full_location =
         Floki.find(job, ".job-board-job-location")
@@ -161,14 +161,14 @@ handle_list_page = fn body, n ->
         end
 
       build_item(
-        source_url,
+        post_url,
         %{
           title: title,
           company: company,
           location: location,
           workplace: workplace,
-          source_url: source_url,
           source_description: description,
+          post_url: post_url,
           page_number: n
         }
       )
@@ -227,8 +227,8 @@ headers = [
   :company,
   :location,
   :workplace,
-  :source_url,
   :source_description,
+  :post_url,
   :page_number
 ]
 
