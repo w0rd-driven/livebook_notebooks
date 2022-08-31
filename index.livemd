@@ -31,6 +31,11 @@ set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_b
 1. [Job Description to Markdown](req--job_description.livemd)
 2. [Job Application Fields to Markdown](req--job_fields.livemd)
 
+### Conference Notes
+
+1. [ElixirConf 2022 - Wednesday Morning](elixirconf--2022/wednesday_morning.livemd)
+2. [ElixirConf 2022 - Wednesday Afternoon](elixirconf--2022/wednesday_afternoon.livemd)
+
 ### Miscellaneous
 
 1. [Scratchpad](scratchpad.livemd)

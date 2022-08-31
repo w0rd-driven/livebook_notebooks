@@ -1,0 +1,190 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# ElixirConf 2022 - Wednesday Morning
+
+## Topics
+
+### 11:10am to 11:55am
+
+45 minutes
+
+#### Keynote
+
+José Valim
+
+### 12:05pm to 12:30pm
+
+25 minutes
+
+#### Track 1
+
+#### Title: Robust, Distributed, and Parallel Processing for Enormous Images Using SuperVisor, Node, Flow, Nx, and evision.
+
+#### Speaker: Susumu Yamazaki
+
+#### Topic: Data Processing
+
+#### Audiences: Advanced
+
+What do you use when you process enormous images? Of course, Python, Numpy, and OpenCV will be helpful for it, but don't you want to speed it up by processing it in a distributed and parallel way? Elixir can do it: 1. You can replace Numpy and OpenCV with Nx and evision. 2. Node and Flow can make the processing distributed and parallel. 3. Supervisor makes it robust for crashing due to consuming much memory. This presentation will introduce satellite image processing for an information provision system of sediment disasters as an example case study shown at ElixirConf US 2020.
+
+#### Track 2
+
+#### Title: Porting Legacy Backend Services into Elixir, Seamlessly
+
+#### Speaker: Yiming Chen
+
+#### Topic: Legacy Systems
+
+#### Audiences: Advanced | Intermediate
+
+We as developers have all faced a legacy system, no one wants to or dares to change its code, yet it still somehow runs and supports an important piece in our business. What's worse is when the original developers have all left the team and no one is familiar with the code and the language anymore. We had several services like this kind at Tubi. We ported 2 of them into Elixir in 2022, while keeping the user experience the same during the whole migration process. This talk is about all the lessons we learned along the way.
+
+#### Track 3
+
+#### Title: Building a HEEX component library
+
+#### Speaker: Matthew Platts
+
+#### Topic: Heex
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+Components have long been standard in Javascript frameworks, however are relatively new in Phoenix. Now, with HEEX released, it's time to start building component libraries to supercharge your web app development. Firstly, using my experience in building Petal Components (https://hex.pm/packages/petal_components), I'll walk you through how to build your own HEEX component library for your next project. Secondly I'll show how powerful components can be by using our Petal Components library to build a web page with a form.
+
+### 12:35pm to 1:00pm
+
+25 minutes
+
+#### Track 1
+
+#### Title: Livebook smart cells are amazing
+
+#### Speaker: Stephen Ball
+
+#### Topic: Livebook
+
+#### Audiences: Intermediate | Beginner
+
+In May 2022 Livebook 0.6 introduced smart cells. These are units of abstraction to wrap complex code in a simple user interface which means we can make a lot of amazing things happen behind the scenes while presenting users with a smart workflow. In this talk we'll go from Livebook itself to smart cells that pull complex data from APIs to feed into other smart cells for analysis.
+
+#### Track 2
+
+#### Title: Classifying Bot IP Addresses in Phoenix
+
+#### Speaker: Michael Lubas
+
+#### Topic: Phoenix
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+This talk will cover: 1. A brief description of how bots cause problems in Phoenix apps, showing why someone would want to classify requests as coming from a bot. 2. The design of a plug to compare each incoming request's IP against a radix tree of public cloud provider IP ranges. 3. Why persistent_term is better than ETS for this task 4. How to use this plug to prevent bot attacks in your Phoenix app This talk is based on the blog post - https://paraxial.io/blog/cloud-ips
+
+#### Track 3
+
+#### Title: The Elixir Of Web Scraping
+
+#### Speaker: Constantin Cheptea
+
+#### Topic: Web Scraping
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+This talk is about how we implemented a simple crawler for an MVP for one of our clients. I will talk about how we used a Stream to implement the crawler, the Eager vs Lazy topic, applying concurrency to improve performance, understanding the difference between concurrency and parallelism and how it helped us optimise resources. I will also allocate some time to cover ethical web crawling.
+
+### 1:05pm to 1:30pm
+
+25 minutes
+
+#### Track 1
+
+#### Title: Make a Soundcloud like app in a week and make it fit in a seven dollar box
+
+#### Speaker: Miguel Michelson
+
+#### Topic: Phoenix
+
+#### Audiences: Intermediate | Beginner
+
+This talk will be about the development of an open-source audio streaming platform (like Soundcloud). I will talk about why I've chosen Elixir and how I've put into the mix my previous work on some ported Rails framework gems (active_storage and active_job). This is the sequel of my talk given recently at ElixirconfEU 2022 titled “porting a Rails app to Elixir in two months,” and I will show some things regarding the LiveView uploads, streaming files from controllers to a cloud bucket with byte-range support, and some thoughts on the Elixir community here in Chile which is growing and helping to build this platform collectively.
+
+#### Track 2
+
+#### Title: Dx - a pragmatic inference system based on your Ecto schema
+
+#### Speaker: Arno Dirlam
+
+#### Topic: Ecto
+
+#### Audiences: Advanced | Intermediate
+
+Dx is an Elixir library that allows adding inferred properties to Ecto schemas, defined by rules based on fields, associations or other inferred properties. You can then load/query them as if they were Ecto fields or associations using Dx's API. It allows you to write declarative and easy-to-read domain logic by defining WHAT the rules are without having to care about HOW to execute them. Under the hood, Dx's evaluation engine loads associations as needed using dataloader and can even translate your logic to Ecto queries directly. Dx can be used for various use cases, from authorization to state machines, and excels in areas where a lot of (edge) cases need to be respected. Status: Dx has been used in production internally at Team Engine since April 2021, but is still in the early stages as a ready-to-use library. Repo: https://github.com/dx-beam/dx Docs: https://hexdocs.pm/dx/ Want to work on Dx with us? https://tinyurl.com/engine-infer-dev
+
+#### Track 3
+
+#### Title: Cryptography and Elixir
+
+#### Speaker: Héctor Iván Patricio Moreno
+
+#### Topic: Cryptography
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+We all know that our digital security and anonymity relies on sophisticated algorithms that allows us to maintain secrecy and store information securely. We will talk about the main types of cryptographic algorithms (block and stream ciphers, hashes, MAC's) and the right way to use each one. Finally we will talk about the cryptography libraries developed for Elixir and show examples about how to use it correctly.
+
+### 1:30pm to 2:00pm
+
+30 minutes
+
+## Schedule
+
+* 11:10am to 11:55am - Keynote
+* 12:05pm to 12:30pm
+  * [ ] Track 1 - 3 - Robust, Distributed, and Parallel Processing for Enormous Images Using SuperVisor, Node, Flow, Nx, and evision
+  * [ ] Track 2 - 5 - Porting Legacy Backend Services into Elixir, Seamlessly
+  * [ ] Track 3 - 8 - Building a HEEX component library
+* 12:35pm to 1:00pm
+  * [ ] Track 1 - 8 - Livebook smart cells are amazing
+  * [ ] Track 2 - 5 - Classifying Bot IP Addresses in Phoenix
+  * [ ] Track 3 - 13 - The Elixir Of Web Scraping
+* 1:05pm to 1:30pm
+  * [ ] Track 1 - 5 - Make a Soundcloud like app in a week and make it fit in a seven dollar box
+  * [ ] Track 2 - 13 - Dx - a pragmatic inference system based on your Ecto schema
+  * [ ] Track 3 - 8 - Cryptography and Elixir
+* 1:30pm to 2:00pm - Ask Us Anything with Test Double
+
+## Notes
+
+### Keynote
+
+TODO
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 12:05pm to 12:30pm
+
+* [ ] Track 1 - 3 - Robust, Distributed, and Parallel Processing for Enormous Images Using SuperVisor, Node, Flow, Nx, and evision
+* [ ] Track 2 - 5 - Porting Legacy Backend Services into Elixir, Seamlessly
+* [ ] Track 3 - 8 - Building a HEEX component library
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 12:35pm to 1:00pm
+
+* [ ] Track 1 - 8 - Livebook smart cells are amazing
+* [ ] Track 2 - 5 - Classifying Bot IP Addresses in Phoenix
+* [ ] Track 3 - 13 - The Elixir Of Web Scraping
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 1:05pm to 1:30pm
+
+* [ ] Track 1 - 5 - Make a Soundcloud like app in a week and make it fit in a seven dollar box
+* [ ] Track 2 - 13 - Dx - a pragmatic inference system based on your Ecto schema
+* [ ] Track 3 - 8 - Cryptography and Elixir
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 1:30pm to 2:00pm - Ask Us Anything with Test Double
+
+TODO

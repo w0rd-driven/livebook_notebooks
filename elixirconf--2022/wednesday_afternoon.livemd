@@ -1,0 +1,198 @@
+<!-- livebook:{"autosave_interval_s":60} -->
+
+# ElixirConf 2022 - Wednesday Afternoon
+
+## Topics
+
+### 3:10pm to 3:45pm
+
+35 minutes
+
+#### Track 2
+
+#### Title: Ecto in Production - Migration Edition
+
+#### Speaker: David Bernheisel
+
+#### Topic: Scaling
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+Scaling an application comes with 3 phases of growing: 1. Identifying traps 2. Building tools that avoid traps. 3. Adopting a process that uses those tools. Small applications can fall into these traps but they're so minor and acceptable that they're ignored or unrealized, but with large data sets these problems can grow to be user-facing problems. This edition of “Ecto in Production” will focus on migrations: both performing safe schema migrations and safely evolving data in place.
+
+#### Track 3
+
+#### Title: Let's talk to Industrial devices with Elixir & Nerves
+
+#### Speaker: Aldebaran Alonso
+
+#### Topic: Nerves
+
+#### Audiences: Advanced | Intermediate
+
+A look inside a common problem for startups when developing products focused on industrial environment: how to interact with industrial devices. First, we will discuss the problem along with a brief introduction to industrial communication protocols, covering their importance and features. Then, we will talk about our experience and workflow for adopting such industrial protocols in Elixir, focusing particularly on Modbus TCP and OPC UA with a demo. Finally, we will cover the state of the art of open source projects that support several Industrial protocols, as well as future work.
+
+### 3:50pm to 4:25pm
+
+35 minutes
+
+#### Track 2
+
+#### Title: Delightful Multiplayer Editing with Phoenix
+
+#### Speaker: Tyler Young
+
+#### Topic: Phoenix
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+This talk distills the lessons we've learned at Felt while building a highly collaborative, “multiplayer” editing tool on top of Phoenix and React. Phoenix Channels are our (not so) secret weapon for delivering low-latency collaboration, but Channels alone aren't enough to guarantee a delightful experience for our users. This talk will discuss a number of areas of where our initial ideas didn't cut it, and what we had to do instead to improve the user experience. Topics will include: - Minimizing time to first render - Using optimistic client-side changes for zero-latency local editing - Reducing latency when broadcasting changes - Preventing data loss when the client goes offline - Reducing blocking work within the Channel process
+
+#### Track 3
+
+#### Title: Workflows and use cases for Elixir Nerves
+
+#### Speaker: Jason Johnson
+
+#### Topic: Nerves
+
+#### Audiences: Intermediate | Beginner
+
+Elixir Nerves offers so many options for developing and deploying firmware that it can be hard to know where to start! We'll explore a variety of workflows along with real-world examples and suggestions for how to make the most of your work with Nerves. This talk will cover favorites like working with a serial cable, WiFi, or Livebook, as well as some less common workflows that may surprise you. Come join me on a retro electronics-themed tour of the many ways you can work with Nerves!
+
+### 4:30pm to 5:05pm
+
+35 minutes
+
+#### Track 2
+
+#### Title: Going Global with a Normal Phoenix App
+
+#### Speaker: Mark Ericksen
+
+#### Topic: Phoenix
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+The Elixir and Phoenix combo natively supports clustering and pubsub. This superpower isn't readily available to most web focused languages and frameworks. Fly.io makes it easy to deploy your application to multiple regions globally. Once you deploy your “regular” Phoenix app into multiple regions you start to run into problems when your database lives on the other side of the globe. We'll talk about strategies to take, things to consider, tools available, and future possibilities. Yes, you could re-write your application to work with a non-SQL, multi-master, eventually consistent, distributed database… but that's not the app we have today. This focuses on taking a “normal” Phoenix app around the world to our users.
+
+#### Track 3
+
+#### Title: Keeping your IoT fleet afloat with Sink
+
+#### Speaker: Mike Waud
+
+#### Topic: Nerves
+
+#### Audiences: Advanced | Intermediate
+
+Elixir and Nerves let you build and launch IoT systems in record time, but you've still got the vast sea of the internet between you and your devices. At SparkMeter we run servers that tell embedded devices how to do things and embedded devices that tell servers what they did. All of this needs to happen throughout normal development cycles, unreliable power and network connections, and hardware (and humans) that always seems to surprise you. This talk explores some of these challenges, some of the options to work through them, and some of the ideas behind SparkMeter's event based communication solution, Sink.
+
+### 5:45pm to 6:20pm
+
+35 minutes
+
+#### Track 2
+
+#### Title: Match Specs: Fast Functional Filtering with Matcha
+
+#### Speaker: Chris Keele
+
+#### Topic: Elixir
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+This talk explores a powerful but inaccessible feature of the BEAM VM, match specifications, through a library designed to make using them much more ergonomic from Elixir, Matcha. Match specifications allow you to do abnormally fast pattern matching, destructuring, and re-structuring of in-memory data. The BEAM VM compiles them to something close to the raw bytecode used to make pattern-matching function heads on dispatch performant, and you too can tap directly into this pattern-matching engine for your own purposes! They are also recognized in erlang's tracing and ets APIs, letting you inspect the state of your runtime system and query your in-memory data stores with great specificity and efficiency. The only catch: they are kind of a chore to compose and use. Matcha lowers the barrier to entry, allowing you to write them and execute them with clean Elixir code. The goal of the talk is the same as the goal of Matcha: to help place the power of match specifications in the hands of more Elixir developers!
+
+#### Track 3
+
+#### Title: Introducing Juvet: Building Bots in Elixir
+
+#### Speaker: Jamie Wright
+
+#### Topic: Bots
+
+#### Audiences: Advanced | Intermediate
+
+There is another massive shift happening with how we interact with companies through software. Users feel comfortable naturally talking with their applications through chat bots. Chat is the next generation of the user interface. Elixir is the perfect language and ecosystem for building bots and for conversational interfaces. In this session, we will see how we can build scalable, realtime web applications (or “bots”) using a new library Juvet and the Slack API. We will see what a good bot architecture looks like and how we can integrate with existing artificial intelligence services to make our bots smarter. Finally, we will learn how you can leverage metaprogramming in Elixir to build a router to help route requests from chat services to create a Phoenix-like experience for building chat apps.
+
+### 6:25pm to 7:00pm
+
+35 minutes
+
+#### Track 2
+
+#### Title: Time algebra - a new way to think about and work with time
+
+#### Speaker: Kip Cole
+
+#### Topic: Elixir
+
+#### Audiences: Intermediate
+
+Time is hard. Made harder by the traditional representation of time in computer languages. Why do we have separate types for dates, times and date time? Why can we express “11am”, which can be on any day, but we can't say “November” without specifying the year and day? Why is it challenging to answer the question “A month after February 28th”? This talk presents a new way to think about time: time as an interval rather than a moment. This opens up new opportunities to express dates, times and date times in a unified manner. It allows enumeration of all time types, repeating patterns and time algebra that is both more expressive and less error prone that current language constructs. Lastly, a new Elixir library “Tempo” is introduced that implements these concepts with a demonstration Livebook.
+
+#### Track 3
+
+#### Title: Making Elixir Honk: Implementing An Elixir Audio Library In Zig
+
+#### Speaker: Chris Ertel
+
+#### Topic: Integration
+
+#### Audiences: Advanced | Intermediate
+
+Elixir lacks a simple, friendly audio library suitable for game development, and I attempted to make one. This talk will go through the design space, talk about architecture, and finally step through the implementation of a basic sound library for Elixir using Zig and Zigler.
+
+## Schedule
+
+* 3:10pm to 3:45pm
+  * [ ] Track 2 - 13 - Ecto in Production - Migration Edition
+  * [ ] Track 3 - 8 - Let's talk to Industrial devices with Elixir & Nerves
+* 3:50pm to 4:25pm
+  * [ ] Track 2 - 13 - Delightful Multiplayer Editing with Phoenix
+  * [ ] Track 3 - 8 - Workflows and use cases for Elixir Nerves
+* 4:30pm to 5:05pm
+  * [ ] Track 2 - 13 - Going Global with a Normal Phoenix App
+  * [ ] Track 3 - 8 - Keeping your IoT fleet afloat with Sink
+* 5:45pm to 6:20pm
+  * [ ] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
+  * [ ] Track 3 - 8 - Introducing Juvet: Building Bots in Elixir
+* 6:25pm to 7:00pm
+  * [ ] Track 2 - 8 - Time algebra - a new way to think about and work with time
+  * [ ] Track 3 - 3 - Making Elixir Honk: Implementing An Elixir Audio Library In Zig
+
+## Notes
+
+### 3:10pm to 3:45pm
+
+* [ ] Track 2 - 13 - Ecto in Production - Migration Edition
+* [ ] Track 3 - 8 - Let's talk to Industrial devices with Elixir & Nerves
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 3:50pm to 4:25pm
+
+* [ ] Track 2 - 13 - Delightful Multiplayer Editing with Phoenix
+* [ ] Track 3 - 8 - Workflows and use cases for Elixir Nerves
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 4:30pm to 5:05pm
+
+* [ ] Track 2 - 13 - Going Global with a Normal Phoenix App
+* [ ] Track 3 - 8 - Keeping your IoT fleet afloat with Sink
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 5:45pm to 6:20pm
+
+* [ ] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
+* [ ] Track 3 - 8 - Introducing Juvet: Building Bots in Elixir
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 6:25pm to 7:00pm
+
+* [ ] Track 2 - 8 - Time algebra - a new way to think about and work with time
+* [ ] Track 3 - 3 - Making Elixir Honk: Implementing An Elixir Audio Library In Zig
