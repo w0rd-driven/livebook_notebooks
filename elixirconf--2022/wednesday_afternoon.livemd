@@ -1,5 +1,3 @@
-<!-- livebook:{"autosave_interval_s":60} -->
-
 # ElixirConf 2022 - Wednesday Afternoon
 
 ## Topics

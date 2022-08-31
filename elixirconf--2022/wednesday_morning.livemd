@@ -1,5 +1,3 @@
-<!-- livebook:{"autosave_interval_s":60} -->
-
 # ElixirConf 2022 - Wednesday Morning
 
 ## Topics
@@ -142,14 +140,14 @@ We all know that our digital security and anonymity relies on sophisticated algo
 * 12:05pm to 12:30pm
   * [ ] Track 1 - 3 - Robust, Distributed, and Parallel Processing for Enormous Images Using SuperVisor, Node, Flow, Nx, and evision
   * [ ] Track 2 - 5 - Porting Legacy Backend Services into Elixir, Seamlessly
-  * [ ] Track 3 - 8 - Building a HEEX component library
+  * [x] Track 3 - 8 - Building a HEEX component library
 * 12:35pm to 1:00pm
   * [ ] Track 1 - 8 - Livebook smart cells are amazing
   * [ ] Track 2 - 5 - Classifying Bot IP Addresses in Phoenix
-  * [ ] Track 3 - 13 - The Elixir Of Web Scraping
+  * [x] Track 3 - 13 - The Elixir Of Web Scraping
 * 1:05pm to 1:30pm
   * [ ] Track 1 - 5 - Make a Soundcloud like app in a week and make it fit in a seven dollar box
-  * [ ] Track 2 - 13 - Dx - a pragmatic inference system based on your Ecto schema
+  * [x] Track 2 - 13 - Dx - a pragmatic inference system based on your Ecto schema
   * [ ] Track 3 - 8 - Cryptography and Elixir
 * 1:30pm to 2:00pm - Ask Us Anything with Test Double
 
@@ -157,7 +155,35 @@ We all know that our digital security and anonymity relies on sophisticated algo
 
 ### Keynote
 
-TODO
+There was a delay due to technical difficulties so some of us didn't get the feed until probably 11:15/11:20. It felt like quite a few minutes.
+
+Bah I forgot to take notes as I can't easily multitask how I want. This is a reminder to look at the VOD.
+
+The `dbg()` Livebook stuff was insane, definitely had a "holy shit!" moment. I had to check myself from commenting that in the chat.
+
+#### Q & A
+
+[@capitalist]
+QUESTION: Any thinking on how to link code on disk with a cell in livebook - or just copy/paste for now? Attached runtime is part of the puzzle, just need cell to fn mapping - sourceror splicing?
+
+[@w0rddriven]
+@capitalist do you mean using Livebook as sort of an IDE for the code on disk, not the compiled code as a dependency?
+
+[@josevalim]
+only copy and paste right now
+
+[@capitalist]
+@josevalim Thank you! @w0rddriven Or even editor tooling like hover a function to `dbg in Livebook` and you're in the livebook, attached to runtime, code is there, changes can be synced back to file on disk. Would give really fluent back and forth ability - reminds me of the stuff smalltalkers do.
+
+##### Brainstorm
+
+What if this were a SmartCell, that behaved a lot like `dbg()`?
+
+It would need to detect all of the code cells in a particular notebook. Using a select toggle, blocks 1, 4 and 7 for instance could be saved to {location}. Look into the behavior of Livebook's own autosave notebook. How does it handle a previous file? Overwrite? It's really important to have consistency.
+
+Collapse doc comments? How would markdown between code work? Think of the inverse, how would I split up a module file? Where would the boundaries be? Could you infer a natural "shape"? A language like C# has collapsey bits but Elixir? I don't believe so. If there's 100 public functions, how do you quickly segregate? Split by line #?
+
+This can easily get messy but it seems worth it for teaching a code base.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -165,7 +191,11 @@ TODO
 
 * [ ] Track 1 - 3 - Robust, Distributed, and Parallel Processing for Enormous Images Using SuperVisor, Node, Flow, Nx, and evision
 * [ ] Track 2 - 5 - Porting Legacy Backend Services into Elixir, Seamlessly
-* [ ] Track 3 - 8 - Building a HEEX component library
+* [x] Track 3 - 8 - Building a HEEX component library
+
+I was eating lunch with the family but I want to check out all of these. I'm a fan of the Heex component visualization icons, those are helpful. I'd likely want to segregate components how frameworks like Laravel do them.
+
+There are clever techniques like supporting hooks in dead views that is worth a deeper dive.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -173,18 +203,36 @@ TODO
 
 * [ ] Track 1 - 8 - Livebook smart cells are amazing
 * [ ] Track 2 - 5 - Classifying Bot IP Addresses in Phoenix
-* [ ] Track 3 - 13 - The Elixir Of Web Scraping
+* [x] Track 3 - 13 - The Elixir Of Web Scraping
+
+Missed a good bit of this due to lunch cleanup. This is a different approach than SpiderMan but it looks very close. This would be useful for my own techniques around Req usage.
+
+#### Ethical web crawling
+
+* Read the ToS and robots.txt
+* Identify yourself when sending requests
+* Set time-outs
+* Don't take advantage
+* Contact site owners to inform them so they can opt out
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 1:05pm to 1:30pm
 
 * [ ] Track 1 - 5 - Make a Soundcloud like app in a week and make it fit in a seven dollar box
-* [ ] Track 2 - 13 - Dx - a pragmatic inference system based on your Ecto schema
+* [x] Track 2 - 13 - Dx - a pragmatic inference system based on your Ecto schema
 * [ ] Track 3 - 8 - Cryptography and Elixir
+
+Started a little late. Already took screenshots of what he covers and all of the preloaded relationships. Knowing what someone would chain together makes it easy to break things out in similar categories.
+
+I need to keep an understanding of declarative and imperative programming in my brain at all times to help me stick to one path, or show clear demarcation. I don't know if I clearly know when I veer into either approach or if I prefer one over the other.
+
+Dx looks really promising and it reminds me of Laravel/Eloquent models, though they follow more of a repository pattern. You can define model properties as columns, virtual fields as getter/setter methods, or methods like `is_archived()` that looks at internal state (though typically that would be a virtual is_archived bool in most cases). Phoenix generators tend to focus these sort of changes around the individual repo modules. I really need to look into this with Livebeats again and really compare Laravel to Phoenix to fully understand this.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 1:30pm to 2:00pm - Ask Us Anything with Test Double
 
-TODO
+I didn't find the link until I happened upon it in the Introductions section. A system wide notification like the late start would've been nice but it's understandable. This was on Hopin last year and changing event tools will always have some growing pains.
+
+There isn't a lot of time between tracks for the random hiccup like this. The zoom link was https://us02web.zoom.us/j/87912011786 though it showed it was recorded. Hopefully it'll be available soon.
