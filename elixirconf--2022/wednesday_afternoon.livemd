@@ -145,52 +145,149 @@ Elixir lacks a simple, friendly audio library suitable for game development, and
 ## Schedule
 
 * 3:10pm to 3:45pm
-  * [ ] Track 2 - 13 - Ecto in Production - Migration Edition
+  * [x] Track 2 - 13 - Ecto in Production - Migration Edition
   * [ ] Track 3 - 8 - Let's talk to Industrial devices with Elixir & Nerves
 * 3:50pm to 4:25pm
-  * [ ] Track 2 - 13 - Delightful Multiplayer Editing with Phoenix
+  * [x] Track 2 - 13 - Delightful Multiplayer Editing with Phoenix
   * [ ] Track 3 - 8 - Workflows and use cases for Elixir Nerves
 * 4:30pm to 5:05pm
-  * [ ] Track 2 - 13 - Going Global with a Normal Phoenix App
+  * [x] Track 2 - 13 - Going Global with a Normal Phoenix App
   * [ ] Track 3 - 8 - Keeping your IoT fleet afloat with Sink
 * 5:45pm to 6:20pm
-  * [ ] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
+  * [x] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
   * [ ] Track 3 - 8 - Introducing Juvet: Building Bots in Elixir
 * 6:25pm to 7:00pm
-  * [ ] Track 2 - 8 - Time algebra - a new way to think about and work with time
+  * [x] Track 2 - 8 - Time algebra - a new way to think about and work with time
   * [ ] Track 3 - 3 - Making Elixir Honk: Implementing An Elixir Audio Library In Zig
 
 ## Notes
 
 ### 3:10pm to 3:45pm
 
-* [ ] Track 2 - 13 - Ecto in Production - Migration Edition
+* [x] Track 2 - 13 - Ecto in Production - Migration Edition
+
 * [ ] Track 3 - 8 - Let's talk to Industrial devices with Elixir & Nerves
+
+* That one bad migration
+
+* Migration tips
+
+  * Locks and transactions
+  * Keys for safe data migrations
+
+* Tools
+
+concurrently: true on an index
+Creating an index will block reads and writes on Postgres
+
+Because "growth"
+
+1. identify traps
+2. build tools
+3. adopt a process
+
+Unsaid consequences
+
+1. limit growth, bad apple bias
+2. frustrating tools
+3. worse decisions to avoid process
+
+Sofware Rot and Unique Environments
+
+* After 1 mil records
+  * UUIDs take 25% more storage
+  * UUIDs write 75% slower
+* ?
+* ?
+
+Develop something someone may use, gently guide them on the path. Required tooling usually involves intriquite and far worse workarounds.
+
+Tool
+
+Create a tool for a complete process
+
+**Stretching proprietary knowledge over 10-20 years sabotages a developer's career. How does he know me so well?**
+
+Better Incident Culture
+
+1. The response to error should be healing.
+2. Ask WHAT is responsible, not WHO.
+3. Forward-looking accountability. Responsibility should be on the system.
+
+Book: The Field Guide to Understanding Human Error
+
+Migrations are not something to be afraid of.
+
+Talks:
+
+* ?
+* I can do all things through Postgres?
+
+Deployment Strategies
+Blue Green
+Rolling Update
+?
+
+How Ecto Uses Transactions re: Migrations
+basics
+
+* MIGRATION LOCK: ?
+* DDL TRANSACTION: ?
+
+Tools - Migrations
+?
+?
+
+Tools - Phoenix Live Dashboard
+?
+
+Tools - The One That Doesn't Exist?
+?
+
+https://ectoinproduction.com
+
+The slides for this talk would also be highly useful
+
+**Note: David is an amazing speaker and "story time" is a good technique. This feels like friends discussing this topic, just hanging out. The comedy works more than it doesn't. This talk alone is worth studying to be a better public speaker**
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 3:50pm to 4:25pm
 
-* [ ] Track 2 - 13 - Delightful Multiplayer Editing with Phoenix
+* [x] Track 2 - 13 - Delightful Multiplayer Editing with Phoenix
 * [ ] Track 3 - 8 - Workflows and use cases for Elixir Nerves
+
+Started late due to personal attention distractions and getting headphones configured with `Background Music`. I don't use headphones much at all and I wanted my wife to be able to watch a show while the girls sleep.
+
+I need to see the VOD for this, I plan on doing this later tonight. It's worth catching up each day rather than waiting later.
+
+The `socket_ref` usage is the answer to the {Financial Company} take home, you respond to the socket when you want to.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 4:30pm to 5:05pm
 
-* [ ] Track 2 - 13 - Going Global with a Normal Phoenix App
+* [x] Track 2 - 13 - Going Global with a Normal Phoenix App
 * [ ] Track 3 - 8 - Keeping your IoT fleet afloat with Sink
+
+Got side tracked from a ticket from work on my first day off :/ (that's my most diplomatic response).
+
+If you know about how Fly.io operates this doesn't totally feel like *new* information but I want to look at the VOD either way. I am also interested in Sink though and all of the Nerves-based talks I missed.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 5:45pm to 6:20pm
 
-* [ ] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
+* [x] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
 * [ ] Track 3 - 8 - Introducing Juvet: Building Bots in Elixir
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 6:25pm to 7:00pm
 
-* [ ] Track 2 - 8 - Time algebra - a new way to think about and work with time
+* [x] Track 2 - 8 - Time algebra - a new way to think about and work with time
 * [ ] Track 3 - 3 - Making Elixir Honk: Implementing An Elixir Audio Library In Zig
+
+Dinner was happening as well as being side tracked by a fun ticket. There are records of payments in accounting that aren't in any of our systems and it looks like the upstream purchases are difficult to reconcile with the events platform. Since I'm at the limit of what I can uncover, I punted the ticket back. I mentioned being available to generate manual orders through our systems but I had nowhere near enough data with the spreadsheet provided. It isn't every day that I'm like 🤷‍♂️ and it's always a fun game of imposter's syndrome when it does.
+
+I need the VOD as I do find this helpful but it may be easier to just use the library.
