@@ -54,6 +54,28 @@
 
 I onboarded onto Elixir myself and after consuming a bunch of podcasts, videos, books and mentoring, I started to regularly get asked to help new people onboard. I keep seeing new people run into the same pitfalls of misunderstanding, let’s go over them. I have seen experienced people throw advanced topics at beginners that they don’t actually need to know yet. Let’s discuss those. If you are new to Elixir, or need to help new teams onboard, you will leave with the following: - A list of things that new people can avoid in most situations. - A list of things that new people absolutely need to learn to become productive with Elixir. - A list of things that new people often get stuck with and need extra explanation and guidance. - Examples of how to make your code more clearly understandable for people new to Elixir (and probably everyone else).
 
+#### Track 2
+
+#### Title: In Production with Elixir, Rust, and WebAssembly
+
+#### Speaker(s): Kevin Hoffman
+
+#### Topic: Adoption
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+We maintain a Phoenix cluster that serves up a GraphQL API, a user-installable Elixir application that becomes part of a peer network running WebAssembly modules, and a user-installable Elixir application that performs Kubernetes-like autonomous agent activities. Some of these apps interact with Rust crates via rustler, others interact with each other as Horde clusters or via message brokers. In this talk I’ll be covering what we’ve learned, done wrong, done right, loved, and hated along our journey. We’ve had to figure out everything from automating distillery releases in CI to managing cluster-aware applications to trying to smooth the developer experience of installing our pre-built OTP application. Come to this session to learn how wasmCloud and Cosmonic are leveraging Elixir to build both an open source project and a commercial startup around WebAssembly.
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
 ### 1:25pm to 2:00pm
 
 35 minutes
@@ -69,6 +91,28 @@ I onboarded onto Elixir myself and after consuming a bunch of podcasts, videos, 
 #### Audiences: Advanced | Intermediate | Beginner
 
 Wanting to grow your team, but having trouble finding developers with Elixir experience? Will your team have the time and resources you need to train someone? How do you know if hiring someone new to Elixir is right for your team? In this talk, two junior developers will share their experiences learning Elixir and Phoenix LiveView in their first development job. You’ll come away with: - How to set realistic expectations for both mentors and mentees. - Which functional programming, Elixir, and Phoenix LiveView concepts to cover during mentorship. - How to structure mentorship in the first week, 30 days, 90 days and year of hiring a junior or a developer new to Elixir and Phoenix.
+
+#### Track 2
+
+#### Title: Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
+
+#### Speaker(s): Jason Axelson
+
+#### Topic:
+
+#### Audiences: Intermediate | Beginner
+
+I fell in love with Elixir in 2016 and have been coding in it professionally (and for fun!) ever since. Over the past 6 years I’ve amassed a series of micro-techniques and tips that help me move code from my brain into my editor quickly and with minimal fuss. In this talk, I will share from my bag of tips and techniques to help other developers accelerate their productivity (and have more fun) while developing in this language that we love.
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
 
 ### 2:00pm to 3:15pm
 
@@ -94,13 +138,17 @@ For whatever reason, you may see Elixir as the best choice for your organization
 
 #### Track 2
 
-#### Title:
+#### Title: Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
 
-#### Speaker(s):
+#### Speaker(s): Jenny Bramble
 
-#### Topic:
+#### Topic: Testing
 
-#### Audiences: Advanced | Intermediate | Beginner
+#### Audiences: Advanced
+
+It’s that time again! You have a legacy app running business critical functions and it’s on an old version of Elixir. You need to upgrade to stay safe, have access to the most modern features of the ecosystem, and be current with your community. But a full regression of the app will take days if not weeks and no one can find the time. What’s a team to do?
+
+Jenny Bramble suggests leaning on the deep magic of test methodology and collaboration to determine the minimum viable tests to run in order to ensure your system is preforming as expected. She’ll talk about working through release notes with your testers as well as applying test methodologies to the types of problems we see in upgrades and regressions. You’ll walk away from this talk with a stronger understanding of the ways we can simplify and derisk upgrades and a structure for working with test to make sure that we’re doing the right amount of testing.
 
 #### Track 3
 
@@ -138,13 +186,23 @@ Finally, we’ll close out with the victory lap – the success story we’ve bu
 
 #### Track 2
 
-#### Title:
+#### Title: Self Taught to First Job!
 
-#### Speaker(s):
+#### Speaker(s): Kimberly Johnson
 
-#### Topic:
+#### Topic: Adoption
 
-#### Audiences: Advanced | Intermediate | Beginner
+#### Audiences: Beginner
+
+How I dove into the community and got my first job as a self-taught software engineer; how TravelPass Group has helped facilitate growth.
+
+The role of character - grit, passion, hard work, and exuberance are key!
+
+The role of tutorials - Pragmatic Studio, Grox.io, YouTube, and Books/Online - THANK YOU.
+
+The role of mentors - Bruce Tate, John Cotton, Jeffrey Matthias, Sophie Benedetto, Brett Wise, Adi Iyengar, and Jon Forsyth - THANK YOU.
+
+The role of TravelPass Group - A company that was willing to take a chance on me, how they have created a culture to help new engineers succeed - THANK YOU.
 
 #### Track 3
 
@@ -174,13 +232,19 @@ An overview of designing a deep learning framework in a functional programming l
 
 #### Track 2
 
-#### Title:
+#### Title: Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
 
-#### Speaker(s):
+#### Speaker(s): Erik Guzman
 
-#### Topic:
+#### Topic: Adoption
 
-#### Audiences: Advanced | Intermediate | Beginner
+#### Audiences: Intermediate | Beginner
+
+Problem: Increasing productivity, affordability, scalability, and even less coding (gasp!) are the goals for any web application. Add on top unpredictable server traffic, then a solution you might consider is going serverless and throwing in one of those nifty NoSQL database solutions. Easy enough, but at what cost? You can unintentionally suffer vendor lock-in, deal with cold starts, architect your application improperly, and miscalculate cost structure at scale. But there is an even better solution you might want to consider, Elixir. Elixir and Pheonix can help developers solve all these technical challenges, allowing you to focus on the end-user experience.
+
+Purpose: “Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix” will demonstrate why migrating Elixir can solve all the same issues your serverless application would, make it faster, avoid vendor lock-in, and help future-proof your application. Maybe even have you second-guess if you ever need to go serverless again.
+
+Live Demo/ Walkthru: In preparation for this talk, I will guide conference attendees through the libraries and strategies to take NodeJS Serverless applications using Firebase Firestore and migrate them to a single Phoenix application and Postgres database with no downtime.
 
 #### Track 3
 
@@ -218,13 +282,21 @@ In this talk we will compare and contrast many established ideas from object ori
 
 #### Track 2
 
-#### Title:
+#### Title: Using Livebook to Teach Elixir
 
-#### Speaker(s):
+#### Speaker(s): Brooklin Myers
 
-#### Topic:
+#### Topic: Livebook
 
 #### Audiences: Advanced | Intermediate | Beginner
+
+Livebook allows you to create interactive code notebooks often used for teaching, documentation, and rapid prototyping.
+
+With this talk, you will come away with the lessons learned from creating an academy curriculum with Livebook. While focused on education, there will be applications for onboarding developers, teaching teams, documenting open-source projects, and more.
+
+You will learn how to:
+
+Create effective teaching material. Create interactive code examples, exercises, and executable tests. Organize a large Livebook project with an index. Display visuals, including animations, charts, diagrams, images, and tables. Connect a Mix project and external dependencies to a Livebook notebook. Use Livebook as a convenient alternative to the IEx shell.
 
 #### Track 3
 
@@ -262,13 +334,17 @@ Lastly, we’ll discuss the pros and cons of utilizing pattern matching in diffe
 
 #### Track 2
 
-#### Title:
+#### Title: Connect the Docs
 
 #### Speaker(s):
 
-#### Topic:
+#### Topic: Documentation
 
-#### Audiences: Advanced | Intermediate | Beginner
+#### Audiences: Intermediate
+
+Generating and maintaining web API documentation is daunting for a large code-base, and many solutions require regular manual maintenance that does not guarantee correctness or accuracy.
+
+The speakers introduce Connect the Docs, a new documentation tool that generates an OpenAPI specification by leveraging controller action unit tests. With sufficient unit test coverage a team can generate accurate, consistent web API documentation by running their existing test suite (with just three lines of code!). This library also enables tracking any drift in an API contract if it is integrated in a continuous integration platform.
 
 #### Track 3
 
@@ -288,35 +364,35 @@ Lastly, we’ll discuss the pros and cons of utilizing pattern matching in diffe
 * 11:20am to 11:25am - Platinum Speaker - DockYard
 * 11:25am to 12:25pm - Keynote: Brian Cardarella
 * 12:40pm to 1:20pm
-  * Track 1 - # - Onboarding New Elixir Members
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 1 - # - *Onboarding New Elixir Members
+  * Track 2 - # - In Production with Elixir, Rust, and WebAssembly
+  * Track 3 - # - *Caching with the Postgres WAL
 * 1:25pm to 2:00pm
   * Track 1 - # - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 2 - # - *Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
+  * Track 3 - # - *WebAuthn + LiveView
 * 2:00pm to 3:15pm - Lunch
 * 3:15pm to 3:50pm
   * Track 1 - # - Selling Elixir
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 2 - # - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
+  * Track 3 - # - Wordle: Elixir Flavour
 * 3:55pm to 4:30pm
   * Track 1 - # - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 2 - # - Self Taught to First Job!
+  * Track 3 - # - *E2E Reactivity - using Svelte with Phoenix LiveView
 * 4:35pm to 5:10pm
-  * Track 1 - # - Axon: Functional Programming for Deep Learning
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 1 - # - *Axon: Functional Programming for Deep Learning
+  * Track 2 - # - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
+  * Track 3 - # - Have you got the ExFactor? Writing a refactor helper
 * 5:10pm to 5:45pm - Refreshment Break - Meet Sponsors
 * 5:45pm to 6:20pm
-  * Track 1 - # - SOLID code isn't flexible
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 1 - # - *SOLID code isn't flexible
+  * Track 2 - # - *Using Livebook to Teach Elixir
+  * Track 3 - # - *Review of using Elixir for 4 years in production
 * 6:25pm to 7:00pm
   * Track 1 - # - Learn you some pattern matching for great good!
-  * Track 2 - # -
-  * Track 3 - # -
+  * Track 2 - # - *Connect the Docs
+  * Track 3 - # - *Shifting Left: Secure Coding in Elixir Livebooks
 
 ## Understanding the Notes
 
@@ -336,54 +412,54 @@ Lastly, we’ll discuss the pros and cons of utilizing pattern matching in diffe
 
 ### 12:40pm to 1:20pm
 
-* Track 1 - # - Onboarding New Elixir Members
-* Track 2 - # -
-* Track 3 - # -
+* Track 1 - # - *Onboarding New Elixir Members
+* Track 2 - # - In Production with Elixir, Rust, and WebAssembly
+* Track 3 - # - *Caching with the Postgres WAL
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 1:25pm to 2:00pm
 
 * Track 1 - # - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
-* Track 2 - # -
-* Track 3 - # -
+* Track 2 - # - *Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
+* Track 3 - # - *WebAuthn + LiveView
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 3:15pm to 3:50pm
 
 * Track 1 - # - Selling Elixir
-* Track 2 - # -
-* Track 3 - # -
+* Track 2 - # - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
+* Track 3 - # - Wordle: Elixir Flavour
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 3:55pm to 4:30pm
 
 * Track 1 - # - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
-* Track 2 - # -
-* Track 3 - # -
+* Track 2 - # - Self Taught to First Job!
+* Track 3 - # - *E2E Reactivity - using Svelte with Phoenix LiveView
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 4:35pm to 5:10pm
 
-* Track 1 - # - Axon: Functional Programming for Deep Learning
-* Track 2 - # -
-* Track 3 - # -
+* Track 1 - # - *Axon: Functional Programming for Deep Learning
+* Track 2 - # - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
+* Track 3 - # - Have you got the ExFactor? Writing a refactor helper
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 5:45pm to 6:20pm
 
-* Track 1 - # - SOLID code isn't flexible
-* Track 2 - # -
-* Track 3 - # -
+* Track 1 - # - *SOLID code isn't flexible
+* Track 2 - # - *Using Livebook to Teach Elixir
+* Track 3 - # - *Review of using Elixir for 4 years in production
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 6:25pm to 7:00pm
 
 * Track 1 - # - Learn you some pattern matching for great good!
-* Track 2 - # -
-* Track 3 - # -
+* Track 2 - # - *Connect the Docs
+* Track 3 - # - *Shifting Left: Secure Coding in Elixir Livebooks
