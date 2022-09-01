@@ -364,35 +364,35 @@ The speakers introduce Connect the Docs, a new documentation tool that generates
 * 11:20am to 11:25am - Platinum Speaker - DockYard
 * 11:25am to 12:25pm - Keynote: Brian Cardarella
 * 12:40pm to 1:20pm
-  * Track 1 - # - *Onboarding New Elixir Members
-  * Track 2 - # - In Production with Elixir, Rust, and WebAssembly
-  * Track 3 - # - *Caching with the Postgres WAL
+  * [x] Track 1 - 13 - *Onboarding New Elixir Members
+  * [ ] Track 2 - 3 - In Production with Elixir, Rust, and WebAssembly
+  * [ ] Track 3 - 8 - *Caching with the Postgres WAL
 * 1:25pm to 2:00pm
-  * Track 1 - # - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
-  * Track 2 - # - *Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
-  * Track 3 - # - *WebAuthn + LiveView
+  * [ ] Track 1 - 5 - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
+  * [x] Track 2 - 13 - *Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
+  * [ ] Track 3 - 8 - *WebAuthn + LiveView
 * 2:00pm to 3:15pm - Lunch
 * 3:15pm to 3:50pm
-  * Track 1 - # - Selling Elixir
-  * Track 2 - # - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
-  * Track 3 - # - Wordle: Elixir Flavour
+  * [ ] Track 1 - 8 - Selling Elixir
+  * [ ] Track 2 - 13 - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
+  * [ ] Track 3 - 5 - Wordle: Elixir Flavour
 * 3:55pm to 4:30pm
-  * Track 1 - # - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
-  * Track 2 - # - Self Taught to First Job!
-  * Track 3 - # - *E2E Reactivity - using Svelte with Phoenix LiveView
+  * [ ] Track 1 - 8 - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
+  * [ ] Track 2 - 5 - Self Taught to First Job!
+  * [ ] Track 3 - 13 - *E2E Reactivity - using Svelte with Phoenix LiveView
 * 4:35pm to 5:10pm
-  * Track 1 - # - *Axon: Functional Programming for Deep Learning
-  * Track 2 - # - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
-  * Track 3 - # - Have you got the ExFactor? Writing a refactor helper
+  * [ ] Track 1 - 5 - *Axon: Functional Programming for Deep Learning
+  * [ ] Track 2 - 8 - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
+  * [ ] Track 3 - 13 - Have you got the ExFactor? Writing a refactor helper
 * 5:10pm to 5:45pm - Refreshment Break - Meet Sponsors
 * 5:45pm to 6:20pm
-  * Track 1 - # - *SOLID code isn't flexible
-  * Track 2 - # - *Using Livebook to Teach Elixir
-  * Track 3 - # - *Review of using Elixir for 4 years in production
+  * [ ] Track 1 - 8 - *SOLID code isn't flexible
+  * [ ] Track 2 - 13 - *Using Livebook to Teach Elixir
+  * [ ] Track 3 - 5 - *Review of using Elixir for 4 years in production
 * 6:25pm to 7:00pm
-  * Track 1 - # - Learn you some pattern matching for great good!
-  * Track 2 - # - *Connect the Docs
-  * Track 3 - # - *Shifting Left: Secure Coding in Elixir Livebooks
+  * [ ] Track 1 - 5 - Learn you some pattern matching for great good!
+  * [ ] Track 2 - 13 - *Connect the Docs
+  * [ ] Track 3 - 8 - *Shifting Left: Secure Coding in Elixir Livebooks
 
 ## Understanding the Notes
 
@@ -406,60 +406,74 @@ The speakers introduce Connect the Docs, a new documentation tool that generates
 
 ### Platinum Speakers
 
+This started on stream late and refreshing wasn't easy so I really want to see the VOD for this portion
+
 ### Keynote: Brian Cardarella
+
+Wasn't able to take notes during the talk as Miranda was getting lunch. That meant I needed to be at a point to throw the laptop down if the girls got restless.
+
+Big things: LiveView native, especially the WinUI3 parts we discussed on Twitter. BeaconCMS is still a thing and I have ideas I really need to publish this weekend, after going through yet another walkthrough attempt. It's been updated recently and I hadn't noticed. Firefly also seems really awesome for IoT.
+
+It may be worth trying to discuss my ideas with Brian but it's important to be concise when talking to a CEO. He is a developer but my brain wants to shotgun ideas when they need to be sniped.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 12:40pm to 1:20pm
 
-* Track 1 - # - *Onboarding New Elixir Members
-* Track 2 - # - In Production with Elixir, Rust, and WebAssembly
-* Track 3 - # - *Caching with the Postgres WAL
+* [x] Track 1 - 13 - *Onboarding New Elixir Members
+* [ ] Track 2 - 3 - In Production with Elixir, Rust, and WebAssembly
+* [ ] Track 3 - 8 - *Caching with the Postgres WAL
+
+This happened completely during lunch so no real notes. These slides would be invaluable as an Elixir newbie myself. This just reinforced that I really need to focus on Brooklyn's expertise and be more present.
+
+Would love to see the VOD for this and caching especially. Rust would be useful too but it's not high on my interest meter.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 1:25pm to 2:00pm
 
-* Track 1 - # - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
-* Track 2 - # - *Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
-* Track 3 - # - *WebAuthn + LiveView
+* [ ] Track 1 - 5 - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
+* [x] Track 2 - 13 - *Quick Iteration in Elixir - Tips from 6 Years of Professional & Hobby Elixir Development
+* [ ] Track 3 - 8 - *WebAuthn + LiveView
+
+Came in late as the girls were going back for a nap. The VOD will be useful to understand the early tips for the shell for instance. I prefer Fork and git ui's over git aliases. It would likely be useful to keep them though.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 3:15pm to 3:50pm
 
-* Track 1 - # - Selling Elixir
-* Track 2 - # - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
-* Track 3 - # - Wordle: Elixir Flavour
+* [ ] Track 1 - 8 - Selling Elixir
+* [ ] Track 2 - 13 - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
+* [ ] Track 3 - 5 - Wordle: Elixir Flavour
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 3:55pm to 4:30pm
 
-* Track 1 - # - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
-* Track 2 - # - Self Taught to First Job!
-* Track 3 - # - *E2E Reactivity - using Svelte with Phoenix LiveView
+* [ ] Track 1 - 8 - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
+* [ ] Track 2 - 5 - Self Taught to First Job!
+* [ ] Track 3 - 13 - *E2E Reactivity - using Svelte with Phoenix LiveView
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 4:35pm to 5:10pm
 
-* Track 1 - # - *Axon: Functional Programming for Deep Learning
-* Track 2 - # - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
-* Track 3 - # - Have you got the ExFactor? Writing a refactor helper
+* [ ] Track 1 - 5 - *Axon: Functional Programming for Deep Learning
+* [ ] Track 2 - 8 - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
+* [ ] Track 3 - 13 - Have you got the ExFactor? Writing a refactor helper
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 5:45pm to 6:20pm
 
-* Track 1 - # - *SOLID code isn't flexible
-* Track 2 - # - *Using Livebook to Teach Elixir
-* Track 3 - # - *Review of using Elixir for 4 years in production
+* [ ] Track 1 - 8 - *SOLID code isn't flexible
+* [ ] Track 2 - 13 - *Using Livebook to Teach Elixir
+* [ ] Track 3 - 5 - *Review of using Elixir for 4 years in production
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 6:25pm to 7:00pm
 
-* Track 1 - # - Learn you some pattern matching for great good!
-* Track 2 - # - *Connect the Docs
-* Track 3 - # - *Shifting Left: Secure Coding in Elixir Livebooks
+* [ ] Track 1 - 5 - Learn you some pattern matching for great good!
+* [ ] Track 2 - 13 - *Connect the Docs
+* [ ] Track 3 - 8 - *Shifting Left: Secure Coding in Elixir Livebooks
