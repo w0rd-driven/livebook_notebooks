@@ -160,6 +160,14 @@ Elixir lacks a simple, friendly audio library suitable for game development, and
   * [x] Track 2 - 8 - Time algebra - a new way to think about and work with time
   * [ ] Track 3 - 3 - Making Elixir Honk: Implementing An Elixir Audio Library In Zig
 
+## Understanding These Notes
+
+1. Notes attempt to be in sequential order.
+2. Anything worth calling out falls to the bottom of the section, it may not belong in the stream of consciousness.
+3. Using the block quote `>` to show notes taken during rewatching the VODs.
+4. I don't want to modify the original notes much but this should allow me to somewhat annotate the previous sections.
+5. Allows us to also add new sections.
+
 ## Notes
 
 ### 3:10pm to 3:45pm
@@ -202,7 +210,7 @@ Sofware Rot and Unique Environments
 
 Develop something someone may use, gently guide them on the path. Required tooling usually involves intriquite and far worse workarounds.
 
-Tool
+Process / Tool
 
 Create a tool for a complete process
 
@@ -280,6 +288,8 @@ If you know about how Fly.io operates this doesn't totally feel like *new* infor
 
 * [x] Track 2 - 13 - Match Specs: Fast Functional Filtering with Matcha
 * [ ] Track 3 - 8 - Introducing Juvet: Building Bots in Elixir
+
+This was happening during dinner so I was a bit side tracked, as well as from the work ticket. I am highly interested in the topic though.
 
 <!-- livebook:{"break_markdown":true} -->
 

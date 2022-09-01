@@ -151,15 +151,48 @@ We all know that our digital security and anonymity relies on sophisticated algo
   * [ ] Track 3 - 8 - Cryptography and Elixir
 * 1:30pm to 2:00pm - Ask Us Anything with Test Double
 
+## Understanding these Notes
+
+1. Notes attempt to be in sequential order.
+2. Anything worth calling out falls to the bottom of the section, it may not belong in the stream of consciousness.
+3. Using the block quote `>` to show notes taken during rewatching the VODs.
+4. I don't want to modify the original notes much but this should allow me to somewhat annotate the previous sections.
+5. Allows us to also add new sections.
+
 ## Notes
 
 ### Keynote
 
 There was a delay due to technical difficulties so some of us didn't get the feed until probably 11:15/11:20. It felt like quite a few minutes.
 
+> After watching the VOD, it ends up being close to the 10 minute mark. The first topic on the slide was `PartisionSupervisor:after` I believe. The very first topic from the keynote is `dbg()` and we got a history of how it dropped. That it knows the stack is huge and highly useful.
+
 Bah I forgot to take notes as I can't easily multitask how I want. This is a reminder to look at the VOD.
 
 The `dbg()` Livebook stuff was insane, definitely had a "holy shit!" moment. I had to check myself from commenting that in the chat.
+
+> I wasn't aware of how the code of conduct handles something like that. It wouldn't be harassment so it *seems okay* but it's better to be professional in these settings.
+
+> `defstruct-ordered inspect` is highly useful and one of my nitpicking pain points. Alphabetical order makes sense but I more often prefer the order of creation. I can't really think of any reason I wouldn't prefer this honestly.
+
+> improve errors for binaries would be useful though I haven't worked with binary information all that much. Knowing what is broken versus having a very educated guess is always a better experience.
+
+> General improvements should be helpful considering how much I use Livebook. The error messages there are helpful but more is always better. Steps in slices being unified is big, I'm a huge proponent of improving the API consistently like this. Multi-line comments are small but necessary changes too. Everything called out here is worth highlighting but there's definitely much more in the change log.
+
+> I wanted to separately call out that I don't understand why `mix` wouldn't be available for releases. What is the use case for not including it by default. Could this be an opt in? How does Livebook include mix? Being in Laravel-land, `artisan` is always available after being deployed. I would have a much harder time doing **absolutely everything** on production machines without this in Laravel so I really do not understand this not being available. It would be helpful to uncover the reason, reinforce it in my brain, and look to see if we can work around this if possible.
+
+> Three main areas of focus
+
+* Set theoretical types for Elixir
+  * Covered in ElixirConf EU Keynote, need to watch this
+* Developer and learning experience
+  * This is the main focus of this keynote
+* Machine learning
+  * Check out the talks from Sean Moriarity and Chris Grainger
+
+**Spawnfest 2022 is worth possibly entering, it'll be happening in 43 days from now at https://spawnfest.org/**
+
+> Supabase and Fresha are hiring
 
 #### Q & A
 
@@ -197,6 +230,8 @@ I was eating lunch with the family but I want to check out all of these. I'm a f
 
 There are clever techniques like supporting hooks in dead views that is worth a deeper dive.
 
+> Track 1 `Robust, Distributed, and Parallel Processing for Enormous Images Using SuperVisor, Node, Flow, Nx, and evision` comes in right around `00:57:00` of the VOD
+
 <!-- livebook:{"break_markdown":true} -->
 
 ### 12:35pm to 1:00pm
@@ -215,6 +250,40 @@ Missed a good bit of this due to lunch cleanup. This is a different approach tha
 * Don't take advantage
 * Contact site owners to inform them so they can opt out
 
+> Track 1 `Livebook smart cells are amazing` comes in right around `01:26:00` of the VOD
+
+This talk is highly useful to the idea of a smart cell synchronizing code cell contents to disk. Smart cells are a UI representation that converts 1-way to a code cell. What would the code cell for "synchronize all the contents above me" look like?
+
+* A smart cell is three concepts
+  * front end user experience
+  * Elixir code that translates the user experience to generated Elixir code
+  * Any underlying Elixir code supporting the generated Elixir code
+
+This talk goes over the basis for adding behaviors and tackling each warning in sequential order. Such a perfect approach to how I normally would do something like this.
+
+`quote do` then `Kino.SmartCell.quoted_to_string()` is the best approach for the `to_source` call, this will convert code to whatever format the smart cell expects.
+
+Holy shit, at `01:44:46` it shows that for the JS he's importing Vue 3 from `vue@3.2.26/dist/vue.esm-browser.prod.js`. Since Vue uses single file components and my current favorite frontend framework, this really speaks to my style.
+
+Recap: What makes a smart cell?
+
+* A Javascript frontend
+  * Presents the user interface for attributes that direct the generation of Elixir code
+  * Communicates to/from the backend module
+* An Elixir module using some Kino behaviors
+  * Controls the lifecycle of the smart cell
+  * Communicates to/from the frontend
+  * Translates the attributes from the frontend into the source code of the Elixir code cell
+* Any Elixir code supporting the generated code
+  * Provided by the smart cell Elixir module directly
+  * Or by the smart cell package
+  * Or by dependencies of the smart cell package
+
+Some cool smart cells
+xkcd
+ExDuck - Generates markdown from DuckDuckGo's instant answer API. How it converts to markdown may be highly useful
+Tanium
+
 <!-- livebook:{"break_markdown":true} -->
 
 ### 1:05pm to 1:30pm
@@ -228,6 +297,14 @@ Started a little late. Already took screenshots of what he covers and all of the
 I need to keep an understanding of declarative and imperative programming in my brain at all times to help me stick to one path, or show clear demarcation. I don't know if I clearly know when I veer into either approach or if I prefer one over the other.
 
 Dx looks really promising and it reminds me of Laravel/Eloquent models, though they follow more of a repository pattern. You can define model properties as columns, virtual fields as getter/setter methods, or methods like `is_archived()` that looks at internal state (though typically that would be a virtual is_archived bool in most cases). Phoenix generators tend to focus these sort of changes around the individual repo modules. I really need to look into this with Livebeats again and really compare Laravel to Phoenix to fully understand this.
+
+> Track 1 `Make a Soundcloud like app in a week and make it fit in a seven dollar box` comes in right around `01:56:00` of the VOD
+
+Rauversion will have a ton of useful examples I can use for my new music notification idea, and possibly others. ActiveStorage seems highly useful and it would be interesting to compare to Livebook's storage encapsulation (I was about to say facade and it wouldn't be a far off comparison to Laravel).
+
+It's difficult to take notes to this mostly because I just wanna see the techniques used and it's more of a walk through of the code base. This makes for an interesting talk genre that I didn't know I prefer until now.
+
+The sticky live render option will likely be useful to keep components around during redirects. I often create UI "shells" this approach fits into.
 
 <!-- livebook:{"break_markdown":true} -->
 
