@@ -2,11 +2,321 @@
 
 ## Topics
 
-TODO
+### 10:55am to 11:05am
+
+10 minutes
+
+#### Title: Welcome - Emcees Sundi and Amos
+
+### 11:05am to 11:10am
+
+5 minutes
+
+#### Title: Platinum Speaker - Teller
+
+### 11:10am to 11:15am
+
+5 minutes
+
+#### Title: Platinum Speaker - Smartlogic
+
+### 11:15am to 11:20am
+
+5 minutes
+
+#### Title: Platinum Speaker - PepsiCo
+
+### 11:20am to 11:25am
+
+5 minutes
+
+#### Title: Platinum Speaker - DockYard
+
+### 11:25am to 12:25pm
+
+1 hour
+
+#### Title: Keynote: Brian Cardarella
+
+### 12:40pm to 1:20pm
+
+40 minutes
+
+#### Track 1
+
+#### Title: Onboarding New Elixir Members
+
+#### Speaker(s): De Wet Blomerus
+
+#### Topic: Adoption
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+I onboarded onto Elixir myself and after consuming a bunch of podcasts, videos, books and mentoring, I started to regularly get asked to help new people onboard. I keep seeing new people run into the same pitfalls of misunderstanding, let’s go over them. I have seen experienced people throw advanced topics at beginners that they don’t actually need to know yet. Let’s discuss those. If you are new to Elixir, or need to help new teams onboard, you will leave with the following: - A list of things that new people can avoid in most situations. - A list of things that new people absolutely need to learn to become productive with Elixir. - A list of things that new people often get stuck with and need extra explanation and guidance. - Examples of how to make your code more clearly understandable for people new to Elixir (and probably everyone else).
+
+### 1:25pm to 2:00pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
+
+#### Speaker(s): Nikki Kyllonen, Meks McClure
+
+#### Topic: Adoption
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+Wanting to grow your team, but having trouble finding developers with Elixir experience? Will your team have the time and resources you need to train someone? How do you know if hiring someone new to Elixir is right for your team? In this talk, two junior developers will share their experiences learning Elixir and Phoenix LiveView in their first development job. You’ll come away with: - How to set realistic expectations for both mentors and mentees. - Which functional programming, Elixir, and Phoenix LiveView concepts to cover during mentorship. - How to structure mentorship in the first week, 30 days, 90 days and year of hiring a junior or a developer new to Elixir and Phoenix.
+
+### 2:00pm to 3:15pm
+
+1 hour 15 minutes
+
+#### Title: Lunch
+
+### 3:15pm to 3:50pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: Selling Elixir
+
+#### Speaker(s): Alan Feuerlein
+
+#### Topic: Adoption
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+For whatever reason, you may see Elixir as the best choice for your organization, but perhaps others are resistant, or don’t feel ready. I’ll explain our organizations journey to Elixir adoption, and provide an overview and explanation of the main selling points of Elixir to a group of solid (but perhaps Elixir-novice) developers. We’ll cover how to bring up these points, the roadblocks you might encounter, and how to engender real buy-in for a new language and perhaps architectural strategy. We’ll also briefly review how to sell Elixir further up in your organization, and why executive leadership should buy in to such a shift in engineering strategy.
+
+#### Track 2
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+### 3:55pm to 4:30pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
+
+#### Speaker(s): Zack Kayser
+
+#### Topic: Adoption
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+As software engineers, it is not everyday that we are presented with the opportunity to work on a full rewrite and re-platforming of a large-scale legacy system. In June 2021, when we launched the new Cars.com platform to a full production audience, we officially completed a long-running re-platforming process and transitioned to our shiny new platform built on Elixir, Phoenix, and LiveView (not to mention many other goodies provided by the Elixir and BEAM community)! As exciting as the launch was, the bulk of the learning from the launch process still laid before us – with just a short ramp-up period, we went from taking 0 user traffic in production to handling 100% of the traffic to cars.com and related sites and APIs.
+
+This talk is going to focus on some of our biggest takeaways and lessons from the transition to our new platform, and in particular focus on the lessons learned from the most prominent page of our site that is powered by LiveView.
+
+In Part 1, we’ll take a look at the “roll cages” that allowed us to pull off this re-platforming successfully. For us, a roll cage is not the metal safety enclosure around a race car, but rather the resiliency provided by the BEAM and process architectures that allowed us to keep serving traffic even when our system was under duress and stakes were high. The roll cages couldn’t keep us from crashing, but we were glad they were there when the inevitable crashes came.
+
+In Part 2, we’ll talk about some of the pit stops we made along the way. We’ll cover a few of the tweaks and tune-ups we made to our LiveView-powered search results page. Sometimes the tune-ups were exactly what was needed, sometimes they were misguided, and yet other times they had little to no impact. Each pit stop, however, did have its own lessons and that’s what I’ll share with you here.
+
+Finally, we’ll close out with the victory lap – the success story we’ve built so far, how our team continues to grow and learn, and some reflections on the journey we’ve been on.
+
+#### Track 2
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+### 4:35pm to 5:10pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: Axon: Functional Programming for Deep Learning
+
+#### Speaker(s): Sean Moriarity
+
+#### Topic: Neural Networks
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+An overview of designing a deep learning framework in a functional programming language and how it differs from languages in the Python ecosystem.
+
+#### Track 2
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+### 5:10pm to 5:45pm
+
+35 minutes
+
+#### Title: Refreshment Break - Meet Sponsors
+
+### 5:45pm to 6:20pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: SOLID code isn't flexible
+
+#### Speaker(s): Chris Keathley
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+The only constant in software development is change. As engineers, we’re presented with new bugs, new integrations and new requirements on a regular basis. In order to handle these changes, software engineers have adopted a number of different principles and techniques, designed to aid them in code comprehension and adapting to change. Unfortunately, many of the widely accepted software patterns fail to achieve either of these goals. Luckily for us, we have the power of Elixir, Erlang, and functional programming on our side.
+
+In this talk we will compare and contrast many established ideas from object oriented design with a more functional approach. Beginners to Elixir may see a new way to think about design while more experienced Elixirists will hopefully pick up some new techniques and patterns to apply in their own code. Most importantly, we will discuss how to build even simpler systems using the tools that we all love.
+
+#### Track 2
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+### 6:25pm to 7:00pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: Learn you some pattern matching for great good!
+
+#### Speaker(s): Elayne Juten
+
+#### Topic:
+
+#### Audiences: Beginner
+
+Move if to the bottom of your toolbox. Have you ever looked at a function with numerous conditionals buried within and thought “there has to be a better way”? Well, there is! It’s pattern matching!
+
+This talk will focus on the basics of pattern matching, both how it works and why we might want to use it to simplify our code structure.
+
+First, we will walk through an example of a simple pattern match and take a look at how these concepts can be applied in a larger codebase.
+
+Then we will refactor by taking a look at a function that utilizes multiple conditionals and walk through how to implement pattern matching in a step by step process. We’ll also discuss why refactoring to pattern matching can improve codebases.
+
+Lastly, we’ll discuss the pros and cons of utilizing pattern matching in different situations you might see in a large codebase. By the end of this talk, you’ll have added pattern matching to your toolbox to wield with confidence.
+
+#### Track 2
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+#### Track 3
+
+#### Title:
+
+#### Speaker(s):
+
+#### Topic:
+
+#### Audiences: Advanced | Intermediate | Beginner
 
 ## Schedule
 
-TODO
+* 11:05am to 11:10am - Platinum Speaker - Teller
+* 11:10am to 11:15am - Platinum Speaker - Smartlogic
+* 11:15am to 11:20am - Platinum Speaker - PepsiCo
+* 11:20am to 11:25am - Platinum Speaker - DockYard
+* 11:25am to 12:25pm - Keynote: Brian Cardarella
+* 12:40pm to 1:20pm
+  * Track 1 - # - Onboarding New Elixir Members
+  * Track 2 - # -
+  * Track 3 - # -
+* 1:25pm to 2:00pm
+  * Track 1 - # - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
+  * Track 2 - # -
+  * Track 3 - # -
+* 2:00pm to 3:15pm - Lunch
+* 3:15pm to 3:50pm
+  * Track 1 - # - Selling Elixir
+  * Track 2 - # -
+  * Track 3 - # -
+* 3:55pm to 4:30pm
+  * Track 1 - # - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
+  * Track 2 - # -
+  * Track 3 - # -
+* 4:35pm to 5:10pm
+  * Track 1 - # - Axon: Functional Programming for Deep Learning
+  * Track 2 - # -
+  * Track 3 - # -
+* 5:10pm to 5:45pm - Refreshment Break - Meet Sponsors
+* 5:45pm to 6:20pm
+  * Track 1 - # - SOLID code isn't flexible
+  * Track 2 - # -
+  * Track 3 - # -
+* 6:25pm to 7:00pm
+  * Track 1 - # - Learn you some pattern matching for great good!
+  * Track 2 - # -
+  * Track 3 - # -
 
 ## Understanding the Notes
 
@@ -18,8 +328,62 @@ TODO
 
 ## Notes
 
-FIRST SECTION TODO
+### Platinum Speakers
+
+### Keynote: Brian Cardarella
 
 <!-- livebook:{"break_markdown":true} -->
 
-SECOND SECTION TODO
+### 12:40pm to 1:20pm
+
+* Track 1 - # - Onboarding New Elixir Members
+* Track 2 - # -
+* Track 3 - # -
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 1:25pm to 2:00pm
+
+* Track 1 - # - “How to Grow your own Juniors”: A guide to mentoring in an Elixir Environment
+* Track 2 - # -
+* Track 3 - # -
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 3:15pm to 3:50pm
+
+* Track 1 - # - Selling Elixir
+* Track 2 - # -
+* Track 3 - # -
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 3:55pm to 4:30pm
+
+* Track 1 - # - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
+* Track 2 - # -
+* Track 3 - # -
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 4:35pm to 5:10pm
+
+* Track 1 - # - Axon: Functional Programming for Deep Learning
+* Track 2 - # -
+* Track 3 - # -
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 5:45pm to 6:20pm
+
+* Track 1 - # - SOLID code isn't flexible
+* Track 2 - # -
+* Track 3 - # -
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 6:25pm to 7:00pm
+
+* Track 1 - # - Learn you some pattern matching for great good!
+* Track 2 - # -
+* Track 3 - # -
