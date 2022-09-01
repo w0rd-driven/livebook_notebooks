@@ -35,6 +35,8 @@ set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_b
 
 1. [ElixirConf 2022 - Wednesday Morning](elixirconf--2022/wednesday_morning.livemd)
 2. [ElixirConf 2022 - Wednesday Afternoon](elixirconf--2022/wednesday_afternoon.livemd)
+3. [ElixirConf 2022 - Thursday](elixirconf--2022/thursday.livemd)
+4. [ElixirConf 2022 - Friday](elixirconf--2022/friday.livemd)
 
 ### Miscellaneous
 

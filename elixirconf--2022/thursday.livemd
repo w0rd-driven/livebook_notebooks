@@ -1,0 +1,25 @@
+# ElixirConf 2022 - Thursday
+
+## Topics
+
+TODO
+
+## Schedule
+
+TODO
+
+## Understanding the Notes
+
+1. Notes attempt to be in sequential order.
+2. Anything worth calling out falls to the bottom of the section, it may not belong in the stream of consciousness.
+3. Using the block quote `>` to show notes taken during rewatching the VODs.
+4. I don't want to modify the original notes much but this should allow me to somewhat annotate the previous sections.
+5. Allows us to also add new sections.
+
+## Notes
+
+FIRST SECTION TODO
+
+<!-- livebook:{"break_markdown":true} -->
+
+SECOND SECTION TODO
