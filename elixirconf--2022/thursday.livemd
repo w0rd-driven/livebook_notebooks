@@ -443,8 +443,14 @@ Came in late as the girls were going back for a nap. The VOD will be useful to u
 ### 3:15pm to 3:50pm
 
 * [ ] Track 1 - 8 - Selling Elixir
-* [ ] Track 2 - 13 - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
+* [x] Track 2 - 13 - *Seems Good Enough to Me: Working with Testers to Derisk Elixir Upgrades
 * [ ] Track 3 - 5 - Wordle: Elixir Flavour
+
+Jenny is a great public speaker like David Bernheisel. Works at Papa and mentioned they were hiring. Watching the VOD would be helpful and it makes sense to test the minimal amount required, specifically for upgrades. An extensive test suite makes sense overall but taking Laravel Shift as an example, the upgrade paths are examined from the changelog and code is altered to match. If a problem happens converting that deprecated function for instance, it's highlighted in the PR.
+
+This really highlights my curiosity into expanding the concepts Laravel Shift offers to virtually every framework. It's really impressive and I think Elixir and Phoenix could benefit from similar approaches.
+
+I spaced out a little bit as I was day dreaming about Shift but it's great to get an understanding of how QA functions. The key take away is having empathy for users and testers. Understanding the testing plan is key and I'm a person that likes to collaborate, if I know you're looking to break x, I wanna unpack all the pain points. It's also important to document what we're not testing, what dependency in a changelog is not a problem because we don't use it, etc. You have someone that thinks like you that often doesn't have the context of why you chose not to do something. The what we're doing should also live along side with what we're not, to an exceptable limit.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -452,7 +458,11 @@ Came in late as the girls were going back for a nap. The VOD will be useful to u
 
 * [ ] Track 1 - 8 - Roll Cages, Pit Stops, and Victory Laps: The Launch of Elixir and LiveView at Scale on the New Cars.com
 * [ ] Track 2 - 5 - Self Taught to First Job!
-* [ ] Track 3 - 13 - *E2E Reactivity - using Svelte with Phoenix LiveView
+* [x] Track 3 - 13 - *E2E Reactivity - using Svelte with Phoenix LiveView
+
+Man I spaced out a bit and just wanted to watch. Svelte has always been on my radar but that's looking really slick and not all that difficult to comprehend.
+
+Playing with the demo at https://github.com/jumpwire-ai/elixirconf2022 or following https://github.com/hexedpackets would be highly useful. https://jumpwire.ai/ also seems like useful technology.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -460,7 +470,9 @@ Came in late as the girls were going back for a nap. The VOD will be useful to u
 
 * [ ] Track 1 - 5 - *Axon: Functional Programming for Deep Learning
 * [ ] Track 2 - 8 - *Serverless to Serving Elixir: Migrating Serverless app to run on Phoenix
-* [ ] Track 3 - 13 - Have you got the ExFactor? Writing a refactor helper
+* [x] Track 3 - 13 - Have you got the ExFactor? Writing a refactor helper
+
+Heavily distracted but the IntelliJ refactor section piqued my interest heavily. I've always wanted deeper refactoring tools.
 
 <!-- livebook:{"break_markdown":true} -->
 
