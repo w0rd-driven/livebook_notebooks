@@ -218,12 +218,12 @@ LiveState is a library designed to give developers a LiveView like experience wh
   * [ ] Track 3 - 13 - *Introduction to query debugging and optimization in Postgres
 * 11:45am to 12:20pm
   * [ ] Track 1 - 8 - Flame On: Profiling Elixir and Phoenix apps with Flame Graphs in Live Dashboard
-  * [ ] Track 2 - 13 - Designing Data Intensive Applications in Elixir with Flow
+  * [ ] Track 2 - 13 - *Designing Data Intensive Applications in Elixir with Flow
   * [ ] Track 3 - 5 - Understanding common network protocols with Elixir
 * 12:25pm to 1:00pm
   * [ ] Track 1 - 5 - I was wrong about LiveView
   * [ ] Track 2 - 8 - Searching Your Elixir Code
-  * [ ] Track 3 - 13 - Embedded Web Apps in Elixir with LiveState
+  * [ ] Track 3 - 13 - *Embedded Web Apps in Elixir with LiveState
 * 1:15pm to 2:15pm - Lightning talks
 * 3:30pm to 3:35pm - Welcome - Emcees Sundi and Amos
 * 3:35pm to 3:40pm - Platinum Speaker - Kamana
@@ -250,15 +250,24 @@ LiveState is a library designed to give developers a LiveView like experience wh
 
 * [ ] Track 1 - 8 - To MVP and beyond, a year in LiveView
 * [ ] Track 2 - 5 - A Javascripter's trip to Phoenix and LiveView
-* [ ] Track 3 - 13 - *Introduction to query debugging and optimization in Postgres
+* [x] Track 3 - 13 - *Introduction to query debugging and optimization in Postgres
+
+*Firework is hiring (QR code from the VOD). Need to find more information.
+
+I had a terrible sleep so I'm slooooww starting up today. Postgres handles indexes in LTR order I assume. I had a weird pattern emerge in MySQL where I needed multiple compound indexes to deal with `user_id` + null or null + `organization_id`. I really should uncover what that problem was in my notes somewhere, I'm sure it's in Jira. It'd be a great blog post, even if it only highlights what I'm doing wrong. It was also useful to get an understanding of using `EXPLAIN ANALYZE` and what each section was. We have similar data models at `$dayJob` that'll likely benefit from this. Pulling the queries from slides or manually via the VOD will be helpful.
+
+From Q&A:
+Indexes are not free, every write will take longer for every index introduced.
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 11:45am to 12:20pm
 
 * [ ] Track 1 - 8 - Flame On: Profiling Elixir and Phoenix apps with Flame Graphs in Live Dashboard
-* [ ] Track 2 - 13 - Designing Data Intensive Applications in Elixir with Flow
+* [x] Track 2 - 13 - Designing Data Intensive Applications in Elixir with Flow
 * [ ] Track 3 - 5 - Understanding common network protocols with Elixir
+
+Got too busy trying to work out the [Teller Bank Job challenge](https://challenge.teller.engineering/) and lunch. All of these tracks should be worth watching on VOD.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -266,7 +275,13 @@ LiveState is a library designed to give developers a LiveView like experience wh
 
 * [ ] Track 1 - 5 - I was wrong about LiveView
 * [ ] Track 2 - 8 - Searching Your Elixir Code
-* [ ] Track 3 - 13 - Embedded Web Apps in Elixir with LiveState
+* [x] Track 3 - 13 - Embedded Web Apps in Elixir with LiveState
+
+*Launch Scout was formerly Gaslight. They're hiring
+
+This took place during lunch so I couldn't be 100% focused.
+
+LiveState would be useful for custom elements. The example was a discord bot form. The elixir dependency follows the `GenServer`/`LiveView` pattern or I believe he called it `Event State Reducers`.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -277,17 +292,50 @@ LiveState is a library designed to give developers a LiveView like experience wh
 ### 3:30pm to 3:35pm - Welcome - Emcees Sundi and Amos
 
 * 3:35pm to 3:40pm - Platinum Speaker - Kamana
+
 * 3:40pm to 3:45pm - Platinum Speaker - SimpleBet
+
 * 3:45pm to 3:50pm - Platinum Speaker - Tauspace
+
+* Kamana is hiring, they work with DockYard
+
+  * Healthcare and a wallet specifically for traveling nurses
+  * Full sprint handling technical debt next month
+  * 100% remote
+  * 100% Elixir
+
+* Simplebet is hiring
+
+  * Micro sports betting
+  * B2B and B2C
+
+* Pepsico Ecomm is hiring
+
+  * Watch VOD to understand their stack
+  * Use Elixir, Phoenix, LiveView and Nx
+  * Started in 2018
+  * Data loading from 6 hrs to 12 minutes
+  * Hundreds of millions of products yearly
+  * NX and LiveView for real time data visualization
+  * Use Phoenix
 
 <!-- livebook:{"break_markdown":true} -->
 
 ### 3:50pm to 4:50pm - Keynote: Chris Grainger
 
+Watch VOD for his introduction to capture it.
+
+* Author of `Explorer` and `Tokenizers`
+
+Heavily distracted by chat mining for interesting topics. The gist is Elixir is ready for ML. Huggingface has useful onnx models for something like https://huggingface.co/gpt2
+
 ### 4:50pm to 5:30pm - Refreshment Break - Meet Sponsors
 
 * 5:30pm to 5:35pm - Platinum Speaker - Adobe-Frame.io
+
 * 5:35pm to 5:40pm - Platinum Speaker - Massdriver
+
+* Adobe Frame.io is hiring
 
 <!-- livebook:{"break_markdown":true} -->
 
