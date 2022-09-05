@@ -2,11 +2,239 @@
 
 ## Topics
 
-TODO
+### 11:00am to 11:05am
+
+5 minutes
+
+#### Title: Welcome
+
+### 11:05am to 11:40am
+
+35 minutes
+
+#### Track 1
+
+#### Title: To MVP and beyond, a year in LiveView
+
+#### Speaker(s): Miki Rezentes
+
+#### Topic(s): LiveView
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+TLDR; This talk could save you weeks of time
+
+This talk covers challenges faced and lessons learned while taking a product from mix phx.new to MVP. Why did we use LiveView? What type of paradigm shift did I have to go through? How did I help my team with the paradigm shift? What strategies did I use to conquer some of the challenges? What feedback have we gotten from users? The answer to these and many more questions are found in this talk.
+
+#### Track 2
+
+#### Title: A Javascripter's trip to Phoenix and LiveView
+
+#### Speaker(s): Roger Roelofs
+
+#### Topic(s): Phoenix, LiveView
+
+#### Audiences: Intermediate | Beginner
+
+Web app development over the last two decades has been a pendulum swinging between back-end and front-end. That is because we want as much interactivity as close to the user as we can manage without driving ourselves crazy. The incompatibilities of client execution environments pushed the development of ‘batteries included' frameworks like Rails which promised “You don't have to write Javascript”. That was a lie. Today we have LiveView which manages to push in both directions at the same time. Even so, we still need to write some Javascript. The big productivity win is that LiveView takes care of the mundane use cases which frees us to work on the important and interesting bits.
+
+#### Track 3
+
+#### Title: Introduction to query debugging and optimization in Postgres
+
+#### Speaker(s): Justin Wood
+
+#### Topic(s): Postgres, Elixir
+
+#### Audiences: Advanced | Intermediate
+
+When it comes to performance, it is better to be proactive and constantly looking for potential issues instead of waiting for them to appear by having our customers complain about them or worse by silently leaving our platforms because of them. This talk will give you some tools and tips to be proactive with Postgres performance in order to debug and optimize queries before they become an actual issue. Some of this knowledge should also be transferable to other database solutions.
+
+### 11:45am to 12:20pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: Flame On: Profiling Elixir and Phoenix apps with Flame Graphs in Live Dashboard
+
+#### Speaker(s): Mike Binns
+
+#### Topic(s): Testing
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+Elixir and Phoenix are a powerhouse combo when it comes to handling extreme volumes of traffic on minimal hardware with ease, but that doesn't mean it can't be made faster and more performant. Inefficiencies can creep in a number of ways, from poorly designed database queries, to issues with dependencies, to slow third party APIs. Figuring out where these inefficiencies lie before the wall of production traffic hits is a critical step in initial development, as is keeping up to date with them as changes go live on your running system.
+
+Flame On is a LiveView component and LiveDashboard Page you can add to your application to trace exactly where your application is spending its time on a given request path. In this talk, DockYard Staff Software Engineer Mike Binns will dive into flame graphs, how to use them, and specifically how to use Flame On to identify issues in your Elixir/Phoenix application.
+
+#### Track 2
+
+#### Title: Designing Data Intensive Applications in Elixir with Flow
+
+#### Speaker(s): Angel Martinez
+
+#### Topic(s):
+
+#### Audiences: Advanced | Intermediate
+
+Designing Data Intensive Applications in Elixir with Flow. Correctness, data integrity, and good performance in distributed systems is always a game of tradeoffs. But what if we could have it all with Elixir? Batch processing and event streaming in Flow eliminates data integration problems by “flowing” data changes between different systems. It allows us to unbound our distributed databases and maintain correctness across our cluster. It also performs extremely well. In this talk, we'll explore how to leverage these powers in Flow using practical examples while also drawing from reowned resources in system design, such as “Designing Data Intensive Applications” by Martin Kleppmann, to tie it all together. Audience members will leave with an understanding of when and how to use Flow, and how to start thinking about solving their data intensive problems in new, optimized ways.
+
+#### Track 3
+
+#### Title: Understanding common network protocols with Elixir
+
+#### Speaker(s): Willian Frantz
+
+#### Topic(s): Network
+
+#### Audiences: Beginner
+
+Have you ever asked yourself how the common network protocols work? like HTTP(S), SMTP, POP3, FTP?
+
+What if you could understand them and even got a better understanding of networking with Elixir, that would be awesome right?
+
+### 12:25pm to 1:00pm
+
+35 minutes
+
+#### Track 1
+
+#### Title: I was wrong about LiveView
+
+#### Speaker(s): Jason Stiebs
+
+#### Topic(s): LiveView
+
+#### Audiences: Intermediate | Beginner
+
+As a core team member, I tried to talk Chris out of building LiveView. I was wrong. Hype for LiveView grew and I assumed it would only be a back office tool. I was wrong again.
+
+I now believe we can, and should, use it everywhere. Throughout this talk, you'll find out why.
+
+The past few years I've had the chance to use LiveView in production: replacing old SPA's that nobody wanted to touch, writing green field applications, and even adding some interactivity to mostly static sites.
+
+Through practical examples we'll take a tour my lessons learned as a contractor using LiveView across this variety of projects. We'll see how little code it takes to tackle those dynamic features and how LiveView lets you focus on delivering value rather than wrangling layers of client/server tooling. Whether on the fence about LiveView, or all-in but just getting started, you'll leave this talk with practical insights to use in your own applications, and if we're lucky, a new appreciation for just what LiveView has to offer.
+
+#### Track 2
+
+#### Title: Searching Your Elixir Code
+
+#### Speaker(s): Onorio Catenacci
+
+#### Topic(s): Tools
+
+#### Audiences: Intermediate | Beginner
+
+To paraphrase the old cliche most software isn't written it's refactored. A job that comes up over and over again for many of us is searching our code base looking for the definition of some symbol or function. It's not an accident that over the years developers have figured out so many ways to search code bases.
+
+Onorio will be discussing a couple of methods of searching Elixir code; using ack which is a programmer's grep and also using the Rosie Pattern Language which offers us even more power to find code constructs that we're interested in finding.
+
+#### Track 3
+
+#### Title: Embedded Web Apps in Elixir with LiveState
+
+#### Speaker(s): Chris Nelson
+
+#### Topic(s): Phoenix
+
+#### Audiences: Advanced | Intermediate | Beginner
+
+For building conventional “SPA” type web apps in Elixir, LiveView is the perfect choice. But if we are writing an embedded web app, or one that is designed to be hosted in a larger web page that we don't control, LiveView is no longer a viable option.
+
+LiveState is a library designed to give developers a LiveView like experience while building these types of applications. With LiveState, we no longer have to build an API to handle requests and responses. Instead, we get to handle events and state on the server, just like in LiveView, but in an environment where the front end is not served by Phoenix. In this talk, we'll learn about LiveState by example. We'll start with a discussion of what LiveState is and how it works. Next, we'll work through a simple example embedded web application: an element that will add a comments section to a website. Expect to come away with a good understanding of how you can build these types of applications in Elixir and have fun doing it.
+
+### 1:15pm to 2:15pm
+
+1 hour
+
+#### Title: Lightning talks
+
+### 3:30pm to 3:35pm
+
+5 minutes
+
+#### Title: Welcome - Emcees Sundi and Amos
+
+### 3:35pm to 3:40pm
+
+5 minutes
+
+#### Title: Platinum Speaker - Kamana
+
+### 3:40pm to 3:45pm
+
+5 minutes
+
+#### Title: Platinum Speaker - SimpleBet
+
+### 3:45pm to 3:50pm
+
+5 minutes
+
+#### Title: Platinum Speaker - Tauspace
+
+### 3:50pm to 4:50pm
+
+1 hour
+
+#### Title: Keynote: Chris Grainger
+
+### 4:50pm to 5:30pm
+
+40 minutes
+
+#### Title: Refreshment Break - Meet Sponsors
+
+### 5:30pm to 5:35pm
+
+5 minutes
+
+#### Title: Platinum Speaker - Adobe-Frame.io
+
+### 5:35pm to 5:40pm
+
+5 minutes
+
+#### Title: Platinum Speaker - Massdriver
+
+### 5:45pm to 6:45pm
+
+1 hour
+
+#### Title: Keynote: Chris McCord
+
+### 6:45pm to 7:00pm
+
+15 minutes
+
+#### Title: Closing
 
 ## Schedule
 
-TODO
+* 11:00am to 11:05am
+  * [ ] Track 1 - 8 - To MVP and beyond, a year in LiveView
+  * [ ] Track 2 - 5 - A Javascripter's trip to Phoenix and LiveView
+  * [ ] Track 3 - 13 - *Introduction to query debugging and optimization in Postgres
+* 11:45am to 12:20pm
+  * [ ] Track 1 - 8 - Flame On: Profiling Elixir and Phoenix apps with Flame Graphs in Live Dashboard
+  * [ ] Track 2 - 13 - Designing Data Intensive Applications in Elixir with Flow
+  * [ ] Track 3 - 5 - Understanding common network protocols with Elixir
+* 12:25pm to 1:00pm
+  * [ ] Track 1 - 5 - I was wrong about LiveView
+  * [ ] Track 2 - 8 - Searching Your Elixir Code
+  * [ ] Track 3 - 13 - Embedded Web Apps in Elixir with LiveState
+* 1:15pm to 2:15pm - Lightning talks
+* 3:30pm to 3:35pm - Welcome - Emcees Sundi and Amos
+* 3:35pm to 3:40pm - Platinum Speaker - Kamana
+* 3:40pm to 3:45pm - Platinum Speaker - SimpleBet
+* 3:45pm to 3:50pm - Platinum Speaker - Tauspace
+* 3:50pm to 4:50pm - Keynote: Chris Grainger
+* 4:50pm to 5:30pm - Refreshment Break - Meet Sponsors
+* 5:30pm to 5:35pm - Platinum Speaker - Adobe-Frame.io
+* 5:35pm to 5:40pm - Platinum Speaker - Massdriver
+* 5:45pm to 6:45pm - Keynote: Chris McCord
+* 6:45pm to 7:00pm - Closing
 
 ## Understanding the Notes
 
@@ -18,8 +246,51 @@ TODO
 
 ## Notes
 
-FIRST SECTION TODO
+### 11:00am to 11:05am
+
+* [ ] Track 1 - 8 - To MVP and beyond, a year in LiveView
+* [ ] Track 2 - 5 - A Javascripter's trip to Phoenix and LiveView
+* [ ] Track 3 - 13 - *Introduction to query debugging and optimization in Postgres
 
 <!-- livebook:{"break_markdown":true} -->
 
-SECOND SECTION TODO
+### 11:45am to 12:20pm
+
+* [ ] Track 1 - 8 - Flame On: Profiling Elixir and Phoenix apps with Flame Graphs in Live Dashboard
+* [ ] Track 2 - 13 - Designing Data Intensive Applications in Elixir with Flow
+* [ ] Track 3 - 5 - Understanding common network protocols with Elixir
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 12:25pm to 1:00pm
+
+* [ ] Track 1 - 5 - I was wrong about LiveView
+* [ ] Track 2 - 8 - Searching Your Elixir Code
+* [ ] Track 3 - 13 - Embedded Web Apps in Elixir with LiveState
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 1:15pm to 2:15pm - Lightning talks
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 3:30pm to 3:35pm - Welcome - Emcees Sundi and Amos
+
+* 3:35pm to 3:40pm - Platinum Speaker - Kamana
+* 3:40pm to 3:45pm - Platinum Speaker - SimpleBet
+* 3:45pm to 3:50pm - Platinum Speaker - Tauspace
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 3:50pm to 4:50pm - Keynote: Chris Grainger
+
+### 4:50pm to 5:30pm - Refreshment Break - Meet Sponsors
+
+* 5:30pm to 5:35pm - Platinum Speaker - Adobe-Frame.io
+* 5:35pm to 5:40pm - Platinum Speaker - Massdriver
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 5:45pm to 6:45pm - Keynote: Chris McCord
+
+### 6:45pm to 7:00pm - Closing
