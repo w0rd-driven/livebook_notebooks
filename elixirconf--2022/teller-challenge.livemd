@@ -162,32 +162,13 @@ defmodule TellerBank do
       balance_available
     end
 
-    defp get_account_number(response, session_key) do
-      encoded = Map.get(response.body, "number", "")
-      # Decoded as %{"cipher" => "128-ECB", "key" => "S9esd7EF8/aeRt27btOKww=="}
-      # Step 1: decrypt our encoded number using AES-128-ECB
-      # Step 2: use String.chunk split between printable and non-printable characters
-      # Step 3: use String.replace to change anything NOT starting as a long number as an empty string
-      # Step 4: strip empty strings from the list
-      # Step 5: get the last number in the list
-
-      # **Note**: there may be a better way to do this as the last portion of the list has our number
-      #   "511272724455",
-      #   <<4, 4, 4, 4>>
-      # Start from the end, jump the <<4, 4, 4, 4>>, take the grouping of numbers to the first non-digit
-      :crypto.crypto_one_time(:aes_128_ecb, session_key, encoded |> Base.decode64!(), false)
-      |> String.chunk(:printable)
-      # |> IO.inspect(label: "printable")
-      |> Enum.map(fn value ->
-        String.replace(value, ~r/[^\d]/, "")
-      end)
-      # |> IO.inspect(label: "replaced")
-      |> Enum.reject(fn
-        "" -> true
-        _ -> false
-      end)
-      # |> IO.inspect(label: "rejected")
-      |> List.last()
+    defp get_account_number(response, key) do
+      encoded_number = Map.get(response.body, "number", "")
+      {:ok, ciphertext} = Base.decode64(encoded_number)
+      <<iv::binary-16, ciphertext::binary>> = ciphertext
+      decrypted = :crypto.crypto_one_time(:aes_128_ecb, key, iv, ciphertext, false)
+      last = :binary.last(decrypted)
+      :binary.part(decrypted, 0, byte_size(decrypted) - last)
     end
 
     defp get_session_key(response) do
@@ -218,9 +199,8 @@ defmodule TellerBank do
     end
 
     defp generate_token(spec, username, last_request_id) do
-      # Append "==" to make it Base64 decode
       %{"separator" => separator, "values" => values} =
-        (spec <> "==") |> Base.decode64!(padding: true) |> Jason.decode!()
+        spec |> Base.decode64!(padding: false) |> Jason.decode!()
 
       # IO.inspect(separator, label: "separator")
       # IO.inspect(values, label: "values")
