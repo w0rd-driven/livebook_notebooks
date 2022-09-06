@@ -1,0 +1,249 @@
+# Teller Bank Challenge
+
+```elixir
+Mix.install([:req, :jason, :kino])
+```
+
+## Your Solution
+
+```elixir
+username = Kino.Input.text("Username") |> Kino.render()
+password = Kino.Input.text("Password")
+```
+
+```elixir
+defmodule TellerBank do
+  defmodule OTPCode do
+    @moduledoc """
+    You can use this util module to generate your OTP
+    code dynamically.
+    """
+
+    @type username() :: String.t()
+
+    @spec generate(username) :: String.t()
+    def generate(username) do
+      username
+      |> String.to_charlist()
+      |> Enum.take(6)
+      |> Enum.map(&char_to_keypad_number/1)
+      |> List.to_string()
+      |> String.pad_leading(6, "0")
+    end
+
+    defp char_to_keypad_number(c) when c in ~c(a b c), do: '2'
+    defp char_to_keypad_number(c) when c in ~c(d e f), do: '3'
+    defp char_to_keypad_number(c) when c in ~c(g h i), do: '4'
+    defp char_to_keypad_number(c) when c in ~c(j k l), do: '5'
+    defp char_to_keypad_number(c) when c in ~c(m n o), do: '6'
+    defp char_to_keypad_number(c) when c in ~c(p q r s), do: '7'
+    defp char_to_keypad_number(c) when c in ~c(t u v), do: '8'
+    defp char_to_keypad_number(c) when c in ~c(w x y z), do: '9'
+    defp char_to_keypad_number(_), do: '0'
+  end
+
+  defmodule ChallengeResult do
+    @type t :: %__MODULE__{
+            account_number: String.t(),
+            balance_in_cents: integer
+          }
+    defstruct [:account_number, :balance_in_cents]
+  end
+
+  defmodule Client do
+    @type username() :: String.t()
+    @type password() :: String.t()
+
+    @base_url "https://challenge.teller.engineering"
+    @api_key "HowManyDevsDoesItTakeToConnectAMacbookToAProjector?"
+    @device_id "LZWDG7DMF72C3LP3"
+    @default_headers [
+      {"user-agent", "Teller Bank iOS 1.1"},
+      {"api-key", @api_key},
+      {"device-id", @device_id},
+      {"content-type", "application/json"},
+      {"accept", "application/json"}
+    ]
+
+    @spec fetch(username, password) :: ChallengeResult.t()
+    def fetch(username, password) do
+      sms_code = TellerBank.OTPCode.generate(username)
+      login_response = login_request(username, password)
+      mfa_response = mfa_request(login_response, username)
+
+      logged_in_response = mfa_login(mfa_response, username, sms_code)
+      account_id = get_account_id(logged_in_response)
+      enc_session_key = get_session_key(logged_in_response)
+
+      balance_response = get_balances(logged_in_response, account_id, username)
+      balance_in_cents = get_account_balance(balance_response)
+      details_response = get_account_details(balance_response, account_id, username)
+      account_number = get_account_number(details_response, enc_session_key)
+
+      %ChallengeResult{account_number: account_number, balance_in_cents: balance_in_cents}
+    end
+
+    defp login_request(username, password) do
+      url = @base_url <> "/login"
+      body = %{password: password, username: username}
+      # IO.inspect(url, label: "url")
+      # IO.inspect(@default_headers, label: "headers")
+      # IO.inspect(username, label: "username")
+      # IO.inspect(password, label: "password")
+      # IO.inspect(body, label: "body")
+      request = Req.new()
+      Req.post!(request, url: url, headers: @default_headers, json: body)
+    end
+
+    defp mfa_request(response, username) do
+      url = @base_url <> "/login/mfa/request"
+      request_headers = generate_headers(response.headers, username)
+
+      %{
+        "devices" => [
+          %{
+            "id" => device_id,
+            "mask" => "***8056",
+            "type" => "SMS"
+          },
+          _
+        ]
+      } = response.body
+
+      body = %{device_id: device_id}
+      # IO.inspect(request_headers, label: "headers")
+      # IO.inspect(body, label: "body")
+      request = Req.new()
+      Req.post!(request, url: url, headers: request_headers, json: body)
+    end
+
+    defp mfa_login(response, username, sms_code) do
+      url = @base_url <> "/login/mfa"
+      request_headers = generate_headers(response.headers, username)
+      body = %{code: sms_code}
+      # IO.inspect(request_headers, label: "headers")
+      # IO.inspect(body, label: "body")
+      request = Req.new()
+      Req.post!(request, url: url, headers: request_headers, json: body)
+    end
+
+    defp get_balances(response, account_id, username) do
+      url = @base_url <> "/accounts/#{account_id}/balances"
+      request_headers = generate_headers(response.headers, username)
+      request = Req.new()
+      Req.get!(request, url: url, headers: request_headers)
+    end
+
+    defp get_account_details(response, account_id, username) do
+      url = @base_url <> "/accounts/#{account_id}/details"
+      request_headers = generate_headers(response.headers, username)
+      request = Req.new()
+      Req.get!(request, url: url, headers: request_headers)
+    end
+
+    defp get_account_id(response) do
+      %{
+        "accounts" => %{
+          "checking" => [
+            %{
+              "id" => account_id
+            }
+          ]
+        }
+      } = response.body
+
+      account_id
+    end
+
+    defp get_account_balance(response) do
+      balance_available = Map.get(response.body, "available", 0)
+      # IO.inspect(response, label: "response")
+      # IO.inspect(balance_available, label: "balance")
+      balance_available
+    end
+
+    defp get_account_number(response, session_key) do
+      encoded = Map.get(response.body, "number", "")
+      # Decoded as %{"cipher" => "128-ECB", "key" => "S9esd7EF8/aeRt27btOKww=="}
+      # Step 1: decrypt our encoded number using AES-128-ECB
+      # Step 2: use String.chunk split between printable and non-printable characters
+      # Step 3: use String.replace to change anything NOT starting as a long number as an empty string
+      # Step 4: strip empty strings from the list
+      # Step 5: get the last number in the list
+
+      # **Note**: there may be a better way to do this as the last portion of the list has our number
+      #   "511272724455",
+      #   <<4, 4, 4, 4>>
+      # Start from the end, jump the <<4, 4, 4, 4>>, take the grouping of numbers to the first non-digit
+      :crypto.crypto_one_time(:aes_128_ecb, session_key, encoded |> Base.decode64!(), false)
+      |> String.chunk(:printable)
+      # |> IO.inspect(label: "printable")
+      |> Enum.map(fn value ->
+        String.replace(value, ~r/[^\d]/, "")
+      end)
+      # |> IO.inspect(label: "replaced")
+      |> Enum.reject(fn
+        "" -> true
+        _ -> false
+      end)
+      # |> IO.inspect(label: "rejected")
+      |> List.last()
+    end
+
+    defp get_session_key(response) do
+      session_key = Map.get(response.body, "enc_session_key", "")
+      # IO.inspect(response, label: "response")
+      # IO.inspect(session_key, label: "session_key")
+      # Decoded as %{"cipher" => "128-ECB", "key" => "S9esd7EF8/aeRt27btOKww=="}
+      session_key
+      |> Base.decode64!()
+      |> Jason.decode!()
+      # |> IO.inspect(label: "decoded_session_key")
+      |> Map.fetch!("key")
+      |> Base.decode64!()
+    end
+
+    defp generate_headers(headers, username) do
+      response_headers = Map.new(headers)
+      last_request_id = Map.get(response_headers, "f-request-id", "")
+      request_token = Map.get(response_headers, "request-token", "")
+      f_token_spec = Map.get(response_headers, "f-token-spec", "")
+      f_token = f_token_spec |> generate_token(username, last_request_id)
+
+      [
+        {"teller-is-hiring", "I know!"},
+        {"request-token", request_token},
+        {"f-token", f_token}
+      ] ++ @default_headers
+    end
+
+    defp generate_token(spec, username, last_request_id) do
+      # Append "==" to make it Base64 decode
+      %{"separator" => separator, "values" => values} =
+        (spec <> "==") |> Base.decode64!(padding: true) |> Jason.decode!()
+
+      # IO.inspect(separator, label: "separator")
+      # IO.inspect(values, label: "values")
+      encoded =
+        Enum.map(values, fn
+          "last-request-id" -> last_request_id
+          "username" -> username
+          "device-id" -> @device_id
+          "api-key" -> @api_key
+        end)
+        |> Enum.join(separator)
+
+      # IO.inspect(encoded, label: "encoded")
+
+      :sha3_256
+      |> :crypto.hash(encoded)
+      |> Base.encode32(case: :lower, padding: false)
+    end
+  end
+end
+
+username = Kino.Input.read(username)
+password = Kino.Input.read(password)
+
+TellerBank.Client.fetch(username, password)
+```
