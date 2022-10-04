@@ -87,19 +87,7 @@ html = Req.get!(req_html, url: base_url).body
 
 {:ok, document} = Floki.parse_document(html)
 
-# There are 2 divs with no classes applied, these are our new and old posts
-# Filter out the anchor tags we don't want, specifically /create and /hide
-jobs =
-  Floki.find(document, "#app .container :not(div.flex)")
-  |> Enum.filter(&match?({"a", _, _}, &1))
-  |> Enum.filter(&(!match?({"a", [{"href", "/create"}, _], _}, &1)))
-  |> Enum.filter(&(!match?({"a", [{"href", "/hide"}, _], _}, &1)))
-
-# jobs =
-#   Floki.find(document, "#app .container div")
-#   |> hd()
-#   |> Floki.children(include_text: false)
-#   |> Enum.filter(&match?({"a", _, _}, &1))
+jobs = Floki.find(document, "a.job-link")
 
 items =
   Enum.map(jobs, fn job ->
@@ -108,42 +96,38 @@ items =
     source_url = Floki.attribute(job, ".job-link", "href") |> hd()
     post_url = Floki.attribute(job, ".job-link", "data-url") |> hd()
 
-    title = Floki.find(job, ".job-wrap .details .description") |> Floki.text() |> String.trim()
-    company = Floki.find(job, ".job-wrap .details h4") |> Floki.text() |> String.trim()
-    location = Floki.find(job, ".job-wrap .details div.text") |> Floki.text() |> String.trim()
+    title = Floki.find(job, "p:nth-of-type(2)") |> Floki.text() |> String.trim()
+    company = Floki.find(job, "p:nth-of-type(1)") |> Floki.text() |> String.trim()
+
+    location =
+      Floki.find(
+        job,
+        ".job-link > div > div:last-child > div:last-child > div:nth-child(1) > div:nth-child(1)"
+      )
+      |> Floki.text()
+      |> String.trim()
 
     tags =
-      Floki.find(job, ".job-wrap :not(div.details) .text-sm")
+      Floki.find(
+        job,
+        ".job-link > div > div:last-child > div:last-child > div:last-child .text-sm"
+      )
       |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
       |> Enum.join(" | ")
 
-    date_1 =
-      Floki.find(job, ".job-link > div:last-child > div:nth-child(1)")
-      |> Floki.text()
-      |> String.trim()
-
-    date_2 =
-      Floki.find(job, ".job-link > div:last-child > div:nth-child(2)")
-      |> Floki.text()
-      |> String.trim()
-
-    # The date field is either the 1st or 2nd child depending on age
-    # If the first value is empty, the date will be the second field.
-    # If the second value is "Apply", the pin element is not present and it's pulling the Apply button text
     date =
-      cond do
-        date_1 == "" && date_2 != "" -> date_2
-        date_1 != "" && date_2 == "Apply" -> date_1
-        true -> ""
-      end
+      Floki.find(
+        job,
+        ".job-link > div > div:last-child > div:last-child > div:nth-child(1) > div:last-child"
+      )
+      |> Floki.text()
+      |> String.trim()
 
     full_date = parse_date.(date)
     # IO.inspect(title, label: "title")
     # IO.inspect(company, label: "company")
     # IO.inspect(location, label: "location")
     # IO.inspect(tags, label: "tags")
-    # IO.inspect(date_1, label: "date_1")
-    # IO.inspect(date_2, label: "date_2")
     # IO.inspect(date, label: "date")
     # IO.inspect(source_url, label: "source_url")
     # IO.inspect(post_url, label: "post_url")
