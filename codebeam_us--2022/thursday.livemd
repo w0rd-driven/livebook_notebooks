@@ -1,0 +1,608 @@
+# CodeBEAM US 2022 :: Thursday Schedule
+
+## Topics
+
+### 12:00 PM - 01:00 PM
+
+#### Keynote
+
+#### Title: Welcome + Keynote: We are stronger together
+
+#### Speaker(s): Maxim Fedorov, Andrea Leopardi
+
+#### Topic: History & Philosophy of the Ecosystem
+
+#### Tags: Introductory
+
+The BEAM is living its best days. The ecosystem is thriving, big companies are picking up our languages, innovation is sprawling, and BEAM-based solutions are getting traction in new domains.
+
+But being fragmented, the ecosystem is not as strong as it deserves. There are over 30 languages speaking BEAM, yet only a few can talk to each other. While improvements to Erlang/OTP often trickle down to Elixir and Gleam, the opposite is rarely true. Rewriting everything with Erlang is not an option - we would not rewrite C++ in C either. So what can we do to bring the community together?
+
+We want to talk about the challenges we are facing, the future we envision, and some ideas on how we can step into that future. We want to get you inspired to reunite the ecosystem.
+
+### 01:05 PM - 01:20 PM
+
+#### Keynote
+
+#### Title: OTP update
+
+#### Speaker(s): Kenneth Lundin
+
+#### Topic: Innovation
+
+#### Tags: Introductory, Virtual
+
+Update from the OTP Core Team.
+
+### 01:20 PM - 01:50 PM
+
+Coffee Break
+Teller Challenge: Do you have what it takes to crack the Teller Bank app?
+
+### 01:50 PM - 02:35 PM
+
+#### Track 1
+
+#### Title: Network Observability at LinkedIn
+
+#### Speaker(s): Ananya Shandilya
+
+#### Topic: Growth
+
+#### Tags: Intermediate, Virtual
+
+The LinkedIn infrastructure has thousands of services serving millions of requests per second. At this scale, various kinds of data points must be collected, processed and observed to maintain the health of the infrastructure - one of them is network flows. 
+Our infrastructure components export flows at the rate of 2M packets per second. This talk describes a data collection, processing and storage system for network flow data written in Erlang. It gives an overview of the system’s architecture and some of the interesting challenges we faced while scaling this system.
+
+Talk objective(s): Share the details about the data processing system we built at LinkedIn using Erlang for collecting and processing high volume and velocity of network flow data
+Target audience: Erlang developers / Observability engineers / Backend engineers
+
+#### Track 2
+
+#### Title: Refactoring via the Language Server Protocol
+
+#### Speaker(s): Simon Thompson, Dominik Katkó
+
+#### Topic: Innovation
+
+#### Tags: Introductory, Virtual
+
+Refactoring is the process of improving code without changing what it does, and is typically supported in tools such as Wrangler for Erlang. The Language Server Protocol (LSP) allows tools like this to be integrated in a variety of editors, including VS Code, emacs and vim, and the Erlang Language Server (ELS) provides an integration of Erlang into LSP.
+
+After a short introduction to refactoring, Wrangler and Erlang LS, we explain how facilities in Wrangler, including refactorings, input and form-based choices, are incorporated into ELS and LSP, and demo these for a variety of Wrangler refactorings.
+
+Talk objective(s): The talk will introduce refactoring and Wrangler to a new audience of coders who might use ELS as part of their daily practice. It will also show how the Wrangler Language Server can be used, and point out how to overcome its imperfections, and how it might be enhanced.
+
+Target audience  Any Erlang user
+
+### 02:45 PM - 03:30 PM
+
+#### Track 1
+
+#### Title: Accessible Time-Series data with TimescaleDB
+
+#### Speaker(s): David Lucia
+
+#### Topic: Innovation
+
+#### Tags: Intermediate
+
+Timeseries data is everywhere! Whether you're tracking application metrics, financial price information, or IOT sensor data, having an effective means to store, analyze, and display this can add value to any product. However, having an accessible timeseries database can be a challenge, with many proprietary databases requiring licenses, infrastructure costs and maintenance. TimescaleDB is an open-source alternative that is simply a Postgres extension, a database that many developers are already using. In this talk, we will look at what problems are needed out of a Timeseries database, and how TimescaleDB can help you solve these problems with familiar tools that are easily accessible on the BEAM.
+
+Talk objective(s):
+
+1. Teach the audience where they might encounter timeseries data in their product
+2. Introduce TimescaleDB, how you can deploy it to your existing Postgres deployment
+3. Share ways of leveraging the unique features of timescale DB, including compression, continuous aggregates, and other features to build interesting applications on top of this data platform.
+
+Target audience: Developers who may have timeseries data in their product, but have no found effective ways to utilize it, or are struggling with scaling timeseries aggregations
+
+#### Track 2
+
+#### Title: Building blocks and how to use them: a MongooseIM case study
+
+#### Speaker(s): Nelson Vides
+
+#### Topic: Growth
+
+#### Tags: Intermediate
+
+This is a talk about open source and the community, with MongooseIM as its backbone. MongooseIM is Erlang Solutions' robust, scalable and customisable messaging server, and using it as a “case study”, I want to tell the story of the evolution of a big and old open source project. I'll start presenting common Erlang design patterns for a server - the supervision trees, the many processes, the NIFs when they are needed, and most importantly, the ways to preserve a big project manageable and continuously evolving.
+
+I also want to present the libraries that branched off from MongooseIM. In the evolution of a big project, often times you find pieces of code that are not an integral part of the business logic but actually can be generalised and reused for projects potentially very different from your own. I want to present what we found and how, what we extracted, and what we prepared for other people to reuse.
+
+Talk objective(s): To present MongooseIM in three aspects: an Erlang codebase, an Open-Source project, and a messaging backend. To present the libraries that branched off the main project, together with how-tos and whys, that can be reused by other projects. Ideally, to get diverse developers interested in diverse pieces of code they can reuse in their projects and contribute to, and inspire developers to extract from their projects what is generic and find a way for other people to be able to reuse them.
+
+Target audience: Probably developers of all backgrounds and interests.
+
+### 03:40 PM - 04:05 PM
+
+#### Track 1
+
+#### Title: Build animatronics with Nerves
+
+#### Speaker(s): Flora Petterson
+
+#### Topic: DevOps
+
+#### Tags: Introductory
+
+The Nerves platform, framework, and tooling provide a highly specialized environment for using Elixir to build advanced embedded devices in industries worldwide. But can Nerves also make a puppet dance?
+
+In this talk, I'll share my experience as a second-generation puppeteer building interactive animatronics with Nerves. If you've ever wanted to automate a lawn decoration, create a haunted house in your garage, or code a small, silly project to give someone joy during a challenging time, this talk may be for you.
+
+Target audience  Anyone interested in Nerves, IoT, or puppetry
+
+#### Track 2
+
+#### Title: seL4 and BEAM: a match made in Erlang
+
+#### Speaker(s): Ihor Kuz
+
+#### Topic: Innovation
+
+#### Tags: Intermediate
+
+Erlang and Elixir can be used to develop robust and highly-available embedded applications with effective fault-tolerance, but the BEAM virtual machine still relies on the underlying operating system to provide a security and robustness foundation which can be insufficient when the OS cannot prevent other components from crashing the system.
+
+The seL4 microkernel is a formally verified operating system kernel designed for embedded systems. seL4 provides isolation mechanisms that can prevent errors or attacks from spreading to other components but it expects each component to mange its own error detection and fault recovery.
+
+I will demonstrate how combining the seL4 microkernel and the BEAM provide an exciting opportunity to fill these gaps. I will also describe my experience with building BEAM-based systems on seL4, integrating BEAM and seL4's inter-process communication mechanisms to allow robust communication between Beam apps and native OS components.
+
+Talk objective(s): Show how the high-availability programming and communication abstractions of the BEAM can be combined with the communication and programming abstractions of a formally verified microkernel to design and build highly secure and robust internet-connected embedded systems.
+
+Target audience: Embedded systems software developers that are interested in designing and building systems with high levels of security and robustness.
+
+### 04:00 PM - 05:00 PM
+
+Lunch break
+
+### 04:30 PM - 05:00 PM
+
+#### Meet the Sponsors: EMQ. A deep dive in the Erlang backend DB extensions we added to scale.
+
+Take a seat with Ivan Dyachkov and Thales Macedo Garitezi, software engineers with EMQ, for a talk on how EMQ scaled its clustering architecture to support 100M concurrent connections in EMQX 5.
+
+#### Meet the Sponsors: Frame.io an Adobe company. Building creative software with Elixir.
+
+Join Catherine Aronson and James Smith, in discussing how they built creative software with Elixir.
+
+#### Meet the Sponsors: PepsiCo. Chat with PepsiCos' eCommerce's Data, Technology, and Experience Team
+
+Sit down at a table with leaders from PepsiCo eCommerce's Data, Technology, and Experience team to understand how they're building new platforms so PepsiCo can move quickly in a digital world. David Antaramian leads application engineering for marketing capabilities and builds tools that help PepsiCo optimize advertising spend across our global digital advertising portfolio. Dmitry Ulyanov heads engineering for supply chain capabilities and builds tools that help us get the right product to our customers efficiently and cost effectively.
+
+#### Meet the Sponsors: Teller. A talk about the coding challenge you can take over the next 2 days.
+
+A Teller engineer will talk about our special conference coding challenge, and how fun it was to build it on BEAM.
+
+### 05:00 PM - 05:45 PM
+
+#### Track 1
+
+#### Title: Deep dive in Nx Backends
+
+#### Speaker(s): Paulo Valente
+
+#### Topic: Innovation
+
+#### Tags: Advanced
+
+Elixir's Nx library implements its features through a configurable backend structure, in which inputs are dispatched to their respective implementations at runtime.
+
+In this talk, we're going to review Nx's Backends and how they play with performance and automatic differentiation.
+For this, we're going to study how Nx compiles and executes a given code sample and how using defn, Nx's numerical function definitions, can enable Axon (a deep learning library) to work.
+
+Talk objective(s): The main objective of this talk is to shed some light in one of the more technical and internal aspects of Elixir's Nx. There are some articles here and there talking about this, but as part of the Nx team I hope to provide some more information about how the library works. This would also be one of the first talks on the subject.
+
+Target audience: Although the talk is mainly about an Elixir library, I think all BEAM users which have an interest in machine learning would be interested in it, especially since it's a direct product of the EEF Machine Learning Working Group. It can also be interesting for people which come from an ML background but don't know much about the BEAM
+
+#### Track 2
+
+#### Title: One LiveView to Rule Them All: From Web to Mobile and Back Again
+
+#### Speaker(s): Andrew Moore, Parker Rueve
+
+#### Topic: Web/Cloud
+
+#### Tags: Introductory
+
+A year and a half ago a couple of apprentices and a supporting cast of mentors began working on a LiveView application. We recently launched that LiveView application into production. Let us tell you the tale of how we learned Elixir and the Phoenix Framework, and how we were able to turn that LiveView application into mobile apps that recently launched in the Google Play and Apple App Stores.
+
+Talk objective(s): 
+-To show how to turn a Phoenix application into something suitable for submission to the app stores.
+-Share our Apprenticeship experiences and learning paths up to this point.
+-Show how viable Elixir is as a great learning language.
+
+Target audience: I think anyone that is interested in the conference would be interested in this talk. We were able to do some really cool things with a really small team of people over the last year, learn a lot of really cool stuff, and we would love to share those things with the world.
+
+### 05:55 PM - 06:40 PM
+
+#### Track 1
+
+#### Title: Good behaviour: cultivating healthy Elixir teams and codebases
+
+#### Speaker(s): Meryl Dakin
+
+#### Topic: Growth
+
+#### Tags: Introductory
+
+This talk is about how we as Elixir developers and managers can use our tool most effectively. As an Elixir developer who's worked at three companies at varying stages of using the language, I cover practices of adoption and maintainability I've seen work best. We'll look at an organization adopting it for microservices, a legacy codebase rebuilt from Ruby, and a startup using Elixir for its greenfield application. We'll delve into best practices around testing, context organization, macros, Ecto, and more. IC's and managers will come away with tangible strategies to develop processes and organize their work so the codebase remains flexible and coherent for the future of the product.
+
+Talk objective(s): To share best practices with organizations and individuals at any level of Elixir adoption to maintain a healthy codebase and aligned team.
+
+Target audience: Elixir enthusiasts who are encouraging adoption on their team, developers on legacy codebases looking at how to standardize, managers working to onboard IC's new to Elixir, anyone interested in best practices on production Elixir applications
+
+#### Track 2
+
+#### Title: When the Cloud's Reign is Over
+
+#### Speaker(s): Nicholas Adams
+
+#### Topic: Web/Cloud
+
+#### Tags: Introductory
+
+Cloud Computing is great. It gives you practically instant scalability with no need for a large infrastructure team and guaranteed up times, plus the ability to try scaled-down versions of your projects at negligible costs before investing in major infrastructure.
+
+So it came as a surprise to me to discover that, after a certain tipping point, cloud computing is actually horrendously cost ineffective! We're not talking a few hundred dollars here, we're talking up to double the IT budget you'd be paying to run the majority of your systems in house. That doesn't even include any in-direct cost-savings such as reduced legal fees from simpler regulatory compliance! It turns out that GDPR and similar laws also become surprisingly simple when your customer's data is physically located on servers you control.
+
+Join me for this talk to hear a few examples and a couple of options to move from someone else's computer to one of yours!
+
+OBJECTIVES:
+To make people aware that the cloud is not the be all and end all of production systems.
+
+To give people an idea of when they should start looking at migrating away from the cloud for cost benefits.
+
+AUDIENCE:
+Anyone from dev-ops and sys-admin all the way up to CTO or CIO level
+
+### 06:40 PM - 07:10 PM
+
+Coffee Break
+
+### 07:10 PM - 07:35 PM
+
+#### Track 1
+
+#### Title: Fast IP address matching in Elixir with Radix Trees and persistent_term
+
+#### Speaker(s): Michael Lubas
+
+#### Topic: Web/Cloud
+
+#### Tags: Intermediate
+
+When your web server receives a new login request, is it from a real user, or a rented cloud server? You have a list of thousands of IP prefixes, and need a way to compare each incoming conn's remote_ip to that list.
+
+This problem will be used to illustrate several features of Elixir/Erlang. The beginning of the talk will introduce the problem to the audience, and show why the default Elixir data structures are not suitable. Once the radix tree has been covered, we'll move to the problem of thousands of processes needed to access the same data structure in a short period of time.
+
+The talk will cover GenServers, ETS, and the constant pools optimization, and why these are the wrong choice for the problem. Finally, the complete solution will be shown, using persistent_term.
+
+Talk objective(s)
+
+1. Introduce the problem of IP address matching
+2. Show why the radix tree is a good choice
+3. Compare GenServers, ETS, and persistent_term for this problem Target audience  Elixir/Erlang programmers
+
+#### Track 2
+
+#### Title: On the way to achieve autonomous node communication in the Elixir ecosystem
+
+#### Speaker(s): Hideki Takase, Shintaro Hosoai
+
+#### Topic: Innovation
+
+#### Tags: Advanced
+
+Have you ever felt that finding communication nodes by specifying information such as IP addresses is complicated?
+
+RTPS (Real-Time Publish Subscribe) is a communication protocol. The main advantage is that nodes can acquire autonomy in communication. Without setting up any broker, a node can automatically discover communication partners for publication/subscription only by specifying a topic. Note that the use of RTPS is restricted to the area under the NAT server.
+We are working on R&D about "Rclex," a client library for ROS 2 platform. This library has directly integrated the feature of RTPS into Elixir.
+
+This talk will consider how to bring the power of Rclex into Nerves devices. To find out the current status of Rclex, we will provide a way to realize this purpose. In addition, we will share our latest R&D activity to enable RTPS communication in Elixir/Nerves beyond the NAT server. Once achieved, we can apply RTPS to the wide-area distributed system.
+
+Talk objective(s): The audience will learn about a new communication scheme that can even go beyond the NAT server, and the way to build wide-area distributed IoT systems with highly autonomous nodes.
+
+Target audience: An alchemist who wants to construct wide-area distributed IoT systems.
+
+### 07:45 PM - 08:10 PM
+
+#### Track 1
+
+#### Title: ActiveMemory the missing ORM for ETS and Mnesia
+
+#### Speaker(s): Erin Boeger
+
+#### Topic: Innovation
+
+#### Tags: Intermediate
+
+A package to help bring the power of in memory storage with ETS and Mnesia to your Elixir application.
+
+ActiveMemory provides a simple interface and configuration which abstracts the ETS and Mnesia specifics and provides a common interface called a Store.
+
+Use ETS and Mnesia to help boost your application performance, simplify configurations and secrets, help reduce database dependency, and more.
+
+Talk objective(s): Introduce the ActiveMemory hex package and what problems it is trying to solve. 
+Also help people better understand ETS, Mnesia, and how they can make our apps better.
+
+Target audience: Anyone who has interest with in memory tables and or has had previous experience with ETS or Mnesia.
+
+#### Track 2
+
+#### Title: Tackling Technical Debt at Adobe: A Story which started at Frame.io
+
+#### Speaker(s): Milton Mazzarri
+
+#### Topic: Fighting technical debt
+
+#### Tags: Intermediate
+
+After the aquisition of Frame.io by Adobe, priorities shifted. From being a startup, we were catapulted to a world of enterprise software development, with the potential of a 10x increase in volumes. Our first priority was tackling technical debt so as to allow us to scale and integrate with their other products.
+In this talk, we will share some of the technical challenges we faced with a 6 year old Elixir code base and how we dealt with them. From internal code changes, improvements in stability, observability, the database layer, and of course, scalability. These initial improvements allowed us to replace some of the in-house applications with OSS and other Professional packages like Oban Pro+Web, and Broadway. In this talk, you will learn not only how to deal with technical debt, but also how to deal with management, getting them involved in the process and giving you the bandwidth you need to address the issues.
+
+Talk objective(s): Show how the team behind Frame.io gained stability, observability and scalability after focusing on paying its technical debt in a six-year-old codebase. And how tackling issues directly in our often neglected RDBMS resulted in immediate benefits. 
+Target audience: Elixir Developers, Database (PostgreSQL) analysts
+
+### 08:20 PM - 09:15 PM
+
+#### Panel
+
+#### Title: Panel discussion: Erlang all the things!
+
+#### Speaker(s): Frank Hunleth, Boyd Multerer, Andy King, Amos King, Randall Thomas
+
+#### Topic: History & Philosophy of the Ecosystem
+
+#### Tags: Introductory
+
+What the BEAM brings to the world of devices and why, sooner or later, you need to care.
+
+According to Fortune Business insights: The global internet of things market is estimated to rise from USD 478.36 billion in 2022 to USD 2465.26 billion by 2029, with a global economic impact estimated at $11.1 _Trillion_ dollars by 2025. A compound annual growth rate of 26.4% — or — 7 IoT devices for every person on earth.
+
+Fear not, intrepid programmer! Erlang, Elixir, and the BEAM are uniquely positioned to tackle problems at this scale using the techniques and technologies we use every day. Join us for an in-depth discussion on why the BEAM is the correct VM at the right time to meet the challenge of managing devices at global IoT scale.
+
+Panelists:
+Frank Hunleth - Embedded systems engineer, Co-Author of The Nerves Project, Author of "Build a Binary Clock with Elixir and Nerves"
+Amos King - CEO at Binary Noggin, Elixir Outlaw podcast agitator, Man with Cat jokes
+Boyd Multerer - Founder Kry10 secure platform, author of Senic, Ex-Microsoft and the reason you lost years of your live to XBox live
+
+## Schedule
+
+* 12:00 PM - 01:00 PM
+  * [x] Welcome + Keynote: We are stronger together
+* 01:05 PM - 01:20 PM
+  * [x] OTP update
+* 01:20 PM - 01:50 PM
+  * Coffee Break
+  * Teller Challenge: Do you have what it takes to crack the Teller Bank app?
+* 01:50 PM - 02:35 PM
+  * [ ] Network Observability at LinkedIn
+  * [x] Refactoring via the Language Server Protocol
+* 02:45 PM - 03:30 PM
+  * [x] Accessible Time-Series data with TimescaleDB
+  * [ ] Building blocks and how to use them: a MongooseIM case study
+* 03:40 PM - 04:05 PM
+  * [x] Build animatronics with Nerves
+  * [ ] seL4 and BEAM: a match made in Erlang
+* 04:00 PM - 05:00 PM
+  * [x] Lunch break
+* 04:30 PM - 05:00 PM
+  * [ ] Meet the Sponsors: EMQ. A deep dive in the Erlang backend DB extensions we added to scale.
+  * [x] Meet the Sponsors: Frame.io an Adobe company. Building creative software with Elixir.
+  * [x] Meet the Sponsors: PepsiCo. Chat with PepsiCos' eCommerce's Data, Technology, and Experience Team
+  * [ ] Meet the Sponsors: Teller. A talk about the coding challenge you can take over the next 2 days.
+* 05:00 PM - 05:45 PM
+  * [x] Deep dive in Nx Backends
+  * [x] One LiveView to Rule Them All: From Web to Mobile and Back Again
+* 05:55 PM - 06:40 PM
+  * [x] Good behaviour: cultivating healthy Elixir teams and codebases
+  * [ ] When the Cloud's Reign is Over
+* 06:40 PM - 07:10 PM
+  * [x] Coffee Break
+* 07:10 PM - 07:35 PM
+  * [x] Fast IP address matching in Elixir with Radix Trees and persistent_term
+  * [ ] On the way to achieve autonomous node communication in the Elixir ecosystem
+* 07:45 PM - 08:10 PM
+  * [ ] ActiveMemory the missing ORM for ETS and Mnesia
+  * [x] Tackling Technical Debt at Adobe: A Story which started at Frame.io
+* 08:20 PM - 09:15 PM
+  * [ ] Panel discussion: Erlang all the things!
+
+## Understanding the Notes
+
+1. Notes attempt to be in sequential order.
+2. Anything worth calling out falls to the bottom of the section, it may not belong in the stream of consciousness.
+3. Using the block quote `>` to show notes taken during rewatching the VODs.
+4. I don't want to modify the original notes much but this should allow me to somewhat annotate the previous sections.
+5. Allows us to also add new sections.
+
+## Notes
+
+### 12:00 PM - 01:00 PM
+
+#### Welcome + Keynote: We are stronger together
+
+No real notes as this was during lunch. It looks like Erlang as the "parent" is trying to understand all of the ecosystem that depends on it because it's easy for one change to break through portions of the ecosystem. This looks like a great thing for the ecosystem as a whole and they're looking for ways to keep from reinventing the wheels. This sounds like a great thing.
+
+### 01:05 PM - 01:20 PM
+
+#### OTP update
+
+I'm not used to updates like this but it was good to understand what's coming in Erlang 26. I think the interactive shell changes will be big for the ecosystem at large.
+
+### 01:20 PM - 01:50 PM
+
+#### Coffee Break
+
+#### Teller Challenge: Do you have what it takes to crack the Teller Bank app?
+
+I felt uncomfortable joining the tables to do talks virtually. I wish I was more extroverted.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 01:50 PM - 02:35 PM
+
+* [ ] Track 1 - 5 - Network Observability at LinkedIn
+* [x] Track 2 - 8 - Refactoring via the Language Server Protocol
+
+I started watching track 1 and joined track 2 late. Track 1 was prerecorded which is a great idea but it was also more Erlang heavy which I didn't want to focus on. Turns out track 2 was the same way. I may also change this but they don't have the terms tracks or lanes where `topics` are considered `tracks` in the UI.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 02:45 PM - 03:30 PM
+
+* [x] Track 1 - 13 - Accessible Time-Series data with TimescaleDB
+* [ ] Track 2 - 1 - Building blocks and how to use them: a MongooseIM case study
+
+I spent the majority of my time working on writing this notebook. I had reviewed Dave's slides as a more beginner mind and I'm definitely interested in timescale as an approach of aggregating time data. I have a feeling I could use this at some point, I'm just not sure when. It'll be interesting to link to the slides.
+
+The introduction to the library has a Livebook example that really brings it all together [https://hexdocs.pm/timescale/intro.html].
+
+https://livebook.dev/run?url=https%3A%2F%2Fhexdocs.pm%2Ftimescale%2Fintro.livemd
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 03:40 PM - 04:05 PM
+
+* [x] Track 1 - 13 - Build animatronics with Nerves
+* [ ] Track 2 - 3 - seL4 and BEAM: a match made in Erlang
+
+### 04:00 PM - 05:00 PM
+
+* [x] Lunch break
+
+### 04:30 PM - 05:00 PM
+
+* [ ] 1 - Meet the Sponsors: EMQ. A deep dive in the Erlang backend DB extensions we added to scale.
+* [x] 5 - Meet the Sponsors: Frame.io an Adobe company. Building creative software with Elixir.
+* [x] 13 - Meet the Sponsors: PepsiCo. Chat with PepsiCos' eCommerce's Data, Technology, and Experience Team
+* [ ] 3 - Meet the Sponsors: Teller. A talk about the coding challenge you can take over the next 2 days.
+
+#### Frame.io
+
+* Links
+  * https://frame.io/
+  * https://www.linkedin.com/company/frame-io/
+  * https://twitter.com/Frame_io
+  * https://www.youtube.com/c/Frameioapp
+  * https://www.instagram.com/frame_io/
+* Contacts
+  * Lauren Saltus
+    * Talent Partner, Adobe/Frame.io
+    * Brooklyn, United States
+  * James Smith
+    * Engineering Manager, Adobe / Frame.io
+    * Cincinnati, United States
+  * Koll Johnson
+    * Backend Engineer, Adobe/Frame.io
+    * Urbandale, United States
+  * Catherine Aronson
+    * Head of Backend Engineering, Frame.io An Adobe Company
+    * Panama City, United States
+  * Deja Trudeaux
+    * Software Engineer, Frame.io/Adobe
+    * Chicago, United States
+  * Greg Mefford
+    * Senior Staff Backend Engineer, Adobe / Frame.io
+    * Cincinnati, OH, United States
+
+At Adobe, our innovations redefine the possibilities of digital experiences. We connect content and data and introduce new technologies that democratize creativity, shape the next generation of storytelling, and inspire entirely new categories of business.
+
+In 2021, we acquired Frame.io - the leader in cloud collaboration software for video creators. Frame.io is a platform that unites teams from pre-production to post-production for seamless workflow, whether collaborators are across the hall or around the globe. It's used by filmmakers, brand marketers, sports franchises, and social media teams to centralize versions, feedback, and related assets throughout the creative process.
+
+Join the Frame.io Backend Engineering team to power the world's video creation. Engineers at Frame.io are creative, technical people making beautiful and powerful tools that enable other creative, technical people to do their best work. Our team is highly productive and committed to mutual support, collaboration, and knowledge-sharing. We work in an environment that fosters growth, quality engineering, and informed technical decisions. We understand that the best code is the code that moves our business forward, and that drives every decision we make as a team.
+
+#### PepsiCo
+
+* Links
+  * https://www.pepsicojobs.com/teams-ecommerce
+  * https://www.linkedin.com/company/pepsico/
+  * https://www.youtube.com/c/PepsiCoJOBS
+* Contacts
+  * David Antaramian
+    * Director of Software Engineering, PepsiCo
+    * New York, United States
+  * Monica Paul
+    * Talent Acquisition Sr Manager, PepsiCo
+    * New York City, United States
+  * Katie Piper
+    * HR Manager, PepsiCo
+    * New York, United States
+  * Karen Schaper
+    * Engineer, Pepsico
+    * Montgomery, United States
+
+As other sectors have shifted to eCommerce-first business models in recent years, food & beverage has continued to rely predominantly on traditional brick & mortar models, but this is changing rapidly and a period of extraordinary disruption is now underway. New technologies are transforming every aspect of reaching consumers, from the rise of digital marketing and online grocery platforms, to the creation of supply chain tools that enable speedy at-home delivery.
+
+To seize this opportunity and lead the food & beverage industry into its remarkable next chapter, PepsiCo - the international food & beverage powerhouse with annual net revenue exceeding $64 billion and beloved brands including Frito-Lay, Gatorade, Pepsi-Cola, and Quaker - is expanding its Global eCommerce Team. As it needs the greatest minds in data & analytics, software development, machine learning optimization, and next-generation supply chain. Although PepsiCo is a large multinational, the PepsiCo Global eCommerce Team prides itself on having the entrepreneurial, action-oriented culture of an exciting startup business. As part of our group, work alongside Silicon Valley veterans, founders of successful startup companies, and food & beverage experts to address a wide variety of the fascinating technical challenges facing our industry.
+
+Given PepsiCo's incredible global reach - our foods and beverages are enjoyed more than one billion times a day in more than 200 countries and territories, and our value chain involves diverse partners ranging from farmers and food scientists to retailers and logistics specialists - the challenges we're addressing are complex and the solutions will be deeply impactful. The goal of the PepsiCo Global eCommerce Team is to build the technological products and capabilities that will reinvent our industry and make us the #1 food & beverage business in eCommerce for decades to come.
+
+#### Teller
+
+* Links
+  * https://jobs.lever.co/teller
+  * https://teller.io/
+  * https://www.linkedin.com/company/teller-inc/
+  * https://twitter.com/teller
+* Contacts
+  * Dino Kovac
+    * Product Engineer, Teller
+    * Zagreb, Croatia
+  * Eugene Bolshakov
+    * Product Engineer, Teller
+    * London, United Kingdom
+
+Teller is the API for bank accounts. We've raised significant seed investment from some of Silicon Valley's leading VCs including LightSpeed Venture Partners, Founders Fund and Max Levchin's SciFi VC. We have the fastest and most reliable product in the growing banking API market and have a rapidly growing cohort of delighted fintech customers that use it every day.
+
+#### SmartRent
+
+* Contacts
+  * Andrey Tillery
+    * Technical Talent Acquisition Partner, SmartRent
+    * Washington Dc, United States
+  * Jon Carstens
+    * Embedded Engineering Manager, SmartRent
+    * Idaho Falls, United States
+
+We are leading the way for smart technology for housing, particularly multifamily apartment complexes and single-family rentals. It's a really fun intersection of physical hardware, such as locks and thermostats, and software that can control the devices; we provide applications for both the property staff — whether single-family or multifamily and also the residents of the properties. We started in 2017 and have had explosive growth ever since — going public in 2021 for $2.2b. We have deployed over 500,000 units that contain over one million IoT devices and ingest billions of events from those devices in a given month.
+
+Elixir is our primary backend language of our techstack. Our extensive product line consists of web and mobile software for property owners and managers, residents and system installers as well as connected hardware that remotely monitors and controls smart locks, readers, gates, lights, thermostats, outlets, cameras and sensors. SmartRent streamlines operations for community staff, enhances the resident experience and provides property owners with a digital layer of asset protection.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 05:00 PM - 05:45 PM
+
+* [x] Track 1 - Deep dive in Nx Backends
+* [x] Track 2 - One LiveView to Rule Them All: From Web to Mobile and Back Again
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 05:55 PM - 06:40 PM
+
+* [x] Track 1 - Good behaviour: cultivating healthy Elixir teams and codebases
+* [ ] Track 2 - When the Cloud's Reign is Over
+
+### 06:40 PM - 07:10 PM
+
+* [x] Coffee Break
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 07:10 PM - 07:35 PM
+
+* [x] Track 1 - Fast IP address matching in Elixir with Radix Trees and persistent_term
+* [ ] Track 2 - On the way to achieve autonomous node communication in the Elixir ecosystem
+
+<!-- livebook:{"break_markdown":true} -->
+
+### 07:45 PM - 08:10 PM
+
+* [ ] Track 1 - ActiveMemory the missing ORM for ETS and Mnesia
+* [x] Track 2 - Tackling Technical Debt at Adobe: A Story which started at Frame.io
+
+### 08:20 PM - 09:15 PM
+
+* [x] Panel discussion: Erlang all the things!

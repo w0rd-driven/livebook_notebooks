@@ -1,0 +1,38 @@
+# Teller Bank Challenge
+
+```elixir
+Mix.install([:req, :jason, :kino])
+```
+
+## Your Solution
+
+```elixir
+username = Kino.Input.text("Username") |> Kino.render()
+password = Kino.Input.text("Password")
+```
+
+```elixir
+defmodule TellerBank do
+  defmodule ChallengeResult do
+    @type t :: %__MODULE__{
+            account_number: String.t(),
+            balance_in_cents: integer
+          }
+    defstruct [:account_number, :balance_in_cents]
+  end
+
+  defmodule Client do
+    @type username() :: String.t()
+    @type password() :: String.t()
+
+    @spec fetch(username, password) :: ChallengeResult.t()
+    def fetch(username, password) do
+    end
+  end
+end
+
+username = Kino.Input.read(username)
+password = Kino.Input.read(password)
+
+TellerBank.Client.fetch(username, password)
+```
