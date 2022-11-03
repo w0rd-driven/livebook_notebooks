@@ -33,12 +33,16 @@ set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_b
 
 ### Conference Notes
 
-1. [ElixirConf 2022 - Wednesday Morning](elixirconf--2022/wednesday_morning.livemd)
-2. [ElixirConf 2022 - Wednesday Afternoon](elixirconf--2022/wednesday_afternoon.livemd)
-3. [ElixirConf 2022 - Thursday](elixirconf--2022/thursday.livemd)
-4. [ElixirConf 2022 - Friday](elixirconf--2022/friday.livemd)
+#### ElixirConf US 2022
+
+1. [Wednesday Morning](elixirconf--2022/wednesday_morning.livemd)
+2. [Wednesday Afternoon](elixirconf--2022/wednesday_afternoon.livemd)
+3. [Thursday](elixirconf--2022/thursday.livemd)
+4. [Friday](elixirconf--2022/friday.livemd)
+5. [Teller Challenge](elixirconf--2022/teller-challenge.livemd)
 
 ### Miscellaneous
 
-1. [Scratchpad](scratchpad.livemd)
-2. [Oddities and Awkward Things](oddities.livemd)
+1. [Supabase Edge Functions T-Shirt Contest](req--supabase_edge-functions_shirt.livemd)
+2. [Scratchpad](scratchpad.livemd)
+3. [Oddities and Awkward Things](oddities.livemd)
