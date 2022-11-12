@@ -42,3 +42,343 @@ alias NimbleCSV.RFC4180, as: CSV
 
 # |> Enum.sort_by(&(&1.date), {:desc, Date})
 ```
+
+## Model Attributes
+
+This first code cell is the "broken" version pulled from my attempt at the DockYard Academy `Product Filters` exercise.
+We've skipped the other tests as they only add noise when this triggers an error.
+
+With the broken declaration we see the following warning types when running the tests.
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+warning: module attribute @products in code block has no effect as it is never returned (remove the attribute or assign it to _ to avoid warnings)
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:95: ProductsTest
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:95: ProductsTest (module)
+```
+
+We also see the error:
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+  1) test filter/2 by exact matching name (ProductsTest)
+     /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:109
+     ** (Protocol.UndefinedError) protocol Enumerable not implemented for nil of type Atom
+     stacktrace:
+       (elixir 1.14.0) lib/enum.ex:1: Enumerable.impl_for!/1
+       (elixir 1.14.0) lib/enum.ex:166: Enumerable.reduce/3
+       (elixir 1.14.0) lib/enum.ex:4307: Enum.filter/2
+       /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:67: Products.filter/2
+       /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:110: (test)
+```
+
+How can the code trigger the warnings and yet the following test passes?
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+  test "filter/2 empty filters" do
+    assert Products.filter(@products, []) == @products
+  end
+```
+
+There are no `nil` or `Atom` checks with the function head `def filter(products, []), do: products` so this somewhat makes sense.
+The example solution (commented out) triggers the `** (Protocol.UndefinedError) protocol Enumerable not implemented for nil of type Atom` error.
+
+### What the Problem Could be
+
+My guess is the use of `product.name` triggers the error because `product` is an empty struct. That hypothesis is completely wrong.
+After placing an `IO.inspect(products, label: "Products")` we see the real problem.
+The enum we expect `products` to be is in fact `nil`.
+This makes absolute sense when you begin to work with enumerables more often to see the pattern.
+
+### Correcting the Problem
+
+The "fix" is to change
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+  @products
+  [
+    %{name: "Laptop", category: :tech, price: 100_000},
+    %{name: "Phone", category: :tech, price: 50000},
+    %{name: "Chocolate", category: :snacks, price: 200},
+    %{name: "Shampoo", category: :health, price: 1000}
+  ]
+```
+
+to
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+  @products [
+    %{name: "Laptop", category: :tech, price: 100_000},
+    %{name: "Phone", category: :tech, price: 50000},
+    %{name: "Chocolate", category: :snacks, price: 200},
+    %{name: "Shampoo", category: :health, price: 1000}
+  ]
+```
+
+This is extremely subtle, that the opening bracket `[` should be on the line with the attribute declaration.Ï
+
+```elixir
+defmodule Products do
+  @moduledoc """
+  Documentation for `Products`
+  """
+
+  @doc """
+  Filter products by name, category, and price.
+
+  ## Examples
+
+  No filters returns all products.
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], [])
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  Filter by name
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], name: "Laptop")
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], name: "apt")
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], name: "APT")
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], name: "Phone")
+  []
+
+  Filter by category
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], category: :tech)
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], category: :health)
+  []
+
+  Filter by min price.
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], min: 100)
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], min: 50)
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], min: 200)
+  []
+
+  Filter by max price.
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], max: 100)
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], max: 200)
+  [%{name: "Laptop", category: :tech, price: 100}]
+
+  iex> Products.filter([%{name: "Laptop", category: :tech, price: 100}], max: 50)
+  []
+
+  Multiple filters.
+
+  Products.filter([%{name: "Laptop", category: :tech, price: 100}], min: 50, max: 200, name: "Laptop", category: :tech)
+  """
+  def filter(products, []), do: products
+
+  def filter(products, filters) do
+    IO.inspect(products, label: "Products")
+
+    Enum.filter(products, fn product ->
+      lowercase = String.downcase(product.name)
+      String.contains?(lowercase, String.downcase(filters[:name] || ""))
+    end)
+    |> Enum.filter(fn product ->
+      product.category == filters[:category] || filters[:category] == nil
+    end)
+    |> Enum.filter(fn product ->
+      product.price > filters[:min] || filters[:min] == nil
+    end)
+    |> Enum.filter(fn product ->
+      product.price < filters[:max] || filters[:max] == nil
+    end)
+  end
+
+  # Example solution 
+  # def filter(products, filters) do
+  #   name_filter = Keyword.get(filters, :name, "")
+  #   category_filter = Keyword.get(filters, :category)
+  #   min_filter = Keyword.get(filters, :min)
+  #   max_filter = Keyword.get(filters, :max)
+
+  #   products
+  #   |> Enum.filter(fn product ->
+  #     matches_name =
+  #       !name_filter or String.contains?(String.downcase(product.name), String.downcase(name_filter))
+
+  #     matches_category = !category_filter or product.category == category_filter
+  #     above_min_price = !min_filter or min_filter <= product.price
+  #     below_max_price = !max_filter or product.price <= max_filter
+  #     matches_name and matches_category and above_min_price and below_max_price
+  #   end)
+  # end
+end
+
+ExUnit.start(auto_run: false)
+
+defmodule ProductsTest do
+  use ExUnit.Case
+
+  # @products [
+  #   %{name: "Laptop", category: :tech, price: 100_000},
+  #   %{name: "Phone", category: :tech, price: 50000},
+  #   %{name: "Chocolate", category: :snacks, price: 200},
+  #   %{name: "Shampoo", category: :health, price: 1000}
+  # ]
+
+  @products
+  [
+    %{name: "Laptop", category: :tech, price: 100_000},
+    %{name: "Phone", category: :tech, price: 50000},
+    %{name: "Chocolate", category: :snacks, price: 200},
+    %{name: "Shampoo", category: :health, price: 1000}
+  ]
+
+  test "filter/2 empty filters" do
+    assert Products.filter(@products, []) == @products
+  end
+
+  # TODO: Comment this out to see the test pass in spite of the warnings
+  # @tag :skip
+  test "filter/2 by exact matching name" do
+    assert Products.filter(@products, name: "Laptop") ==
+             [%{name: "Laptop", category: :tech, price: 100_000}]
+  end
+
+  @tag :skip
+  test "filter/2 by partial matching name" do
+    assert Products.filter(@products, name: "Lap") ==
+             [%{name: "Laptop", category: :tech, price: 100_000}]
+  end
+
+  @tag :skip
+  test "filter/2 by mixed case partial matching name" do
+    assert Products.filter(@products, name: "LaPtOp") ==
+             [%{name: "Laptop", category: :tech, price: 100_000}]
+  end
+
+  @tag :skip
+  test "filter/2 by category" do
+    assert Products.filter(@products, category: :tech) ==
+             [
+               %{name: "Laptop", category: :tech, price: 100_000},
+               %{name: "Phone", category: :tech, price: 50000}
+             ]
+  end
+
+  @tag :skip
+  test "filter/2 by min price" do
+    assert Products.filter(@products, min: 201) == [
+             %{name: "Laptop", category: :tech, price: 100_000},
+             %{name: "Phone", category: :tech, price: 50000},
+             %{name: "Shampoo", category: :health, price: 1000}
+           ]
+  end
+
+  @tag :skip
+  test "filter/2 by max price" do
+    assert Products.filter(@products, max: 2000) == [
+             %{name: "Chocolate", category: :snacks, price: 200},
+             %{name: "Shampoo", category: :health, price: 1000}
+           ]
+  end
+
+  @tag :skip
+  test "filter/2 by max and min price" do
+    assert Products.filter(@products, min: 201, max: 80000) == [
+             %{name: "Phone", category: :tech, price: 50000},
+             %{name: "Shampoo", category: :health, price: 1000}
+           ]
+  end
+
+  @tag :skip
+  test "filter/2 all filters" do
+    assert Products.filter(@products, name: "T", category: :snacks, min: 201, max: 150_000) ==
+             []
+  end
+end
+
+ExUnit.run()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+warning: module attribute @products in code block has no effect as it is never returned (remove the attribute or assign it to _ to avoid warnings)
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:116: ProductsTest
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:116: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:125: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:125: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:131: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:137: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:143: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:149: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:158: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:167: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:175: ProductsTest (module)
+
+warning: undefined module attribute @products, please remove access to @products or explicitly set it before access
+  /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:183: ProductsTest (module)
+
+*Products: nil
+******
+
+  1) test filter/2 by exact matching name (ProductsTest)
+     /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:130
+     ** (Protocol.UndefinedError) protocol Enumerable not implemented for nil of type Atom
+     stacktrace:
+       (elixir 1.14.0) lib/enum.ex:1: Enumerable.impl_for!/1
+       (elixir 1.14.0) lib/enum.ex:166: Enumerable.reduce/3
+       (elixir 1.14.0) lib/enum.ex:4307: Enum.filter/2
+       /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:69: Products.filter/2
+       /Users/Shared/repositories/personal/elixir/livebook_notebooks/oddities.livemd#cell:43lgu757mntkvawnumdyouaotky5zv6l:131: (test)
+
+.
+Finished in 0.00 seconds (0.00s async, 0.00s sync)
+9 tests, 1 failure, 7 skipped
+
+Randomized with seed 649338
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+%{excluded: 0, failures: 1, skipped: 7, total: 9}
+```
