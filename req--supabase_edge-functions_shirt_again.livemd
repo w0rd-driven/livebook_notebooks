@@ -1,0 +1,108 @@
+# Supabase Edge Functions T-Shirt Contest #2
+
+```elixir
+Mix.install([
+  {:req, "~> 0.3.2"}
+])
+```
+
+## Summary
+
+Supabase [made annother announcement on Twitter](https://twitter.com/supabase/status/1594714528071421953)
+
+> It's time for another #SupaFunctionsChallenge! This one is a little harder! Can you solve it?  
+> To enter the draw, make a GET request with your email address, your Twitter handle, your t-shirt size, and the correct answer 👇  
+> https://obuldanrptloktxcffvn.functions.supabase.co/get-tshirt-competition?email=tshirt@supabase.io&twitter=supabase&size=2XL&answer=42
+
+## Analysis
+
+1. Go to the [url](https://obuldanrptloktxcffvn.functions.supabase.co/get-tshirt-competition?email=tshirt@supabase.io&twitter=supabase&size=2XL&answer=42) to get the error response.
+   ```javascript
+             {
+               "error": "Sorry, that's wrong, please try again! HINT: https://github.com/supabase/supabase/blob/master/examples/edge-functions/supabase/functions/get-tshirt-competition/index.ts"
+             }
+   ```
+2. Inspecting the source [https://github.com/supabase/supabase/blob/master/examples/edge-functions/supabase/functions/get-tshirt-competition/index.ts], we find the answer check is on line #49.
+   ```javascript
+             if (answer !== countEmailSegments(email!))
+               throw new Error(
+                 `Sorry, that's wrong, please try again! HINT: https://github.com/supabase/supabase/blob/master/examples/edge-functions/supabase/functions/get-tshirt-competition/index.ts`
+               )
+   ```
+3. Translate the `countEmailSegments()` function to Elixir
+   ```javascript
+             function countEmailSegments(email: string): string {
+               const [localPart, domain] = email.split('@')
+               const [hostname, ...countryCodes] = domain.split('.')
+               return `${localPart.length}${hostname.length}${countryCodes.reduce((a, cc) => a + cc.length, '')}`
+             }
+   ```
+4. We can use the same TypeScript playground from our previous contest entry to brute force an answer at [https://www.typescriptlang.org/play]. This will help us check our work.
+5. We should be able to get a usable answer from the playground but this seems somewhat straightforward to translate. Let's try to go through it line by line.
+6. The first line of `countEmailSegments` is `const [localPart, domain] = email.split('@')`. This uses destructuring to `String.split()` the email by the `@` into 2 parts, the localPart before the @ and the domain, after the @. Let's try this in the next cell.
+7. First we need to create the `secret` for our `EMAIL_ADDRESS`.
+
+```elixir
+email = System.fetch_env!("LB_EMAIL_ADDRESS")
+email |> String.split("@")
+```
+
+1. We can see that splits into a list of `["user", "domain.com"]`. Using good ol' pattern matching, we can also destructure into the `local_part` and `domain` variables. We show the output as a tuple to show we captured the same information in a different data structure.
+
+```elixir
+email = System.fetch_env!("LB_EMAIL_ADDRESS")
+[local_part, domain] = email |> String.split("@")
+{local_part, domain}
+```
+
+1. Now we handle the next line `const [hostname, ...countryCodes] = domain.split('.')`. This also uses destructuring to split the `domain` variable on the `.` with the `hostname` as a single variable and `countryCodes` as an array.
+
+2. This again translates quite well to pattern matching as `[head | tail]` where `tail` is the rest of our list. Let's see this in the next code example.
+
+```elixir
+email = System.fetch_env!("LB_EMAIL_ADDRESS")
+[local_part, domain] = email |> String.split("@")
+[host_name, country_codes] = domain |> String.split(".")
+{host_name, country_codes}
+```
+
+1. For my address, this returns the `host_name` as my domain name and `com` as the country_codes. In this case it's a single string (I'm a little unclear when this becomes an array personally, maybe for subdomains?).
+2. The last line is particularly fun as I don't use `reduce` as often as I should if I'm being honest. I take slower approaches that build similar accumulators because my brain works with them a little easier. The code is `return ${localPart.length}${hostname.length}${countryCodes.reduce((a, cc) => a + cc.length, '')}` and I'm missing the string interpolation to make this work with markdown's backticks.
+3. The first parts aren't too difficult, `${localPart.length}` gets the length of the `localPart` string, `${hostname.length}` gets the length of the `hostname` string and `${countryCodes.reduce((a, cc) => a + cc.length, '')` reduces the array by concatenating the length of each element in the array.
+4. To bring this all together, with an email like `jeremy@some.example.com`, `localPart` is `jeremy`, `hostname` is `some`, and `countryCodes` is `["example", "com"].
+   15. For a single country code of `com` or `us`, we'll likely just fudge this and get the length of just that since I'm honestly too lazy to turn the Elixir `country_codes` variable into a list where I believe the syntax `...countryCodes` in javascript **always pushes the result into an array**.
+   16. In fact, I'll just use the playground to verify this shortly. Turns out this is correct as the `countryCodes` using my email is `["com"]`. We can always fudge this by just adding our expected string as a new list or if you're reading along you probably have the right pattern to match this expectancy.
+   17. From this knowledge we should be able to work out a complete solution. I'll start with handling just the single `country_code` in Elixir and figure out how to require this to be a list.
+       1. Man, I can't believe I fudged the `[head | tail]` syntax as `[head, tail]` even after specifying it above!
+   18. For my email address, we should see the response body `"Thanks for playing! 6@10.3 has been added to the draw \\o/"`. This correctly parses the string we gave it into the individual lengths for each part. Neat.
+
+## Solution
+
+```elixir
+url = "https://obuldanrptloktxcffvn.functions.supabase.co/get-tshirt-competition"
+
+countEmailSegments = fn email ->
+  [local_part, domain] = email |> String.split("@")
+  [host_name | country_codes] = domain |> String.split(".")
+
+  country_codes_length =
+    Enum.reduce(country_codes, "", fn code, accumulator ->
+      code_length = String.length(code) |> to_string()
+      accumulator <> code_length
+    end)
+
+  "#{String.length(local_part)}#{String.length(host_name)}#{country_codes_length}"
+end
+
+email = System.fetch_env!("LB_EMAIL_ADDRESS")
+answer = countEmailSegments.(email)
+
+parameters = %{
+  "email" => email,
+  "twitter" => System.fetch_env!("LB_TWITTER_HANDLE"),
+  "size" => System.fetch_env!("LB_TSHIRT_SIZE"),
+  "answer" => answer
+}
+
+Req.get!(url, params: parameters)
+```
