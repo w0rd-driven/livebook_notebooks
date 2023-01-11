@@ -1,0 +1,118 @@
+# Laravel Giveaway :: 2022
+
+```elixir
+Mix.install([
+  {:req, "~> 0.3.2"},
+  {:kino, "~> 0.8.0"}
+])
+```
+
+## Summary
+
+There's a Laravel Giveaway happening where cracking a series of challenges will give you a better chance of winning.
+
+You had to go to https://laravelgiveaway.com/2022/launch then click `Join the early access list` button.
+
+You receive an email with the following:
+
+> Hidden in the Laravel giveaway app, is an API endpoint. Using these two clues, try and locate it.
+
+Clue #1
+
+https://en.wikipedia.org/wiki/Lamborghini_Aventador
+
+Literally the same picture as the `Lamborghini Aventador LP 700-4`
+
+Turns out Taylor's Lambo license plate says `Facade` and "every Laravel developer knows this", except for me apparently?
+
+Clue #2
+
+`38|TLtu0k5LolcB37OzTApVTzmvQ8vMcqMpmXnYiPpM`
+
+Clue #3
+
+https://mobile.twitter.com/Laravelgiveaway/status/1599883642754707456
+
+The last clue points to the Laravel Sanctum docs, and we can get the CSRF cookie from https://laravel.com/docs/9.x/sanctum#csrf-protection
+
+```elixir
+base_url = "https://laravelgiveaway.com"
+
+request = Req.new()
+response = Req.get!(request, url: "#{base_url}/sanctum/csrf-cookie")
+
+generate_headers = fn response ->
+  token =
+    Req.Response.get_header(response, "set-cookie")
+    |> hd()
+    |> String.split([";", "="])
+    # Drop everything but the first 2
+    |> Enum.drop(-8)
+    |> Enum.at(1)
+    |> String.replace("%3D", "=")
+
+  # |> IO.inspect(label: "token")
+
+  cookie =
+    Req.Response.get_header(response, "set-cookie")
+    |> Enum.join("; ")
+
+  # |> IO.inspect(label: "cookie")
+
+  # Step 2, Authentication
+  [
+    {"accept", "application/json"},
+    {"content-type", "application/json"},
+    {"authorization", "Bearer TLtu0k5LolcB37OzTApVTzmvQ8vMcqMpmXnYiPpM"},
+    {"cookie", cookie},
+    {"x-xsrf-token", token}
+  ]
+end
+
+request_headers = generate_headers.(response)
+# |> IO.inspect(label: "headers")
+
+request = Req.new()
+# Step 1, Find the **api** url https://twitter.com/taylorotwell/status/1560020999378292736
+url = "#{base_url}/api/facade"
+# |> IO.inspect(label: "url")
+# %{"static_proxy" => ["Sorry, but we are gonna need a static proxy"]}
+# Step 3, include the `static_proxy` body. A facade is a static proxy
+# %{"sentry_laravel_dsn" => ["Sentry.io DSN is required."]}
+# Step 4, include `sentry_laravel_dsn` from https://docs.sentry.io/platforms/php/guides/laravel/
+# %{"pattern" => ["The pattern field is required."]}
+# Step 5, include `pattern`, Laravel uses the builder pattern heavily https://codesource.io/brief-overview-of-design-pattern-used-in-laravel/
+# %{"performance_testing" => ["The performance testing field is required."]}
+# Step 6, include `performance_testing`, benchmarking
+# A lot of these are straight googling Laravel + parameter
+# "The statamic edition must be an array."
+# "errors" => %{
+#   "statamic_edition" => ["The statamic edition field is required."],
+#   "statamic_edition.pro" => ["Nope"]
+# },
+# Step 7 include nested `statamic_edition.pro` as true
+# %{"ascii_commit_hash" => ["The ascii commit hash field is required."]}
+# Step 8 include `ascii_commit_hash`, found via googling "ascii art laravel" https://github.com/laravel/laravel/commit/4f32cf4e653d6ae88783b4cfcd146878c1a58eb9
+# %{"db_connection" => ["The db connection field is required."]}
+# Step 9 include `db_connection` for Postgres
+# %{"cache_driver" => ["The cache driver field is required."]}
+# Step 10 include `cache_driver` for Redis
+
+body =
+  %{
+    static_proxy: "facade",
+    sentry_laravel_dsn: "https://examplePublicKey@o0.ingest.sentry.io/0",
+    pattern: "builder",
+    performance_testing: "benchmark",
+    statamic_edition: %{
+      pro: true
+    },
+    ascii_commit_hash: "4f32cf4e653d6ae88783b4cfcd146878c1a58eb9",
+    db_connection: "pgsql",
+    cache_driver: "redis"
+  }
+  |> IO.inspect(label: "body")
+
+Req.post!(request, url: url, headers: request_headers, json: body).body
+# |> Kino.Markdown.new()
+```
