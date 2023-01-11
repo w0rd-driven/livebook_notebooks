@@ -5,7 +5,8 @@ Mix.install([
   {:spider_man, "~> 0.3"},
   {:floki, "~> 0.31"},
   {:nimble_csv, "~> 1.1"},
-  {:timex, "~> 3.0"}
+  {:timex, "~> 3.0"},
+  {:kino, "~> 0.8.0"}
 ])
 ```
 
@@ -220,4 +221,31 @@ csv =
 :ok = IO.write(io_device, header_row)
 :ok = IO.write(io_device, csv)
 :ok = File.close(io_device)
+```
+
+## Display the Sorted CSV
+
+```elixir
+data =
+  "./data/jobs-sorted.csv"
+  |> File.read!()
+  |> CSV.parse_string()
+
+data
+|> Enum.with_index()
+|> Enum.map(fn {row, index} ->
+  %{
+    id: index,
+    posted_at: Enum.at(row, 0),
+    title: Enum.at(row, 1),
+    company: Enum.at(row, 2),
+    location: Enum.at(row, 3),
+    workplace: Enum.at(row, 4),
+    type: Enum.at(row, 5),
+    source_url: Enum.at(row, 6),
+    source_description: Enum.at(row, 7),
+    page_number: Enum.at(row, 8)
+  }
+end)
+|> Kino.DataTable.new()
 ```

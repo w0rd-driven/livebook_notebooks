@@ -2,11 +2,11 @@
 
 ```elixir
 Mix.install([
-  {:kino, github: "livebook-dev/kino", override: true},
-  {:kino_lab, "~> 0.1.0-dev", github: "jonatanklosko/kino_lab"},
+  {:kino, "~> 0.8.0"},
+  # {:kino_lab, "~> 0.1.0-dev", github: "jonatanklosko/kino_lab"},
   # {:kino_vega_lite, "~> 0.1.1"},
   # {:kino_db, "~> 0.1.1"},
-  {:req, github: "wojtekmach/req"},
+  {:req, "~> 0.3.4"},
   {:floki, "~> 0.32"},
   {:nimble_csv, "~> 1.1"},
   {:timex, "~> 3.0"}
@@ -177,9 +177,35 @@ header = CSV.dump_to_iodata([header_keys])
 csv =
   items
   |> Stream.map(&take.(&1, header_keys))
+  |> Enum.sort_by(& &1, :asc)
   |> CSV.dump_to_iodata()
 
 :ok = IO.write(io_device, header)
 :ok = IO.write(io_device, csv)
 :ok = File.close(io_device)
+```
+
+## Display the Sorted CSV
+
+```elixir
+data =
+  "./data/larajobs-sorted.csv"
+  |> File.read!()
+  |> CSV.parse_string()
+
+data
+|> Enum.with_index()
+|> Enum.map(fn {row, index} ->
+  %{
+    id: index,
+    posted_at: Enum.at(row, 0),
+    title: Enum.at(row, 1),
+    company: Enum.at(row, 2),
+    location: Enum.at(row, 3),
+    tags: Enum.at(row, 4),
+    source_url: Enum.at(row, 5),
+    post_url: Enum.at(row, 6)
+  }
+end)
+|> Kino.DataTable.new()
 ```
