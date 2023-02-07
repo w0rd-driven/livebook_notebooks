@@ -48,6 +48,9 @@ set -g -x ERL_AFLAGS "-kernel shell_history enabled -kernel shell_history_file_b
 
 ### Miscellaneous
 
-1. [Supabase Edge Functions T-Shirt Contest](req--supabase_edge-functions_shirt.livemd)
-2. [Scratchpad](scratchpad.livemd)
-3. [Oddities and Awkward Things](oddities.livemd)
+1. [DockYard Academy Capstone Prototype](discography_prototype.livemd)
+2. [Supabase Edge Functions T-Shirt Contest](req--supabase_edge-functions_shirt.livemd)
+3. [Supabase Edge Functions T-Shirt Contest #2](req--supabase_edge-functions_shirt_again.livemd)
+4. [Laravel Giveaway 2022](req--laravel_giveaway_2022.livemd)
+5. [Scratchpad](scratchpad.livemd)
+6. [Oddities and Awkward Things](oddities.livemd)
