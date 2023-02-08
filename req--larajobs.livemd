@@ -174,10 +174,12 @@ io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
 
 header = CSV.dump_to_iodata([header_keys])
 
+# See https://www.coletiv.com/blog/elixir-sort-lists-by-date/
+# https://elixir-lang.org/blog/2020/01/27/elixir-v1-10-0-released/#improvements-to-sort-based-apis-in-enum
 csv =
   items
-  |> Stream.map(&take.(&1, header_keys))
-  |> Enum.sort_by(& &1, :asc)
+  |> Enum.sort(&(Date.compare(&1.posted_at, &2.posted_at) != :lt))
+  |> Enum.map(&take.(&1, header_keys))
   |> CSV.dump_to_iodata()
 
 :ok = IO.write(io_device, header)
