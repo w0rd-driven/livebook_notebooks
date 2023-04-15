@@ -199,7 +199,8 @@ header_keys = [
   :post_url
 ]
 
-sorted_path = "./data/larajobs-sorted.csv"
+directory = System.get_env("PWD")
+sorted_path = "#{directory}/larajobs-sorted.csv"
 File.rm_rf(sorted_path)
 io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
 
@@ -222,7 +223,6 @@ csv =
 
 ```elixir
 Kino.Markdown.new("""
-
 ## Display Results
 
 We build the full DataFrame first as we need a variable to bind the `Data transform` Smart Cell to.
@@ -232,7 +232,7 @@ We build the full DataFrame first as we need a variable to bind the `Data transf
 
 ```elixir
 dataframe =
-  "./data/larajobs-sorted.csv"
+  sorted_path
   |> File.read!()
   |> Explorer.DataFrame.load_csv!(parse_dates: true)
 ```
@@ -273,7 +273,7 @@ filename = "larajobs-sorted.csv"
 
 # Why is this a function? Is it because I can pass contents if they're already read from disk?
 download_file = fn ->
-  "./data/#{filename}"
+  sorted_path
   |> File.read!()
 end
 
