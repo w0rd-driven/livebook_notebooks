@@ -1,0 +1,281 @@
+<!-- livebook:{"app_settings":{"access_type":"public","slug":"larajobs"}} -->
+
+# larajobs.com
+
+```elixir
+Mix.install([
+  {:kino, "~> 0.9.1"},
+  {:req, "~> 0.3.6"},
+  {:floki, "~> 0.34.2"},
+  {:nimble_csv, "~> 1.2"},
+  {:timex, "~> 3.7"},
+  {:explorer, "~> 0.5.6"},
+  {:kino_explorer, "~> 0.1.4"}
+])
+```
+
+## Summary
+
+Using the excellent `req` library, we want to get the list of jobs from the larajobs.com site in CSV format.
+A number of sites stuff everything into the immediate response and use javascript to show/hide the results by "page".
+
+This site is not paginated, there is an immediate section of job listings, a grouping of tags we ignore, and a separate section of `Older Jobs` that are 4 weeks and older.
+As of a later revision, there are no generic classes to find these sections or even DOM identifiers.
+We have to drill down to the precise elements by adding portions of the Tailwind used to display the results. Yuck.
+These sections are likely components or in some other form where developers wouldn't rip their hair out but this isn't a huge problem with `Floki`.
+
+The result of running this Livebook should return the sorted list of jobs by date.
+Because dates are also relative to `1d`, `1w`, or `1mo`, we can't accurately pin down posts to their calendar date.
+Dates are relative to the execution time.
+There may be a technique I'm missing here but if I were to import this CSV into another system I would track posts by the source URL and the first date they were created to eliminate dupes.
+
+```elixir
+# If our app does not select `Show source` the summary above isn't present
+# Only Kino controls show in apps. There may be a way to avoid the duplication here.
+# No, the way to do that is not through shitty unformatted strings like this. 
+# Markdown cells are way better.
+
+Kino.Markdown.new("""
+## Summary
+
+Using the excellent req library, we want to get the list of jobs from the larajobs.com site in CSV format. A number of sites stuff everything into the immediate response and use javascript to show/hide the results by "page".
+
+This site is not paginated, there is an immediate section of job listings, a grouping of tags we ignore, and a separate section of Older Jobs that are 4 weeks and older. As of a later revision, there are no generic classes to find these sections or even DOM identifiers. We have to drill down to the precise elements by adding portions of the Tailwind used to display the results. Yuck. These sections are likely components or in some other form where developers wouldn't rip their hair out but this isn't a huge problem with Floki.
+
+The result of running this Livebook should return the sorted list of jobs by date. Because dates are also relative to 1d, 1w, or 1mo, we can't accurately pin down posts to their calendar date. Dates are relative to the execution time. There may be a technique I'm missing here but if I were to import this CSV into another system I would track posts by the source URL and the first date they were created to eliminate dupes.
+""")
+```
+
+## Specifications
+
+1. [x] Map job items
+   1. v1
+      1. [x] New jobs `#app .container div`
+      2. [x] Older jobs `#app .container div`
+   2. v2
+      1. [x] New jobs
+      2. [x] Older jobs
+2. [x] Gather fields
+   1. [x] `date`
+   2. [x] `title`
+   3. [x] `company`
+   4. [x] `location`
+   5. [x] `tags`
+   6. [x] `source_url`
+   7. [x] `post_url`
+3. [x] Store results as CSV
+4. [x] Sort CSV file by `date`
+5. [x] Convert date from relative textual representation to a rough date.
+   1. We can't be too precise unfortunately so we'll just use the first of the month, etc.
+6. [x] Add Explorer Kinos via https://news.livebook.dev/data-wrangling-in-elixir-with-explorer-the-power-of-rust-the-elegance-of-r---launch-week-1---day-5-1xqwCI
+7. [x] Add download buttons to download the CSV files.
+8. [ ] Deploy as a private app on huggingface space.
+
+## Code
+
+### Get Items from Parsing HTML
+
+```elixir
+parse_date = fn date ->
+  # xd
+  # xw
+  # xmo
+  day_groups = Regex.run(~r/(\d+?)d/, date, capture: :all_but_first)
+  week_groups = Regex.run(~r/(\d+?)w/, date, capture: :all_but_first)
+  month_groups = Regex.run(~r/(\d+?)mo/, date, capture: :all_but_first)
+
+  days =
+    case day_groups do
+      [number] -> String.to_integer(number)
+      nil -> 0
+    end
+
+  weeks =
+    case week_groups do
+      [number] -> String.to_integer(number)
+      nil -> 0
+    end
+
+  months =
+    case month_groups do
+      [number] -> String.to_integer(number)
+      nil -> 0
+    end
+
+  # IO.inspect(days, label: "days")
+  # IO.inspect(weeks, label: "weeks")
+  # IO.inspect(months, label: "months")
+  Timex.shift(Timex.today(), days: -days)
+  |> Timex.shift(weeks: -weeks)
+  |> Timex.shift(months: -months)
+end
+
+base_url = "https://larajobs.com/"
+
+req_html = Req.new(http_errors: :raise)
+
+html = Req.get!(req_html, url: base_url).body
+
+{:ok, document} = Floki.parse_document(html)
+
+jobs = Floki.find(document, "a.job-link")
+
+items =
+  Enum.map(jobs, fn job ->
+    # source_url = Floki.attribute(job, ".job-link", "href")
+    # post_url = Floki.attribute(job, ".job-link", "data-url")
+    source_url = Floki.attribute(job, ".job-link", "href") |> hd()
+    post_url = Floki.attribute(job, ".job-link", "data-url") |> hd()
+
+    title = Floki.find(job, "p:nth-of-type(2)") |> Floki.text() |> String.trim()
+    company = Floki.find(job, "p:nth-of-type(1)") |> Floki.text() |> String.trim()
+
+    location =
+      Floki.find(
+        job,
+        ".job-link > div > div:last-child > div:last-child > div:nth-child(1) > div:nth-child(1)"
+      )
+      |> Floki.text()
+      |> String.trim()
+
+    tags =
+      Floki.find(
+        job,
+        ".job-link > div > div:last-child > div:last-child > div:last-child .text-sm"
+      )
+      |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
+      |> Enum.join(" | ")
+
+    date =
+      Floki.find(
+        job,
+        ".job-link > div > div:last-child > div:last-child > div:nth-child(1) > div:last-child"
+      )
+      |> Floki.text()
+      |> String.trim()
+
+    full_date = parse_date.(date)
+    # IO.inspect(title, label: "title")
+    # IO.inspect(company, label: "company")
+    # IO.inspect(location, label: "location")
+    # IO.inspect(tags, label: "tags")
+    # IO.inspect(date, label: "date")
+    # IO.inspect(source_url, label: "source_url")
+    # IO.inspect(post_url, label: "post_url")
+    # IO.inspect(job, label: "job")
+
+    %{
+      posted_at: full_date,
+      title: title,
+      company: company,
+      location: location,
+      tags: tags,
+      source_url: base_url <> String.slice(source_url, 1..-1),
+      post_url: post_url
+    }
+  end)
+
+# IO.inspect(jobs_elements, label: "jobs_elements")
+
+items
+```
+
+### Write Items to CSV
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+take = fn item, header_keys ->
+  Enum.map(header_keys, &Map.get(item, &1))
+end
+
+header_keys = [
+  :posted_at,
+  :title,
+  :company,
+  :location,
+  :tags,
+  :source_url,
+  :post_url
+]
+
+sorted_path = "./data/larajobs-sorted.csv"
+File.rm_rf(sorted_path)
+io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
+
+header = CSV.dump_to_iodata([header_keys])
+
+# See https://www.coletiv.com/blog/elixir-sort-lists-by-date/
+# https://elixir-lang.org/blog/2020/01/27/elixir-v1-10-0-released/#improvements-to-sort-based-apis-in-enum
+csv =
+  items
+  |> Enum.sort(&(Date.compare(&1.posted_at, &2.posted_at) != :lt))
+  |> Enum.map(&take.(&1, header_keys))
+  |> CSV.dump_to_iodata()
+
+:ok = IO.write(io_device, header)
+:ok = IO.write(io_device, csv)
+:ok = File.close(io_device)
+```
+
+## Display the Sorted CSV
+
+```elixir
+Kino.Markdown.new("""
+
+## Display Results
+
+We build the full DataFrame first as we need a variable to bind the `Data transform` Smart Cell to.
+
+""")
+```
+
+```elixir
+dataframe =
+  "./data/larajobs-sorted.csv"
+  |> File.read!()
+  |> Explorer.DataFrame.load_csv!(parse_dates: true)
+```
+
+## Filtering jobs
+
+```elixir
+Kino.Markdown.new("""
+## Filtering jobs
+
+We filter the DataFrame to display jobs with location including `Remote` and tags including `Vue`.
+
+These are the places I'm more inclined to hit up first.
+""")
+```
+
+<!-- livebook:{"attrs":{"assign_to":null,"data_frame":"dataframe","data_frame_alias":"Elixir.Explorer.DataFrame","missing_require":"Elixir.Explorer.DataFrame","operations":[{"active":true,"column":"tags","filter":"contains","message":null,"operation_type":"filters","type":"string","value":"Vue"},{"active":true,"column":"location","filter":"contains","message":null,"operation_type":"filters","type":"string","value":"Remote"}]},"chunks":null,"kind":"Elixir.KinoExplorer.DataTransformCell","livebook_object":"smart_cell"} -->
+
+```elixir
+require Explorer.DataFrame
+
+dataframe
+|> Explorer.DataFrame.filter(contains(tags, "Vue") and contains(location, "Remote"))
+```
+
+## Download Results
+
+```elixir
+Kino.Markdown.new("""
+## Download Results
+
+In the event you wish to work with the CSV locally, the following button should download the contents.
+""")
+```
+
+```elixir
+filename = "larajobs-sorted.csv"
+
+# Why is this a function? Is it because I can pass contents if they're already read from disk?
+download_file = fn ->
+  "./data/#{filename}"
+  |> File.read!()
+end
+
+Kino.Download.new(download_file, filename: filename, label: "Download #{filename}")
+```
