@@ -267,17 +267,66 @@ We build the full DataFrame first as we need a variable to bind the `Data transf
 ```
 
 ```elixir
-sorted_path
-|> File.read!()
-|> Explorer.DataFrame.load_csv!()
+dataframe =
+  sorted_path
+  |> File.read!()
+  |> Explorer.DataFrame.load_csv!()
 ```
 
 ## Filtering companies
 
 ```elixir
 Kino.Markdown.new("""
-## Filtering jobs
+## Filtering companies
 
 We filter the DataFrame to display companies with location including `Remote` or `USA`.
+
+**NOTE: Currently we're not using the Smart Cell as it crashes detecting in detecting possible data frames**
 """)
+```
+
+```elixir
+require Explorer.DataFrame
+
+dataframe_filtered =
+  dataframe
+  |> Explorer.DataFrame.filter(contains(location, "Remote") or contains(location, "USA"))
+```
+
+## Download Results
+
+```elixir
+Kino.Markdown.new("""
+## Download Results
+
+In the event you wish to work with the CSV locally, the following button should download the contents.
+
+**NOTE: There is also a down arrow icon next to the `x entries` section where you can download multiple formats like CSV or JSON. This is primarily for convenience.**
+""")
+```
+
+```elixir
+filename = "companies-sorted.csv"
+filtered_filename = "companies-filtered.csv"
+
+# Why is this a function? Is it because I can pass contents if they're already read from disk?
+download_file = fn ->
+  sorted_path
+  |> File.read!()
+end
+
+download_filtered = fn ->
+  dataframe_filtered |> Explorer.DataFrame.to_csv!("#{data_directory}/#{filtered_filename}")
+
+  "#{data_directory}/#{filtered_filename}"
+  |> File.read!()
+end
+
+Kino.Layout.grid([
+  Kino.Download.new(download_file, filename: filename, label: "Download #{filename}"),
+  Kino.Download.new(download_filtered,
+    filename: filtered_filename,
+    label: "Download #{filtered_filename}"
+  )
+])
 ```
