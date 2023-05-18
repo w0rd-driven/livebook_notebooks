@@ -1,0 +1,242 @@
+# Elixir Companies
+
+```elixir
+Mix.install([
+  {:spider_man, "~> 0.3"},
+  {:floki, "~> 0.31"},
+  {:nimble_csv, "~> 1.1"}
+])
+```
+
+## Configure Settings
+
+Build settings for spider
+
+```elixir
+base_url = "https://elixir-companies.com/en/companies"
+
+requester_options = [
+  base_url: base_url,
+  middlewares: [
+    {SpiderMan.Middleware.UserAgent,
+     [
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4389.82 Safari/537.36",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36"
+     ]},
+    {Tesla.Middleware.Headers,
+     [
+       {"referer", base_url},
+       {"accept",
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"},
+       {"accept-encoding", "gzip, deflate"},
+       {"accept-language", "zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7"}
+     ]},
+    Tesla.Middleware.DecompressResponse
+  ]
+]
+
+settings = [
+  log2file: false,
+  downloader_options: [requester: {SpiderMan.Requester.Finch, requester_options}],
+  spider_options: [pipelines: []],
+  item_processor_options: [
+    storage: [
+      {SpiderMan.Storage.ETS, "./data/companies.ets"},
+      {SpiderMan.Storage.CSV,
+       file: "./data/companies.csv",
+       headers: [
+         :name,
+         :industry,
+         :location,
+         :website_url,
+         :github_url,
+         :blog_url,
+         :source_url,
+         :source_description,
+         :page_number
+       ]}
+    ]
+  ]
+]
+```
+
+## Configure Parsing
+
+Prepare callbacks for spider
+
+```elixir
+import SpiderMan
+import SpiderMan.Utils
+require Logger
+
+spider = SpiderList.ElixirCompanies
+
+init = fn state ->
+  build_request(base_url)
+  |> set_flag(:first_page)
+  |> then(&SpiderMan.insert_request(spider, &1))
+
+  state
+end
+
+handle_list_page = fn body, n ->
+  Logger.info("processing page #{n}")
+  {:ok, document} = Floki.parse_document(body)
+
+  companies =
+    Floki.find(document, "#company-index")
+    |> hd()
+    |> Floki.children(include_text: false)
+    |> Enum.filter(&match?({"div", _, _}, &1))
+
+  items =
+    Enum.map(companies, fn company ->
+      # In the form en/companies/{id}
+      source_url = Floki.attribute(company, ".company .title a", "href") |> hd()
+      name = Floki.find(company, ".company .title a") |> Floki.text() |> String.trim()
+
+      info =
+        Floki.find(company, ".company .company-info p")
+        |> Floki.text()
+        |> String.trim()
+        |> String.split("\n")
+
+      # Trim the last 2 items from the list
+      first_parts = info |> Enum.reverse() |> tl() |> Enum.reverse()
+      parts = first_parts |> Enum.reverse() |> tl() |> Enum.reverse()
+
+      industry = parts |> List.first() |> String.trim()
+      location = parts |> List.last() |> String.trim()
+
+      urls = Floki.attribute(company, ".company .company-info p a", "href")
+      # Trim the last item from the list
+      links = urls |> Enum.reverse() |> tl() |> Enum.reverse()
+
+      website_url = links |> List.first()
+      # Process github or blog url from the remaining list items
+      remaining_links = links |> tl()
+
+      github_url =
+        remaining_links |> Enum.filter(&String.match?(&1, ~r/github.com/)) |> List.first()
+
+      blog_url =
+        remaining_links
+        |> Enum.filter(&(String.match?(&1, ~r/github.com/) == false))
+        |> List.first()
+
+      source_description =
+        Floki.find(company, ".company .company-description p")
+        |> Floki.text()
+        |> String.trim()
+        |> String.replace(~r/\s+/, " ")
+        |> String.replace(~r/\t/, " ")
+
+      # Logger.info("name: #{name}")
+      # Logger.info("industry: #{industry}")
+      # Logger.info("location: #{location}")
+      # Logger.info("website_url: #{website_url}")
+      # Logger.info("github_url: #{github_url}")
+      # Logger.info("blog_url: #{blog_url}")
+      # Logger.info("source_url: #{base_url <> String.slice(source_url, 13..-1)}")
+      # Logger.info("source_description: #{source_description}")
+      # Logger.info("page_number: #{to_string(n)}")
+
+      build_item(
+        source_url,
+        %{
+          name: name,
+          industry: industry,
+          location: location,
+          website_url: website_url,
+          github_url: github_url,
+          blog_url: blog_url,
+          source_url: base_url <> String.slice(source_url, 13..-1),
+          source_description: source_description,
+          page_number: n
+        }
+      )
+    end)
+
+  %{items: items}
+end
+
+handle_response = fn
+  %{env: env, flag: :first_page}, _context ->
+    # total_page =
+    #   Regex.run(~r/Showing page 1 of (\d+)/, env.body, capture: :all_but_first)
+    #   |> hd()
+    #   |> String.to_integer()
+    total_page = 41
+    # total_page = 2
+
+    Logger.info("total: #{total_page}")
+
+    requests =
+      Enum.map(2..total_page, fn n ->
+        build_request("/?page=#{n}")
+        |> set_flag({:list_page, n})
+      end)
+
+    handle_list_page.(env.body, 1)
+    |> Map.put(:requests, requests)
+
+  %{env: env, flag: {:list_page, n}}, _context ->
+    handle_list_page.(env.body, n)
+end
+
+callbacks = [init: init, handle_response: handle_response]
+{:ok, settings} = SpiderMan.CommonSpider.check_callbacks_and_merge_settings(callbacks, settings)
+```
+
+## Executing
+
+Run the spider
+
+```elixir
+# Delete previous dumps
+File.rm_rf("./data/companies.csv")
+File.rm_rf("./data/companies.ets")
+SpiderMan.run_until_zero(spider, settings, 5_000)
+```
+
+## Sorting the Results
+
+Sort the csv by page number ascending
+
+```elixir
+alias NimbleCSV.RFC4180, as: CSV
+
+headers = [
+  :name,
+  :industry,
+  :location,
+  :website_url,
+  :github_url,
+  :blog_url,
+  :source_url,
+  :source_description,
+  :page_number
+]
+
+sorted_path = "./data/companies-sorted.csv"
+File.rm_rf(sorted_path)
+io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
+
+header = CSV.dump_to_iodata([headers])
+
+csv =
+  "./data/companies.csv"
+  |> File.read!()
+  |> CSV.parse_string()
+  |> Enum.sort_by(&List.first(&1), :asc)
+  # |> Enum.sort_by(&(List.last(&1) |> String.to_integer()), :asc)
+  |> CSV.dump_to_iodata()
+
+:ok = IO.write(io_device, header)
+:ok = IO.write(io_device, csv)
+:ok = File.close(io_device)
+```
