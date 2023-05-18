@@ -2,9 +2,12 @@
 
 ```elixir
 Mix.install([
-  {:spider_man, "~> 0.3"},
-  {:floki, "~> 0.31"},
-  {:nimble_csv, "~> 1.1"}
+  {:kino, "~> 0.9.4"},
+  {:spider_man, "~> 0.4.6"},
+  {:floki, "~> 0.34.2"},
+  {:nimble_csv, "~> 1.2"},
+  {:explorer, "~> 0.5.7"},
+  {:kino_explorer, "~> 0.1.6"}
 ])
 ```
 
@@ -13,6 +16,7 @@ Mix.install([
 Build settings for spider
 
 ```elixir
+data_directory = System.get_env("PWD")
 base_url = "https://elixir-companies.com/en/companies"
 
 requester_options = [
@@ -45,9 +49,9 @@ settings = [
   spider_options: [pipelines: []],
   item_processor_options: [
     storage: [
-      {SpiderMan.Storage.ETS, "./data/companies.ets"},
+      {SpiderMan.Storage.ETS, "#{data_directory}/companies.ets"},
       {SpiderMan.Storage.CSV,
-       file: "./data/companies.csv",
+       file: "#{data_directory}/companies.csv",
        headers: [
          :name,
          :industry,
@@ -105,20 +109,14 @@ handle_list_page = fn body, n ->
         |> String.trim()
         |> String.split("\n")
 
-      # Trim the last 2 items from the list
-      first_parts = info |> Enum.reverse() |> tl() |> Enum.reverse()
-      parts = first_parts |> Enum.reverse() |> tl() |> Enum.reverse()
-
-      industry = parts |> List.first() |> String.trim()
-      location = parts |> List.last() |> String.trim()
+      industry = info |> List.first() |> String.trim()
+      # We replace GitHub as the last value in the list if there is no location defined
+      location = info |> List.last() |> String.trim() |> String.replace("GitHub", "")
 
       urls = Floki.attribute(company, ".company .company-info p a", "href")
-      # Trim the last item from the list
-      links = urls |> Enum.reverse() |> tl() |> Enum.reverse()
-
-      website_url = links |> List.first()
+      website_url = urls |> List.first()
       # Process github or blog url from the remaining list items
-      remaining_links = links |> tl()
+      remaining_links = urls |> tl()
 
       github_url =
         remaining_links |> Enum.filter(&String.match?(&1, ~r/github.com/)) |> List.first()
@@ -166,6 +164,7 @@ end
 
 handle_response = fn
   %{env: env, flag: :first_page}, _context ->
+    # We have to guess here as it looks like it now stops at page 21
     # total_page =
     #   Regex.run(~r/Showing page 1 of (\d+)/, env.body, capture: :all_but_first)
     #   |> hd()
@@ -198,8 +197,8 @@ Run the spider
 
 ```elixir
 # Delete previous dumps
-File.rm_rf("./data/companies.csv")
-File.rm_rf("./data/companies.ets")
+File.rm_rf("#{data_directory}/companies.csv")
+File.rm_rf("#{data_directory}/companies.ets")
 SpiderMan.run_until_zero(spider, settings, 5_000)
 ```
 
@@ -222,21 +221,63 @@ headers = [
   :page_number
 ]
 
-sorted_path = "./data/companies-sorted.csv"
+sorted_path = "#{data_directory}/companies-sorted.csv"
 File.rm_rf(sorted_path)
 io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
 
 header = CSV.dump_to_iodata([headers])
 
 csv =
-  "./data/companies.csv"
+  "#{data_directory}/companies.csv"
   |> File.read!()
   |> CSV.parse_string()
   |> Enum.sort_by(&List.first(&1), :asc)
-  # |> Enum.sort_by(&(List.last(&1) |> String.to_integer()), :asc)
   |> CSV.dump_to_iodata()
 
 :ok = IO.write(io_device, header)
 :ok = IO.write(io_device, csv)
 :ok = File.close(io_device)
+```
+
+## Display Information
+
+This is where we want to set our summary or other sections using `Kino.Markdown.new()`. We can intersperse code blocks for displaying, filtering, or adding download buttons.
+
+```elixir
+Kino.Markdown.new("""
+## Summary
+
+Using the excellent spider_man library, we want to get the list of companies from the elixir-companies.com website in CSV format.
+
+The website uses infinite scroll functionality but also accepts a `?page=<number>` query string parameter to specify the page number to display first. Infinite scroll takes back over from this page though and starts back at 1. A number of websites use the `page` parameter, even when they do not specify page numbers.
+
+The result of running this Livebook should return the sorted list of companies by name. I have added extra filtering that unfortunately has to be configured in the source. Hopefully at some point Livebook will allow for dynamic transformations and exports over the manual process I'm using now.
+""")
+```
+
+## Display the CSV
+
+```elixir
+Kino.Markdown.new("""
+## Display Results
+
+We build the full DataFrame first as we need a variable to bind the `Data transform` Smart Cell to.
+
+""")
+```
+
+```elixir
+sorted_path
+|> File.read!()
+|> Explorer.DataFrame.load_csv!()
+```
+
+## Filtering companies
+
+```elixir
+Kino.Markdown.new("""
+## Filtering jobs
+
+We filter the DataFrame to display companies with location including `Remote` or `USA`.
+""")
 ```
