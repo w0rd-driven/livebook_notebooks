@@ -1,3 +1,5 @@
+<!-- livebook:{"app_settings":{"access_type":"public","slug":"elixir-companies"}} -->
+
 # Elixir Companies
 
 ```elixir
