@@ -249,13 +249,14 @@ These are the places I'm more inclined to hit up first.
 """)
 ```
 
-<!-- livebook:{"attrs":{"assign_to":null,"data_frame":"dataframe","data_frame_alias":"Elixir.Explorer.DataFrame","missing_require":"Elixir.Explorer.DataFrame","operations":[{"active":true,"column":"tags","filter":"contains","message":null,"operation_type":"filters","type":"string","value":"Vue"},{"active":true,"column":"location","filter":"contains","message":null,"operation_type":"filters","type":"string","value":"Remote"}]},"chunks":null,"kind":"Elixir.KinoExplorer.DataTransformCell","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":{"assign_to":"dataframe_filtered","data_frame":"dataframe","data_frame_alias":"Elixir.Explorer.DataFrame","missing_require":"Elixir.Explorer.DataFrame","operations":[{"active":true,"column":"tags","filter":"contains","message":null,"operation_type":"filters","type":"string","value":"Vue"},{"active":true,"column":"location","filter":"contains","message":null,"operation_type":"filters","type":"string","value":"Remote"}]},"chunks":null,"kind":"Elixir.KinoExplorer.DataTransformCell","livebook_object":"smart_cell"} -->
 
 ```elixir
 require Explorer.DataFrame
 
-dataframe
-|> Explorer.DataFrame.filter(contains(tags, "Vue") and contains(location, "Remote"))
+dataframe_filtered =
+  dataframe
+  |> Explorer.DataFrame.filter(contains(tags, "Vue") and contains(location, "Remote"))
 ```
 
 ## Download Results
@@ -270,6 +271,7 @@ In the event you wish to work with the CSV locally, the following button should 
 
 ```elixir
 filename = "larajobs-sorted.csv"
+filtered_filename = "larajobs-filtered.csv"
 
 # Why is this a function? Is it because I can pass contents if they're already read from disk?
 download_file = fn ->
@@ -277,5 +279,18 @@ download_file = fn ->
   |> File.read!()
 end
 
-Kino.Download.new(download_file, filename: filename, label: "Download #{filename}")
+download_filtered = fn ->
+  dataframe_filtered |> Explorer.DataFrame.to_csv!("#{directory}/#{filtered_filename}")
+
+  "#{directory}/#{filtered_filename}"
+  |> File.read!()
+end
+
+Kino.Layout.grid([
+  Kino.Download.new(download_file, filename: filename, label: "Download #{filename}"),
+  Kino.Download.new(download_filtered,
+    filename: filtered_filename,
+    label: "Download #{filtered_filename}"
+  )
+])
 ```
