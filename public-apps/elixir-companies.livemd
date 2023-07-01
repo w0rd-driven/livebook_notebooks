@@ -18,7 +18,7 @@ Mix.install([
 Build settings for spider
 
 ```elixir
-data_directory = System.get_env("PWD")
+data_directory = "./data"
 base_url = "https://elixir-companies.com/en/companies"
 
 requester_options = [

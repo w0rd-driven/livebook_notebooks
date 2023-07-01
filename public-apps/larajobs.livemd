@@ -199,7 +199,7 @@ header_keys = [
   :post_url
 ]
 
-directory = System.get_env("PWD")
+directory = "./data"
 sorted_path = "#{directory}/larajobs-sorted.csv"
 File.rm_rf(sorted_path)
 io_device = File.open!(sorted_path, [:write, :append, :binary, :utf8])
